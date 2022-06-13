@@ -16,6 +16,6 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
         <item name="postSplashScreenTheme">@style/Theme.Bashcuna</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/bashcuna_icon_round</item>
-    </style>
-</resources>
+        <item name="windowSplashScreenBackground">@color/color_accent</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+    </style></resources>
