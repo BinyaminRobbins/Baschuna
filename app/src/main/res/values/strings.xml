@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">בשכונה</string>
+    <string name="hint_email">מייל</string>
+    <string name="hint_password">סיסמה</string>
+    <string name="you_can_also_etc">אפשר להתחבר דרך:</string>
+    <string name="label_LoginFragment">LoginFragment</string>
+    <string name="continue_button">המשך</string>
+    <string name="app_description">עבודה מזדמנת סביבך</string>
 </resources>

@@ -11,4 +11,8 @@
     <color name="primary_text_on_dark">#FCFCFC</color>
 
     <color name="color_accent">#00E676</color>
+
+    <color name="dark_text">#121212</color>
+    <color name="dark_text_secondary">#3D3F41</color>
+    <color name="light_text">#FFFFFF</color>
 </resources>
