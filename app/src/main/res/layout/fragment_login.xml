@@ -7,7 +7,7 @@
     android:foregroundGravity="center_horizontal"
     android:orientation="vertical"
     android:padding="40dp"
-    tools:context=".ui.fragments.auth.LoginFragment">
+    tools:context=".ui.fragments.auth.AuthFragment">
 
     <LinearLayout
         android:id="@+id/header_LL"
@@ -101,16 +101,6 @@
             android:textColor="@color/dark_text"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/passwordInputMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/must_be_valid_password"
-            android:textColor="@color/error_msg"
-            android:textSize="10sp"
-            android:visibility="gone"
-            tools:ignore="SmallSp" />
-
         <EditText
             android:id="@+id/passwordInput"
             android:layout_width="match_parent"
@@ -121,6 +111,17 @@
             android:padding="8dp"
             android:textColor="@color/dark_text"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/passwordInputMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/must_be_valid_password"
+            android:textColor="@color/error_msg"
+            android:textSize="10sp"
+            android:visibility="gone"
+            tools:ignore="SmallSp" />
+
 
         <Button
             android:id="@+id/continueButton"
@@ -210,7 +211,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/toSignupFragment"
+            android:id="@+id/toggleMode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
