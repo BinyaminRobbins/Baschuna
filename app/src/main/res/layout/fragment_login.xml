@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:foregroundGravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="50dp"
+    android:padding="40dp"
     tools:context=".ui.fragments.auth.LoginFragment">
 
     <LinearLayout
@@ -73,12 +73,23 @@
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="emailAddress"
             android:background="@drawable/custom_edittext"
             android:fontFamily="@font/varela_round"
             android:inputType="textEmailAddress"
             android:padding="8dp"
             android:textColor="@color/dark_text"
             android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/emailInputMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/must_be_valid_email"
+            android:textColor="@color/error_msg"
+            android:textSize="10sp"
+            android:visibility="gone"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -90,13 +101,23 @@
             android:textColor="@color/dark_text"
             android:textSize="14sp" />
 
+        <TextView
+            android:id="@+id/passwordInputMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/must_be_valid_password"
+            android:textColor="@color/error_msg"
+            android:textSize="10sp"
+            android:visibility="gone"
+            tools:ignore="SmallSp" />
+
         <EditText
             android:id="@+id/passwordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_edittext"
             android:fontFamily="@font/varela_round"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:padding="8dp"
             android:textColor="@color/dark_text"
             android:textSize="18sp" />
@@ -118,7 +139,6 @@
             android:fontFamily="@font/varela_round"
             android:gravity="center"
             android:text="@string/you_can_also_etc"
-            android:textColor="@color/dark_text_secondary"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -188,6 +208,18 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/toSignupFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/varela_round"
+            android:gravity="center"
+            android:text="@string/to_sign_up_frag"
+            android:textColor="@color/color_accent"
+            android:textSize="12sp" />
+
 
     </LinearLayout>
 

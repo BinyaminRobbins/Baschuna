@@ -12,7 +12,9 @@
 
     <color name="color_accent">#00E676</color>
 
+    <color name="darkest_text">#000000</color>
     <color name="dark_text">#121212</color>
     <color name="dark_text_secondary">#3D3F41</color>
     <color name="light_text">#FFFFFF</color>
+    <color name="error_msg">#EB4438</color>
 </resources>

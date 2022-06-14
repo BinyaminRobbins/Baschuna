@@ -6,17 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.syntapps.bashcuna.R
 
 class LoginFragment : Fragment(), View.OnClickListener {
 
     private lateinit var emailInput: EditText
+    private lateinit var emailInputMessage: TextView
     private lateinit var passwordInput: EditText
+    private lateinit var passwordInputMessage: TextView
     private lateinit var continueButton: Button
     private lateinit var googleButton: CardView
     private lateinit var facebookButton: CardView
+    private lateinit var toSignupFragment: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +35,18 @@ class LoginFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         emailInput = view.findViewById(R.id.emailInput)
+        emailInputMessage = view.findViewById(R.id.emailInputMessage)
         passwordInput = view.findViewById(R.id.passwordInput)
+        passwordInputMessage = view.findViewById(R.id.passwordInputMessage)
         continueButton = view.findViewById(R.id.continueButton)
         googleButton = view.findViewById(R.id.googleButton)
         facebookButton = view.findViewById(R.id.facebookButton)
-
+        toSignupFragment = view.findViewById(R.id.toSignupFragment)
+        continueButton.setOnClickListener(this)
+        emailInput.addTextChangedListener {
+            emailInputMessage.visibility =
+                if (it.toString().trim().contains('@')) View.GONE else View.VISIBLE
+        }
 
     }
 
@@ -53,17 +65,21 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     private fun isPasswordValid(): Boolean {
         val providedPassword = fetchPassword()
+        passwordInputMessage.visibility =
+            if (providedPassword.length < 6) View.VISIBLE else View.GONE
         return (providedPassword.isNotBlank()
-                && providedPassword.isNotEmpty()
-                && providedPassword.length < 5)
+                && providedPassword.isNotEmpty())
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             continueButton.id -> {
-                if(isEmailValid() && isPasswordValid()) {
+                if (isEmailValid() && isPasswordValid()) {
                     TODO("continue button clicked - validate and move to next screen")
                 }
+            }
+            toSignupFragment.id -> {
+                TODO("navigate using the nav graph to the SignupFragment")
             }
             googleButton.id -> {
                 TODO("setup google login")
