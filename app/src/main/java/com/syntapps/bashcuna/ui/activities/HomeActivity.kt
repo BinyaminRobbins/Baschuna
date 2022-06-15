@@ -13,6 +13,11 @@ class HomeActivity : AppCompatActivity() {
         Navigation.findNavController(this, R.id.nav_host_fragment_home).also {
             it.navigate(R.id.chartsFragment)
             it.popBackStack()
+
+            /* val appBar = findViewById<MaterialToolbar>(R.id.topAppBar)
+            appBar.menu.findItem(R.id.profile).icon =
+                TODO("put the users profile pic here")*/
+
         }
     }
 }

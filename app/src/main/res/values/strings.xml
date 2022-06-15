@@ -17,4 +17,5 @@
     <string name="menu_chats">שיחות</string>
     <string name="menu_work">עבודות</string>
     <string name="menu_notification">עדכונים</string>
+    <string name="user_profile">user profile</string>
 </resources>
