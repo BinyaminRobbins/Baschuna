@@ -1,10 +1,13 @@
 package com.syntapps.bashcuna.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.syntapps.bashcuna.R
 
 class AuthActivity : AppCompatActivity() {
     private var keepSplashOnScreen = true
@@ -14,5 +17,12 @@ class AuthActivity : AppCompatActivity() {
         installSplashScreen().setKeepOnScreenCondition { keepSplashOnScreen }
         Handler(Looper.getMainLooper()).postDelayed({ keepSplashOnScreen = false }, delay)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_auth)
+
+        val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment_auth)
+        navController.navigate(R.id.loginFragment)
+        navController.popBackStack()
+
+
     }
 }

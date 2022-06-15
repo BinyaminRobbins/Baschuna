@@ -1,17 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Bashcuna" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Bashcuna" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/background_dark_primary</item>
-        <item name="colorPrimaryVariant">@color/background_dark_variant</item>
-        <item name="colorOnPrimary">@color/primary_text_on_dark</item>
+        <item name="colorPrimary">@color/background_dark_variant</item>
+        <item name="colorPrimaryVariant">@color/background_dark_primary</item>
+        <item name="colorOnPrimary">@color/background_dark_secondary</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/primary_text_on_light</item>
-        <item name="colorSecondaryVariant">@color/secondary_text_on_light</item>
-        <item name="colorOnSecondary">@color/primary_text_on_dark</item>
+        <item name="colorSecondaryVariant">@color/light_text</item>
+        <item name="colorOnSecondary">@color/background_light_secondary</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground" tools:targetApi="l">?attr/colorPrimary</item>
+        <item name="android:editTextBackground" tools:targetApi="l">@drawable/custom_edittext_night</item>
+        <item name="cardBackgroundColor" tools:targetApi="l">?attr/colorPrimary</item>
+        <item name="android:textColor" tools:targetApi="l">@color/light_text</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">

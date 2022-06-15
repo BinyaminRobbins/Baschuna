@@ -1,4 +1,7 @@
 package com.syntapps.bashcuna.ui.viewmodels
 
-class AuthViewModel {
+import androidx.lifecycle.ViewModel
+
+class AuthViewModel: ViewModel() {
+
 }
