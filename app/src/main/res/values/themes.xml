@@ -16,7 +16,6 @@
         <item name="android:windowBackground" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:editTextBackground" tools:targetApi="l">@drawable/custom_edittext</item>
         <item name="android:textColor" tools:targetApi="l">@color/dark_text</item>
-
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
@@ -24,4 +23,5 @@
         <item name="windowSplashScreenBackground">@color/color_accent</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
     </style>
+
 </resources>
