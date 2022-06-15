@@ -9,6 +9,16 @@
         android:id="@+id/loginFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthFragment"
         android:label="@string/label_LoginFragment"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.syntapps.bashcuna.ui.activities.HomeActivity"
+        android:label="@string/homeActivity"
+        tools:layout="@layout/activity_home" />
 
 </navigation>

@@ -19,8 +19,9 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        val navController: NavController = Navigation.findNavController(this, R.id.nav_host_fragment_auth)
         navController.navigate(R.id.loginFragment)
+        navController.popBackStack()
 
 
     }

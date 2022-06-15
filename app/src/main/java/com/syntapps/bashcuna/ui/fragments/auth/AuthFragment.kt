@@ -1,15 +1,18 @@
 package com.syntapps.bashcuna.ui.fragments.auth
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.syntapps.bashcuna.R
 
 class AuthFragment : Fragment(), View.OnClickListener {
@@ -24,8 +27,8 @@ class AuthFragment : Fragment(), View.OnClickListener {
     private lateinit var toggleMode: TextView
 
     private val MODE_LOGIN = 0
-    private val MODE_PASSWORD = 1
-    private var MODE = MODE_LOGIN
+    private val MODE_SIGNUP = 1
+    private var MODE = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,36 +50,49 @@ class AuthFragment : Fragment(), View.OnClickListener {
         facebookButton = view.findViewById(R.id.facebookButton)
         toggleMode = view.findViewById(R.id.toggleMode)
         continueButton.setOnClickListener(this)
+        toggleMode.setOnClickListener(this)
         emailInput.addTextChangedListener {
             emailInputMessage.visibility =
-                if (it.toString().trim().contains('@')) View.GONE else View.VISIBLE
+                if (it.toString().trim().contains('@') && it.toString()
+                        .isNotEmpty()
+                ) View.GONE else View.VISIBLE
         }
         passwordInput.addTextChangedListener {
             passwordInputMessage.visibility =
-                if (passwordInput.text.toString().trim().length < 6) View.VISIBLE else View.GONE
+                if (passwordInput.text.toString().trim().length < 6 || it.toString().isEmpty()
+                ) View.VISIBLE else View.GONE
         }
+        setModeLogin()
 
     }
 
     private fun fetchEmail() = emailInput.text.toString().trim().filter { !it.isWhitespace() }
+
     //"abc de@gmail.com  " -> "abcde@gmail.com"
+    private fun fetchPassword() = passwordInput.text.toString().trim().filter { !it.isWhitespace() }
 
     private fun isEmailValid(): Boolean {
         val providedEmailString = fetchEmail()
-        return (providedEmailString.isNotBlank()
+        val result = (providedEmailString.isNotBlank()
                 && providedEmailString.isNotEmpty()
                 && providedEmailString.contains('@')
                 && providedEmailString.contains('.'))
+        if (!result) fillFieldsError()
+        return result
     }
-
-    private fun fetchPassword() = passwordInput.text.toString().trim().filter { !it.isWhitespace() }
 
     private fun isPasswordValid(): Boolean {
         val providedPassword = fetchPassword()
-        return (providedPassword.isNotBlank()
+        val result = (providedPassword.isNotBlank()
                 && providedPassword.isNotEmpty()
                 && providedPassword.length >= 6)
+        if (!result) fillFieldsError()
+        return result
     }
+
+    private fun fillFieldsError() =
+        Toast.makeText(context, getString(R.string.error_msg_fill_fields), Toast.LENGTH_SHORT)
+            .show()
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -84,13 +100,25 @@ class AuthFragment : Fragment(), View.OnClickListener {
                 if (isEmailValid() && isPasswordValid()) {
                     when (MODE) {
                         MODE_LOGIN -> {
-                            TODO("complete the procedures for logging in")
+                            moveToHome()
+
                         }
-                        MODE_PASSWORD -> {
+                        MODE_SIGNUP -> {
                             TODO("complete the procedures for signing up")
+
                         }
                     }
-                    TODO("continue button clicked - validate and move to next screen")
+
+                }
+            }
+            toggleMode.id -> {
+                when (MODE) {
+                    MODE_LOGIN -> {
+                        setModeSignup()
+                    }
+                    MODE_SIGNUP -> {
+                        setModeLogin()
+                    }
                 }
             }
             googleButton.id -> {
@@ -100,6 +128,33 @@ class AuthFragment : Fragment(), View.OnClickListener {
                 TODO("setup facebook login")
             }
         }
+    }
+
+    private fun moveToHome() {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_auth)
+            .also {
+                it.navigate(R.id.homeActivity)
+                activity?.finish()
+                it.popBackStack()
+            }
+    }
+
+
+    private fun setModeLogin() {
+        MODE = MODE_LOGIN
+        toggleMode.text = Html.fromHtml("<u>${getString(R.string.to_login)}</u>", 0)
+        clearText()
+    }
+
+    private fun setModeSignup() {
+        MODE = MODE_SIGNUP
+        toggleMode.text = Html.fromHtml("<u>${getString(R.string.to_sign_up)}</u>", 0)
+        clearText()
+    }
+
+    private fun clearText() {
+        emailInput.clearComposingText()
+        passwordInput.clearComposingText()
     }
 
 }
