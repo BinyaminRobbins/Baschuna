@@ -28,4 +28,10 @@
     <style name="App_Bar_Text_Appearance" parent="@style/TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/secular_one</item>
     </style>
+
+    <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/secondary_text_on_light</item>
+    </style>
+
 </resources>

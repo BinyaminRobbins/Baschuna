@@ -26,6 +26,9 @@
                 android:layout_height="?attr/actionBarSize"
                 app:menu="@menu/top_app_bar_menu"
                 app:navigationIcon="@drawable/menu_icon"
+                app:subtitle="@string/app_description"
+                app:subtitleCentered="true"
+                app:subtitleTextAppearance="@style/ToolbarSubtitleAppearance"
                 app:title="@string/app_name"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/App_Bar_Text_Appearance" />
