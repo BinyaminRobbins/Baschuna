@@ -16,12 +16,22 @@
         <item name="android:windowBackground" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:editTextBackground" tools:targetApi="l">@drawable/custom_edittext</item>
         <item name="android:textColor" tools:targetApi="l">@color/dark_text</item>
-
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
         <item name="postSplashScreenTheme">@style/Theme.Bashcuna</item>
         <item name="windowSplashScreenBackground">@color/color_accent</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="splashScreenIconSize">40dp</item>
     </style>
+
+    <style name="App_Bar_Text_Appearance" parent="@style/TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/secular_one</item>
+    </style>
+
+    <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/secondary_text_on_light</item>
+    </style>
+
 </resources>

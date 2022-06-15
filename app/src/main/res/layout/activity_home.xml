@@ -1,18 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:layout_gravity="center"
+    android:foregroundGravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ui.activities.HomeActivity">
 
-    <fragment
-        android:id="@+id/nav_host_fragment_home"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/top_app_bar_menu"
+                app:navigationIcon="@drawable/menu_icon"
+                app:subtitle="@string/app_description"
+                app:subtitleCentered="true"
+                app:subtitleTextAppearance="@style/ToolbarSubtitleAppearance"
+                app:title="@string/app_name"
+                app:titleCentered="true"
+                app:titleTextAppearance="@style/App_Bar_Text_Appearance" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/home_nav_graph" />
+        android:layout_above="@id/bottom_navigation"
+        android:layout_below="@id/coordinator"
+        android:layout_centerInParent="true"
+        android:padding="16dp">
 
-</FrameLayout>
+        <fragment
+            android:id="@+id/nav_host_fragment_home"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/home_nav_graph" />
+    </FrameLayout>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        app:itemIconTint="@drawable/bottom_nav_custom"
+        app:itemTextColor="@color/color_accent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+
+</RelativeLayout>
