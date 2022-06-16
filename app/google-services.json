@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "169260010374",
+    "project_id": "bashcuna-d54eb",
+    "storage_bucket": "bashcuna-d54eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169260010374:android:189b5e35501900c87f3a07",
+        "android_client_info": {
+          "package_name": "com.syntapps.bashcuna"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169260010374-r1befrt8ku36shb5qequ7rfcit0bfod5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.syntapps.bashcuna",
+            "certificate_hash": "fd68a05361c0a6435b1aaa8b0cfaeab68e73dd74"
+          }
+        },
+        {
+          "client_id": "169260010374-e3q9b9d30etcrbnfckc36e6l9h3pdqth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM-mz5Ty4ivsfsRKpIYBOvDnMBiQRbS-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "169260010374-e3q9b9d30etcrbnfckc36e6l9h3pdqth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

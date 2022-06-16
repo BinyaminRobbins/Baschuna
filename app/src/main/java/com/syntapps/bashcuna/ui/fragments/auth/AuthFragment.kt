@@ -12,10 +12,14 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.ui.viewmodels.AuthViewModel
 
 class AuthFragment : Fragment(), View.OnClickListener {
+
+    private val viewmodel: AuthViewModel by activityViewModels()
 
     private lateinit var emailInput: EditText
     private lateinit var emailInputMessage: TextView
@@ -51,6 +55,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
         toggleMode = view.findViewById(R.id.toggleMode)
         continueButton.setOnClickListener(this)
         toggleMode.setOnClickListener(this)
+        setModeLogin()
         emailInput.addTextChangedListener {
             emailInputMessage.visibility =
                 if (it.toString().trim().contains('@') && it.toString()
@@ -62,7 +67,6 @@ class AuthFragment : Fragment(), View.OnClickListener {
                 if (passwordInput.text.toString().trim().length < 6 || it.toString().isEmpty()
                 ) View.VISIBLE else View.GONE
         }
-        setModeLogin()
 
     }
 
@@ -100,7 +104,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
                 if (isEmailValid() && isPasswordValid()) {
                     when (MODE) {
                         MODE_LOGIN -> {
-                            moveToHome()
+                            viewmodel.loginUser(fetchEmail(), fetchPassword())
 
                         }
                         MODE_SIGNUP -> {
