@@ -31,7 +31,11 @@ class AuthActivity : AppCompatActivity() {
         viewModel.getIsUserConnected().observe(this) {
             if (it != null) {
                 if (it.isSuccess) {
-                    navigateToHome()
+                    if(it.isNewUser){
+                        navigateToAuthFirstTimeDetails()
+                    }else{
+                        navigateToHome()
+                    }
                 } else {
                     navigateToAuth()
                 }
@@ -49,6 +53,11 @@ class AuthActivity : AppCompatActivity() {
 
     private fun navigateToAuth() {
         navController.navigate(R.id.authFragment)
+        navController.popBackStack()
+    }
+
+    private fun navigateToAuthFirstTimeDetails() {
+        navController.navigate(R.id.authNewUserDetailsFragment)
         navController.popBackStack()
     }
 

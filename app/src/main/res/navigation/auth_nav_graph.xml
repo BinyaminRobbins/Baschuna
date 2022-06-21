@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_homeActivity"
             app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_authFragment_to_authNewUserDetails"
+            app:destination="@id/authNewUserDetailsFragment" />
     </fragment>
 
     <activity
@@ -20,5 +23,10 @@
         android:name="com.syntapps.bashcuna.ui.activities.HomeActivity"
         android:label="@string/homeActivity"
         tools:layout="@layout/activity_home" />
+    <fragment
+        android:id="@+id/authNewUserDetailsFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthNewUserDetails"
+        android:label="@string/label_AuthNewUserDetailsFragment"
+        tools:layout="@layout/fragment_auth_new_user_details" />
 
 </navigation>

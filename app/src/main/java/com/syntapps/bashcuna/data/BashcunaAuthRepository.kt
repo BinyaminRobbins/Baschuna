@@ -35,7 +35,12 @@ class BashcunaAuthRepository {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
             .addOnSuccessListener {
-                setIsUserConnected(AuthWithGoogleResult(true))
+                setIsUserConnected(
+                    AuthWithGoogleResult(
+                        true,
+                        isNewUser = (it.additionalUserInfo?.isNewUser == true)
+                    )
+                )
             }.addOnFailureListener {
                 setIsUserConnected(AuthWithGoogleResult(false, errorMsg = it.localizedMessage))
             }
