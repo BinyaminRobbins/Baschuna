@@ -3,6 +3,7 @@ package com.syntapps.bashcuna.ui.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.syntapps.bashcuna.data.BashcunaAuthRepository
+import com.syntapps.bashcuna.other.AuthWithGoogleResult
 
 class AuthViewModel : ViewModel() {
 
@@ -12,30 +13,16 @@ class AuthViewModel : ViewModel() {
         authRepository = BashcunaAuthRepository()
     }
 
-    private val isUserLoggedIn = MutableLiveData<Boolean>()
-    fun getIsUserLoggedIn(): MutableLiveData<Boolean> {
-        return isUserLoggedIn
+    fun getIsUserConnected(): MutableLiveData<AuthWithGoogleResult?> {
+        return authRepository?.getIsUserConnected()!!
     }
 
-    private fun setIsUserLoggedIn(value: Boolean?) {
-        value?.let {
-            isUserLoggedIn.postValue(it)
-        }
+    fun checkIfUserConnectedInitially() {
+        authRepository?.checkIfUserConnectedInitially()!!
     }
 
-    fun checkIfUserLoggedIn() {
-        setIsUserLoggedIn(authRepository?.checkIfUserLoggedIn())
+    fun doAuthWithGoogle(idToken: String) {
+        authRepository?.doAuthWithGoogle(idToken)
     }
-
-    fun loginUser(email: String, password: String) {
-        setIsUserLoggedIn(authRepository?.loginUser(email, password)?.value)
-    }
-
-    private val errorMsg = authRepository?.getErrorMsg()
-
-    fun getErrorMsg(): MutableLiveData<String>? {
-        return errorMsg
-    }
-
 
 }

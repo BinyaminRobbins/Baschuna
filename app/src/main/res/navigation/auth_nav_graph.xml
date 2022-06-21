@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/authFragment">
 
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/authFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthFragment"
         android:label="@string/label_LoginFragment"
-        tools:layout="@layout/fragment_login">
+        tools:layout="@layout/fragment_auth">
         <action
             android:id="@+id/action_loginFragment_to_homeActivity"
             app:destination="@id/homeActivity" />

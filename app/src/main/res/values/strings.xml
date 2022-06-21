@@ -2,7 +2,7 @@
     <string name="app_name">בשכונה</string>
     <string name="hint_email">מייל</string>
     <string name="hint_password">סיסמה</string>
-    <string name="you_can_also_etc">אפשר להתחבר גם דרך:</string>
+    <string name="you_can_also_etc">אפשר להתחבר דרך:</string>
     <string name="label_LoginFragment">LoginFragment</string>
     <string name="continue_button">המשך</string>
     <string name="app_description">עבודה מזדמנת סביבך</string>
@@ -18,4 +18,5 @@
     <string name="menu_work">עבודות</string>
     <string name="menu_notification">עדכונים</string>
     <string name="user_profile">user profile</string>
+    <string name="your_web_client_id">169260010374-e3q9b9d30etcrbnfckc36e6l9h3pdqth.apps.googleusercontent.com</string>
 </resources>

@@ -1,34 +1,51 @@
 package com.syntapps.bashcuna.data
 
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.syntapps.bashcuna.other.AuthWithGoogleResult
+import com.syntapps.bashcuna.other.CurrentUser
 
 class BashcunaAuthRepository {
 
+    private val currentUser = CurrentUser
+
     private val mAuth = Firebase.auth
+    private val isUserConnected = MutableLiveData<AuthWithGoogleResult?>(null)
 
-    private var loginResult = MutableLiveData<Boolean?>()
-    private var errorMsg = MutableLiveData<String>()
-
-    fun getErrorMsg(): MutableLiveData<String> {
-        return errorMsg
+    private fun setCurrentUser(user: FirebaseUser?): CurrentUser {
+        user?.email?.let { currentUser.setEmail(it) }
+        user?.displayName?.let { currentUser.setName(it) }
+        return currentUser
     }
 
-    fun checkIfUserLoggedIn(): Boolean {
-        return mAuth.currentUser != null
+    fun checkIfUserConnectedInitially() {
+        if (mAuth.currentUser != null) {
+            mAuth.currentUser!!.email?.let { currentUser.setEmail(it) }
+            mAuth.currentUser!!.displayName?.let { currentUser.setName(it) }
+            setIsUserConnected(AuthWithGoogleResult(true, currentUser))
+        } else setIsUserConnected(AuthWithGoogleResult(false))
+
     }
 
-    fun loginUser(email: String, password: String): MutableLiveData<Boolean?> {
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    loginResult.postValue(true)
-                } else {
-                    loginResult.postValue(false)
-                    errorMsg.postValue("Login Failed - user not recognized")
-                }
+    fun getIsUserConnected(): MutableLiveData<AuthWithGoogleResult?> {
+        return isUserConnected
+    }
+
+    private fun setIsUserConnected(value: AuthWithGoogleResult?) {
+        isUserConnected.postValue(value)
+    }
+
+    fun doAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        mAuth.signInWithCredential(credential)
+            .addOnSuccessListener {
+                setIsUserConnected(AuthWithGoogleResult(true, setCurrentUser(it.user)))
+            }.addOnFailureListener {
+                setIsUserConnected(AuthWithGoogleResult(false, errorMsg = it.localizedMessage))
             }
-        return loginResult
     }
+
 }
