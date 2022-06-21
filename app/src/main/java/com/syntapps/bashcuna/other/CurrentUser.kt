@@ -4,6 +4,8 @@ object CurrentUser {
 
     private var name: String? = null
     private var email: String? = null
+    var uid: String? = null
+
     var firstName: String? = null
 
     fun setName(name: String?) {

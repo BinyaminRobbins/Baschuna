@@ -1,7 +1,6 @@
 package com.syntapps.bashcuna.data
 
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -15,17 +14,11 @@ class BashcunaAuthRepository {
     private val mAuth = Firebase.auth
     private val isUserConnected = MutableLiveData<AuthWithGoogleResult?>(null)
 
-    private fun setCurrentUser(user: FirebaseUser?): CurrentUser {
-        user?.email?.let { currentUser.setEmail(it) }
-        user?.displayName?.let { currentUser.setName(it) }
-        return currentUser
-    }
-
     fun checkIfUserConnectedInitially() {
         if (mAuth.currentUser != null) {
             mAuth.currentUser!!.email?.let { currentUser.setEmail(it) }
             mAuth.currentUser!!.displayName?.let { currentUser.setName(it) }
-            setIsUserConnected(AuthWithGoogleResult(true, currentUser))
+            setIsUserConnected(AuthWithGoogleResult(true))
         } else setIsUserConnected(AuthWithGoogleResult(false))
 
     }
@@ -42,7 +35,7 @@ class BashcunaAuthRepository {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
             .addOnSuccessListener {
-                setIsUserConnected(AuthWithGoogleResult(true, setCurrentUser(it.user)))
+                setIsUserConnected(AuthWithGoogleResult(true))
             }.addOnFailureListener {
                 setIsUserConnected(AuthWithGoogleResult(false, errorMsg = it.localizedMessage))
             }
