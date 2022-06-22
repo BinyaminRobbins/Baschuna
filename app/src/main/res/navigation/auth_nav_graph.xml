@@ -27,6 +27,15 @@
         android:id="@+id/authNewUserDetailsFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthNewUserDetails"
         android:label="@string/label_AuthNewUserDetailsFragment"
-        tools:layout="@layout/fragment_auth_new_user_details" />
+        tools:layout="@layout/fragment_auth_new_user_details">
+        <action
+            android:id="@+id/action_authNewUserDetailsFragment_to_authDetailsOne"
+            app:destination="@id/authDetailsOne" />
+    </fragment>
+    <fragment
+        android:id="@+id/authDetailsOne"
+        android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthDetailsOne"
+        android:label="AuthDetailsOne"
+        tools:layout="@layout/fragment_auth_details_one" />
 
 </navigation>

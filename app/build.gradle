@@ -66,5 +66,7 @@ dependencies {
     // Firebase Auth KTX & Google
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    implementation 'com.shawnlin:number-picker:2.4.6'
+
 
 }

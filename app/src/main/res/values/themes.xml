@@ -3,7 +3,7 @@
     <style name="Theme.Bashcuna" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/background_light_primary</item>
-        <item name="colorPrimaryVariant">@color/background_light_secondary</item>
+        <item name="colorPrimaryVariant">@color/color_accent</item>
         <item name="colorOnPrimary">@color/primary_text_on_light</item>
 
         <!-- Secondary brand color. -->

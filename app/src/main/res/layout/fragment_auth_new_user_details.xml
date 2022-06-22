@@ -8,7 +8,9 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/detailsViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="wrap_content"
@@ -22,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/color_accent"
+            app:elevation="0dp"
             app:srcCompat="@drawable/arrow"
             tools:ignore="ContentDescription" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

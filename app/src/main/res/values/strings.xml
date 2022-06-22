@@ -20,4 +20,10 @@
     <string name="user_profile">user profile</string>
     <string name="your_web_client_id">169260010374-e3q9b9d30etcrbnfckc36e6l9h3pdqth.apps.googleusercontent.com</string>
     <string name="label_AuthNewUserDetailsFragment">AuthNewUserDetails</string>
+    <string name="sign_up">הרשמה</string>
+    <string name="name">שם</string>
+    <string name="gender">מין</string>
+    <string name="man">זכר</string>
+    <string name="woman">נקבה</string>
+    <string name="age">גיל</string>
 </resources>

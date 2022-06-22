@@ -2,9 +2,14 @@ package com.syntapps.bashcuna.other
 
 object CurrentUser {
 
+    val GENDER_MAN = 0
+    val GENDER_WOMAN = 1
+
+    var uid: String? = null
     private var name: String? = null
     private var email: String? = null
-    var uid: String? = null
+    var age: Int? = null
+    var gender: Int? = null
 
     var firstName: String? = null
 
@@ -18,6 +23,14 @@ object CurrentUser {
 
     fun setEmail(email: String) {
         this.email = email
+    }
+
+    fun getEmail(): String? {
+        return email
+    }
+
+    fun getDisplayName(): String? {
+        return name
     }
 
 }

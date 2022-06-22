@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
@@ -57,8 +58,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun navigateToAuthFirstTimeDetails() {
-        navController.navigate(R.id.authNewUserDetailsFragment)
         navController.popBackStack()
+        navController.navigate(R.id.authNewUserDetailsFragment)
     }
 
 }
