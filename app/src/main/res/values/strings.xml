@@ -29,4 +29,6 @@
     <string name="employer">מעביד</string>
     <string name="worker">עובד</string>
     <string name="what_is_your_role">האם אתה עובד או מעביד?</string>
+    <string name="choose_work">באיזה תחום אתם מחפשים לעבוד?</string>
+    <string name="choose_hire_for">באיזה תחום אתם מחפשים עזרה?</string>
 </resources>
