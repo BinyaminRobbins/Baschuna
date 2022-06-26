@@ -29,11 +29,4 @@ class AuthViewModel : ViewModel() {
     fun getCurrentUser(): CurrentUser? {
         return authRepository?.getCurrentUser()
     }
-
-    private var detailsFilled: Boolean = false
-    fun getDetailsFilled() = detailsFilled
-    fun setDetailsFilled(value: Boolean) {
-        detailsFilled = value
-    }
-
 }

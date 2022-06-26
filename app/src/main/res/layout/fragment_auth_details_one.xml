@@ -4,23 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="40dp">
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/secular_one"
-        android:text="@string/sign_up"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/welcomeMsg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/secular_one"
-        android:textSize="24sp" />
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"

@@ -26,4 +26,7 @@
     <string name="man">זכר</string>
     <string name="woman">נקבה</string>
     <string name="age">גיל</string>
+    <string name="employer">מעביד</string>
+    <string name="worker">עובד</string>
+    <string name="what_is_your_role">האם אתה עובד או מעביד?</string>
 </resources>

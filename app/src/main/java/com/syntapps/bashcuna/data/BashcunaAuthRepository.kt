@@ -1,7 +1,7 @@
 package com.syntapps.bashcuna.data
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -38,13 +38,14 @@ class BashcunaAuthRepository {
     fun doAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
-            .addOnSuccessListener {
-                it.user?.email?.let { currentUser.setEmail(it) }
-                it.user?.displayName?.let { currentUser.setName(it) }
+            .addOnSuccessListener { authResult: AuthResult ->
+                authResult.user?.email?.let { currentUser.setEmail(it) }
+                authResult.user?.displayName?.let { currentUser.setName(it) }
+                authResult.user?.photoUrl?.let { currentUser.profileUrl = it }
                 setIsUserConnected(
                     AuthWithGoogleResult(
                         true,
-                        isNewUser = (it.additionalUserInfo?.isNewUser == true)
+                        isNewUser = (authResult.additionalUserInfo?.isNewUser == true)
                     )
                 )
             }.addOnFailureListener {

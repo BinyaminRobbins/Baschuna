@@ -36,6 +36,22 @@
         android:id="@+id/authDetailsOne"
         android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthDetailsOne"
         android:label="AuthDetailsOne"
-        tools:layout="@layout/fragment_auth_details_one" />
+        tools:layout="@layout/fragment_auth_details_one" >
+        <action
+            android:id="@+id/action_authDetailsOne_to_authDetailsTwo"
+            app:destination="@id/authDetailsTwo" />
+    </fragment>
+    <fragment
+        android:id="@+id/authDetailsTwo"
+        android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthDetailsTwo"
+        android:label="AuthDetailsTwo" >
+        <action
+            android:id="@+id/action_authDetailsTwo_to_authDetailsThree"
+            app:destination="@id/authDetailsThree" />
+    </fragment>
+    <fragment
+        android:id="@+id/authDetailsThree"
+        android:name="com.syntapps.bashcuna.ui.fragments.auth.AuthDetailsThree"
+        android:label="AuthDetailsThree" />
 
 </navigation>
