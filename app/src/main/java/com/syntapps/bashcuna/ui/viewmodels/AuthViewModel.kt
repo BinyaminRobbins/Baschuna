@@ -2,8 +2,11 @@ package com.syntapps.bashcuna.ui.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.data.BashcunaAuthRepository
 import com.syntapps.bashcuna.other.AuthWithGoogleResult
+import com.syntapps.bashcuna.other.CurrentUser
+import com.syntapps.bashcuna.other.WorkHireField
 
 class AuthViewModel : ViewModel() {
 
@@ -12,6 +15,8 @@ class AuthViewModel : ViewModel() {
     init {
         authRepository = BashcunaAuthRepository()
     }
+
+    var userDescriptionText: String? = null
 
     fun getIsUserConnected(): MutableLiveData<AuthWithGoogleResult?> {
         return authRepository?.getIsUserConnected()!!
@@ -25,4 +30,20 @@ class AuthViewModel : ViewModel() {
         authRepository?.doAuthWithGoogle(idToken)
     }
 
+    fun getCurrentUser(): CurrentUser? {
+        return authRepository?.getCurrentUser()
+    }
+
+    private val fieldOptions = listOf(
+        WorkHireField("בייביסיטינג", R.drawable.syt_field_babysitting),
+        WorkHireField("עבודת גינה/בחוץ", R.drawable.syt_field_gardening),
+        WorkHireField("בישול", R.drawable.syt_field_cooking),
+        WorkHireField("קניות", R.drawable.syt_field_shopping),
+        WorkHireField("משלוחים", R.drawable.syt_field_delivery),
+        WorkHireField("שיפוצים", R.drawable.syt_field_renovations)
+    )
+
+    fun getFieldOptions(): List<WorkHireField> {
+        return fieldOptions
+    }
 }

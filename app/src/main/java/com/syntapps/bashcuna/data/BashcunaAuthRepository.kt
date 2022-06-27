@@ -1,7 +1,7 @@
 package com.syntapps.bashcuna.data
 
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -15,9 +15,7 @@ class BashcunaAuthRepository {
     private val mAuth = Firebase.auth
     private val isUserConnected = MutableLiveData<AuthWithGoogleResult?>(null)
 
-    private fun setCurrentUser(user: FirebaseUser?): CurrentUser {
-        user?.email?.let { currentUser.setEmail(it) }
-        user?.displayName?.let { currentUser.setName(it) }
+    fun getCurrentUser(): CurrentUser {
         return currentUser
     }
 
@@ -25,9 +23,8 @@ class BashcunaAuthRepository {
         if (mAuth.currentUser != null) {
             mAuth.currentUser!!.email?.let { currentUser.setEmail(it) }
             mAuth.currentUser!!.displayName?.let { currentUser.setName(it) }
-            setIsUserConnected(AuthWithGoogleResult(true, currentUser))
+            setIsUserConnected(AuthWithGoogleResult(true))
         } else setIsUserConnected(AuthWithGoogleResult(false))
-
     }
 
     fun getIsUserConnected(): MutableLiveData<AuthWithGoogleResult?> {
@@ -41,8 +38,16 @@ class BashcunaAuthRepository {
     fun doAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
-            .addOnSuccessListener {
-                setIsUserConnected(AuthWithGoogleResult(true, setCurrentUser(it.user)))
+            .addOnSuccessListener { authResult: AuthResult ->
+                authResult.user?.email?.let { currentUser.setEmail(it) }
+                authResult.user?.displayName?.let { currentUser.setName(it) }
+                authResult.user?.photoUrl?.let { currentUser.profileUrl = it }
+                setIsUserConnected(
+                    AuthWithGoogleResult(
+                        true,
+                        isNewUser = (authResult.additionalUserInfo?.isNewUser == true)
+                    )
+                )
             }.addOnFailureListener {
                 setIsUserConnected(AuthWithGoogleResult(false, errorMsg = it.localizedMessage))
             }

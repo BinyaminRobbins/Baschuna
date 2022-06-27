@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
@@ -31,7 +32,11 @@ class AuthActivity : AppCompatActivity() {
         viewModel.getIsUserConnected().observe(this) {
             if (it != null) {
                 if (it.isSuccess) {
-                    navigateToHome()
+                    if(it.isNewUser){
+                        navigateToAuthFirstTimeDetails()
+                    }else{
+                        navigateToHome()
+                    }
                 } else {
                     navigateToAuth()
                 }
@@ -50,6 +55,11 @@ class AuthActivity : AppCompatActivity() {
     private fun navigateToAuth() {
         navController.navigate(R.id.authFragment)
         navController.popBackStack()
+    }
+
+    private fun navigateToAuthFirstTimeDetails() {
+        navController.popBackStack()
+        navController.navigate(R.id.authNewUserDetailsFragment)
     }
 
 }
