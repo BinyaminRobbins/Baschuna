@@ -18,6 +18,8 @@ object CurrentUser {
     var firstName: String? = null
     var profileUrl: Uri? = null
     private var role: String? = null
+    private var favoriteFields: MutableList<WorkHireField> = mutableListOf()
+    private var userDescription: String? = null
 
     fun setName(name: String?) {
         name?.let {
@@ -41,11 +43,27 @@ object CurrentUser {
 
     fun getRole() = role
     fun setRole(role: String) {
-        if (role == ROLE_WORKER || role == ROLE_EMPLOYER){
+        if (role == ROLE_WORKER || role == ROLE_EMPLOYER) {
             Log.i("CurrentUserObject", "Setting Role to $role")
             this.role = role
-        }else Log.i("CurrentUserObject", "not setting role")
+        } else Log.i("CurrentUserObject", "not setting role")
 
     }
+
+    fun setFavoriteFields(fields: List<WorkHireField>) {
+        favoriteFields.clear()
+        for (item in fields) {
+            if (item.isSelected) {
+                favoriteFields.add(item)
+            }
+        }
+    }
+
+    fun getFavoriteFields() = favoriteFields
+
+    fun setDescriptionText(text: String) {
+        this.userDescription = text
+    }
+    fun getDescription() = userDescription
 
 }

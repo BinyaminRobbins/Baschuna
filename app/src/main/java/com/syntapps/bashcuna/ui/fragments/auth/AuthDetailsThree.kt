@@ -27,6 +27,11 @@ class AuthDetailsThree : Fragment() {
     private lateinit var explanationText: TextView
     private lateinit var fieldsRecyclerView: RecyclerView
     private lateinit var fieldsOptionsAdapter: FieldsOptionsAdapter
+    private lateinit var favoriteFields: List<WorkHireField>
+
+    fun updateFavoriteFields() {
+        viewModel.getCurrentUser()?.setFavoriteFields(favoriteFields)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +57,8 @@ class AuthDetailsThree : Fragment() {
         }
 
         fieldsRecyclerView = view.findViewById(R.id.fields_options)
-        fieldsOptionsAdapter = FieldsOptionsAdapter(requireContext(), viewModel.getFieldOptions())
+        favoriteFields = viewModel.getFieldOptions()
+        fieldsOptionsAdapter = FieldsOptionsAdapter(requireContext())
         fieldsRecyclerView.layoutManager =
             GridLayoutManager(
                 requireContext(),
@@ -65,8 +71,7 @@ class AuthDetailsThree : Fragment() {
     }
 
     inner class FieldsOptionsAdapter(
-        private val mContext: Context,
-        private val fields: List<WorkHireField>
+        private val mContext: Context
     ) : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewHolder>() {
 
         inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -109,6 +114,7 @@ class AuthDetailsThree : Fragment() {
                             )
                         )
                     }
+                    updateFavoriteFields()
                 }
             }
 
@@ -121,11 +127,11 @@ class AuthDetailsThree : Fragment() {
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.setData(fields[position])
+            holder.setData(favoriteFields[position])
         }
 
         override fun getItemCount(): Int {
-            return fields.size
+            return favoriteFields.size
         }
 
     }

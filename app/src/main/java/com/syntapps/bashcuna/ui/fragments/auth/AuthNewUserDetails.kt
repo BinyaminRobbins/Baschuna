@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
@@ -58,7 +59,7 @@ class AuthNewUserDetails : Fragment() {
         detailsViewPager.isUserInputEnabled = false
         viewPagerAdapter = AuthDetailsAdapter(
             requireContext(), arrayListOf(
-                AuthDetailsOne(), AuthDetailsTwo(), AuthDetailsThree()
+                AuthDetailsOne(), AuthDetailsTwo(), AuthDetailsThree(), AuthDetailsFour()
             ), this
         )
         detailsViewPager.adapter = viewPagerAdapter
@@ -66,7 +67,7 @@ class AuthNewUserDetails : Fragment() {
         navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_auth)
 
         tabDots = view.findViewById(R.id.tabDots)
-        TabLayoutMediator(tabDots, detailsViewPager) { tab, position -> }.attach()
+        TabLayoutMediator(tabDots, detailsViewPager) { _, _ -> }.attach()
 
         fab = view.findViewById(R.id.next_button)
         fab.setOnClickListener {
@@ -86,7 +87,34 @@ class AuthNewUserDetails : Fragment() {
                     }
                 }
                 2 -> {
+                    viewModel.getCurrentUser()?.let {
+                        if (it.getFavoriteFields().isNotEmpty()) {
+                            detailsViewPager.currentItem++
+                        } else {
+                            context?.let { itContext ->
+                                Toast.makeText(
+                                    itContext,
+                                    "תבחרו תחומים מעודפים",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                }
+                3 -> {
+                    viewModel.getCurrentUser()?.let {
+                        if (!viewModel.userDescriptionText.isNullOrBlank() || !viewModel.userDescriptionText.isNullOrEmpty()) {
+                            it.setDescriptionText(viewModel.userDescriptionText!!)
+                            //build completed user
 
+                        } else context?.let { itContext ->
+                            Toast.makeText(
+                                itContext,
+                                "לא ניתן להמשיך – חובה להקליד משהו",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             }
         }

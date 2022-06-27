@@ -16,6 +16,8 @@ class AuthViewModel : ViewModel() {
         authRepository = BashcunaAuthRepository()
     }
 
+    var userDescriptionText: String? = null
+
     fun getIsUserConnected(): MutableLiveData<AuthWithGoogleResult?> {
         return authRepository?.getIsUserConnected()!!
     }
