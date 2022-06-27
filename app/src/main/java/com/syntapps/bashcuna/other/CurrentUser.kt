@@ -1,6 +1,7 @@
 package com.syntapps.bashcuna.other
 
 import android.net.Uri
+import android.util.Log
 
 object CurrentUser {
 
@@ -40,9 +41,11 @@ object CurrentUser {
 
     fun getRole() = role
     fun setRole(role: String) {
-        if (role == ROLE_WORKER || role == ROLE_EMPLOYER) {
+        if (role == ROLE_WORKER || role == ROLE_EMPLOYER){
+            Log.i("CurrentUserObject", "Setting Role to $role")
             this.role = role
-        }
+        }else Log.i("CurrentUserObject", "not setting role")
+
     }
 
 }
