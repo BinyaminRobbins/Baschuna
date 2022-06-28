@@ -4,15 +4,18 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.syntapps.bashcuna.other.AuthWithGoogleResult
 import com.syntapps.bashcuna.other.CurrentUser
+import com.syntapps.bashcuna.other.database_fields.DatabaseFields
 
 class BashcunaAuthRepository {
 
     private val currentUser = CurrentUser
 
     private val mAuth = Firebase.auth
+    private val db = Firebase.firestore
     private val isUserConnected = MutableLiveData<AuthWithGoogleResult?>(null)
 
     fun getCurrentUser(): CurrentUser {
@@ -50,6 +53,23 @@ class BashcunaAuthRepository {
                 )
             }.addOnFailureListener {
                 setIsUserConnected(AuthWithGoogleResult(false, errorMsg = it.localizedMessage))
+            }
+    }
+
+    private val isUserBuilt = MutableLiveData<Boolean?>()
+
+    fun getIsUserBuilt(): MutableLiveData<Boolean?> {
+        return isUserBuilt
+    }
+
+    fun buildUser() {
+        db.collection(DatabaseFields.Collection_User.fieldName)
+            .add(currentUser)
+            .addOnSuccessListener {
+                isUserBuilt.postValue(true)
+            }
+            .addOnFailureListener {
+                isUserBuilt.postValue(false)
             }
     }
 

@@ -82,6 +82,15 @@
                 app:srcCompat="@drawable/arrow"
                 tools:ignore="ContentDescription" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:elevation="4dp"
+            android:indeterminateTint="@color/color_accent"
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </LinearLayout>

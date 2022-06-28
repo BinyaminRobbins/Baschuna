@@ -46,4 +46,13 @@ class AuthViewModel : ViewModel() {
     fun getFieldOptions(): List<WorkHireField> {
         return fieldOptions
     }
+
+    private val isUserBuilt = authRepository?.getIsUserBuilt()
+    fun getIsUserBuilt(): MutableLiveData<Boolean?>? {
+        return isUserBuilt
+    }
+
+    fun buildUser() {
+        authRepository?.buildUser()
+    }
 }

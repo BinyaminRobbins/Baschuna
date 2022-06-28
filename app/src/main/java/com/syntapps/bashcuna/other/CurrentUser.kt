@@ -2,20 +2,42 @@ package com.syntapps.bashcuna.other
 
 import android.net.Uri
 import android.util.Log
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 object CurrentUser {
 
+    @Exclude
+    @JvmField
     val GENDER_MAN = 0
+
+    @Exclude
+    @JvmField
     val GENDER_WOMAN = 1
+
+    @Exclude
+    @JvmField
     val ROLE_WORKER = "WORKER"
+
+    @Exclude
+    @JvmField
     val ROLE_EMPLOYER = "EMPLOYER"
 
+    @Exclude
+    @JvmField
     var uid: String? = null
     private var name: String? = null
     private var email: String? = null
     var age: Int? = null
     var gender: Int? = null
+
+    @Exclude
+    @JvmField
     var firstName: String? = null
+
+    @Exclude
+    @JvmField
     var profileUrl: Uri? = null
     private var role: String? = null
     private var favoriteFields: MutableList<WorkHireField> = mutableListOf()
@@ -64,6 +86,7 @@ object CurrentUser {
     fun setDescriptionText(text: String) {
         this.userDescription = text
     }
+
     fun getDescription() = userDescription
 
 }

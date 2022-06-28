@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -30,6 +31,7 @@ class AuthNewUserDetails : Fragment() {
     private lateinit var detailsViewPager: ViewPager2
     private lateinit var viewPagerAdapter: AuthDetailsAdapter
     private lateinit var tabDots: TabLayout
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var fab: FloatingActionButton
 
@@ -55,6 +57,19 @@ class AuthNewUserDetails : Fragment() {
                 .into(profilePic)
         }
 
+        viewModel.getIsUserBuilt()?.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    navController.popBackStack()
+                    navController.navigate(R.id.homeActivity)
+                } else {
+                    Toast.makeText(requireContext(), "Something went wrong...", Toast.LENGTH_SHORT)
+                        .show()
+                    progressBar.visibility = View.INVISIBLE
+                    fab.isClickable = true
+                }
+            }
+        }
         detailsViewPager = view.findViewById(R.id.detailsViewPager)
         detailsViewPager.isUserInputEnabled = false
         viewPagerAdapter = AuthDetailsAdapter(
@@ -68,6 +83,8 @@ class AuthNewUserDetails : Fragment() {
 
         tabDots = view.findViewById(R.id.tabDots)
         TabLayoutMediator(tabDots, detailsViewPager) { _, _ -> }.attach()
+
+        progressBar = view.findViewById(R.id.progress_bar)
 
         fab = view.findViewById(R.id.next_button)
         fab.setOnClickListener {
@@ -106,7 +123,9 @@ class AuthNewUserDetails : Fragment() {
                         if (!viewModel.userDescriptionText.isNullOrBlank() || !viewModel.userDescriptionText.isNullOrEmpty()) {
                             it.setDescriptionText(viewModel.userDescriptionText!!)
                             //build completed user
-
+                            viewModel.buildUser()
+                            progressBar.visibility = View.VISIBLE
+                            fab.isClickable = false
                         } else context?.let { itContext ->
                             Toast.makeText(
                                 itContext,
