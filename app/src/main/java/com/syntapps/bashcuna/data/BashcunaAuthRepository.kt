@@ -25,6 +25,7 @@ class BashcunaAuthRepository {
     fun checkIfUserConnectedInitially() {
         if (mAuth.currentUser != null) {
             mAuth.currentUser!!.email?.let { currentUser.setEmail(it) }
+            mAuth.currentUser!!.uid.let { currentUser.uid = it }
             mAuth.currentUser!!.displayName?.let { currentUser.setName(it) }
             setIsUserConnected(AuthWithGoogleResult(true))
         } else setIsUserConnected(AuthWithGoogleResult(false))

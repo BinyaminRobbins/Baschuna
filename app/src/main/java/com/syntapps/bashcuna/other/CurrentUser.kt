@@ -2,6 +2,7 @@ package com.syntapps.bashcuna.other
 
 import android.net.Uri
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.IgnoreExtraProperties
 
@@ -24,8 +25,6 @@ object CurrentUser {
     @JvmField
     val ROLE_EMPLOYER = "EMPLOYER"
 
-    @Exclude
-    @JvmField
     var uid: String? = null
     private var name: String? = null
     private var email: String? = null
@@ -88,5 +87,9 @@ object CurrentUser {
     }
 
     fun getDescription() = userDescription
+
+    fun aquireOtherParams(mAuth: FirebaseAuth) {
+        this.profileUrl = mAuth.currentUser?.photoUrl
+    }
 
 }
