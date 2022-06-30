@@ -22,6 +22,7 @@ class BashcunaMainRepository {
     }
 
     fun buildCurrentUser() {
+        Log.i("HomeActivityTAG", "current user = ${mAuth.currentUser?.displayName}")
         mDatabase.collection(DatabaseFields.Collection_User.fieldName)
             .whereEqualTo(DatabaseFields.field_uid.fieldName, mAuth.currentUser?.uid)
             .limit(1)

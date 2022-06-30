@@ -32,7 +32,6 @@
                 app:title="@string/app_name"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/App_Bar_Text_Appearance" />
-
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
