@@ -6,7 +6,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.syntapps.bashcuna.other.CurrentUser
-import com.syntapps.bashcuna.other.database_fields.DatabaseFields
+import com.syntapps.bashcuna.other.constants.DatabaseFields
 
 class BashcunaMainRepository {
 

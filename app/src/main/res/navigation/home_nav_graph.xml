@@ -3,11 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nav_graph.xml"
-    app:startDestination="@id/chartsFragment">
+    app:startDestination="@id/workerOrEmployerFragment">
 
     <fragment
         android:id="@+id/chartsFragment"
-        android:name="com.syntapps.bashcuna.ui.fragments.home.ChartsFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.worker.ChartsFragment"
         android:label="fragment_charts"
         tools:layout="@layout/fragment_charts" />
+    <fragment
+        android:id="@+id/jobsFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.JobsFragment"
+        android:label="JobsFragment"
+        tools:layout="@layout/fragment_jobs" />
+    <fragment
+        android:id="@+id/workerOrEmployerFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.WorkerOrEmployerFragment"
+        android:label="WorkerOrEmployerFragment"
+        tools:layout="@layout/fragment_employer_or_worker">
+        <action
+            android:id="@+id/action_workerOrEmployerFragment_to_chartsFragment"
+            app:destination="@id/chartsFragment" />
+        <action
+            android:id="@+id/action_workerOrEmployerFragment_to_jobsFragment"
+            app:destination="@id/jobsFragment" />
+    </fragment>
 </navigation>

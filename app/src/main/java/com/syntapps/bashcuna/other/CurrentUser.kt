@@ -23,6 +23,10 @@ object CurrentUser {
 
     @Exclude
     @JvmField
+    val ROLE_BOTH = "BOTH"
+
+    @Exclude
+    @JvmField
     val ROLE_EMPLOYER = "EMPLOYER"
 
     private var name: String? = null
@@ -63,7 +67,7 @@ object CurrentUser {
 
     fun getRole() = role
     fun setRole(role: String) {
-        if (role == ROLE_WORKER || role == ROLE_EMPLOYER) {
+        if (role == ROLE_WORKER || role == ROLE_EMPLOYER || role == ROLE_BOTH) {
             Log.i("CurrentUserObject", "Setting Role to $role")
             this.role = role
         } else Log.i("CurrentUserObject", "not setting role")
