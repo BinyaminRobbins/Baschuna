@@ -33,4 +33,9 @@
     <string name="choose_hire_for">באיזה תחום אתם מחפשים עזרה?</string>
     <string name="tell_us_about_you">תספר לכולם טיפה על עצמך</string>
     <string name="write_in_heb">תקלידו בעברית</string>
+    <string name="overview">סיכום חודשי</string>
+    <string name="current_booked_jobs">עבודות בקרוב</string>
+    <string name="earnings_this_month">הכנסות החודש</string>
+    <string name="jobs_completed_this_month">עבודות שסיימת</string>
+    <string name="current_rating">דירוג כללי</string>
 </resources>

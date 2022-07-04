@@ -24,8 +24,6 @@ class BashcunaAuthRepository {
 
     fun checkIfUserConnectedInitially() {
         if (mAuth.currentUser != null) {
-            mAuth.currentUser!!.email?.let { currentUser.setEmail(it) }
-            mAuth.currentUser!!.displayName?.let { currentUser.setName(it) }
             setIsUserConnected(AuthWithGoogleResult(true))
         } else setIsUserConnected(AuthWithGoogleResult(false))
     }
@@ -42,6 +40,7 @@ class BashcunaAuthRepository {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
             .addOnSuccessListener { authResult: AuthResult ->
+                authResult.user?.uid?.let { currentUser.setUID(it) }
                 authResult.user?.email?.let { currentUser.setEmail(it) }
                 authResult.user?.displayName?.let { currentUser.setName(it) }
                 authResult.user?.photoUrl?.let { currentUser.profileUrl = it }
@@ -63,14 +62,17 @@ class BashcunaAuthRepository {
     }
 
     fun buildUser() {
-        db.collection(DatabaseFields.Collection_User.fieldName)
-            .add(currentUser)
-            .addOnSuccessListener {
-                isUserBuilt.postValue(true)
-            }
-            .addOnFailureListener {
-                isUserBuilt.postValue(false)
-            }
+        currentUser.getUID()?.let {
+            db.collection(DatabaseFields.Collection_User.fieldName)
+                .document(it)
+                .set(currentUser)
+                .addOnSuccessListener {
+                    isUserBuilt.postValue(true)
+                }
+                .addOnFailureListener {
+                    isUserBuilt.postValue(false)
+                }
+        }
     }
 
 }

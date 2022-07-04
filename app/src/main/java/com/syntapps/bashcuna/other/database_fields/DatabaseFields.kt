@@ -1,5 +1,5 @@
 package com.syntapps.bashcuna.other.database_fields
 
 enum class DatabaseFields(val fieldName: String) {
-    Collection_User("users")
+    Collection_User("users"), field_uid("uid")
 }

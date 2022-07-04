@@ -7,16 +7,21 @@ import com.syntapps.bashcuna.other.CurrentUser
 
 class HomeActivityViewModel : ViewModel() {
 
-    private var mainRepository: BashcunaMainRepository = BashcunaMainRepository()
+    private var mainRepository: BashcunaMainRepository? = null
 
-    private val currentUserLiveData = MutableLiveData<CurrentUser?>()
-    fun buildUser() {
-        mainRepository.buildCurrentUser()
-        currentUserLiveData.postValue(mainRepository.getCurrentUser())
+    init {
+        mainRepository = BashcunaMainRepository()
     }
 
-    fun getUser(): MutableLiveData<CurrentUser?> {
+    private val currentUserLiveData = mainRepository?.getCurrentUserLiveData()
+
+    fun getUser(): MutableLiveData<CurrentUser?>? {
         return currentUserLiveData
     }
+
+    fun buildUser() {
+        mainRepository?.buildCurrentUser()
+    }
+
 
 }
