@@ -25,7 +25,6 @@ object CurrentUser {
     @JvmField
     val ROLE_EMPLOYER = "EMPLOYER"
 
-    private var uid: String? = null
     private var name: String? = null
     private var email: String? = null
     var age: Int? = null
@@ -41,14 +40,6 @@ object CurrentUser {
     private var role: String? = null
     private var favoriteFields: MutableList<WorkHireField> = mutableListOf()
     private var userDescription: String? = null
-
-    fun getUID(): String? {
-        return this.uid
-    }
-
-    fun setUID(uid: String?) {
-        this.uid = uid
-    }
 
     fun setName(name: String?) {
         name?.let {
@@ -97,7 +88,6 @@ object CurrentUser {
     fun getDescription() = userDescription
 
     fun aquireOtherParams(mAuth: FirebaseAuth) {
-        this.uid = mAuth.currentUser?.uid
         this.profileUrl = mAuth.currentUser?.photoUrl
     }
 

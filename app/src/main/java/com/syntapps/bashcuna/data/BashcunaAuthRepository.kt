@@ -40,7 +40,6 @@ class BashcunaAuthRepository {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
             .addOnSuccessListener { authResult: AuthResult ->
-                authResult.user?.uid?.let { currentUser.setUID(it) }
                 authResult.user?.email?.let { currentUser.setEmail(it) }
                 authResult.user?.displayName?.let { currentUser.setName(it) }
                 authResult.user?.photoUrl?.let { currentUser.profileUrl = it }
@@ -62,7 +61,7 @@ class BashcunaAuthRepository {
     }
 
     fun buildUser() {
-        currentUser.getUID()?.let {
+        mAuth.currentUser?.uid?.let {
             db.collection(DatabaseFields.Collection_User.fieldName)
                 .document(it)
                 .set(currentUser)
