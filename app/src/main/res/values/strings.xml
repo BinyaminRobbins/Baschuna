@@ -38,4 +38,6 @@
     <string name="earnings_this_month">הכנסות החודש</string>
     <string name="jobs_completed_this_month">עבודות שסיימת</string>
     <string name="current_rating">דירוג כללי</string>
+    <string name="choose_role">איך תרצו לראות את האפליקציה?</string>
+    <string name="choose_role_msg">מופיע לנו שיש לכם גם חשבון עובד וגם חשבון מעביד. לאיזה חשבון ברצונכם להתחבר כרגע? (אפשר לעבור ביניהם בקלות)</string>
 </resources>

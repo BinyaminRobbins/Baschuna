@@ -23,9 +23,12 @@ object CurrentUser {
 
     @Exclude
     @JvmField
+    val ROLE_BOTH = "BOTH"
+
+    @Exclude
+    @JvmField
     val ROLE_EMPLOYER = "EMPLOYER"
 
-    private var uid: String? = null
     private var name: String? = null
     private var email: String? = null
     var age: Int? = null
@@ -41,14 +44,6 @@ object CurrentUser {
     private var role: String? = null
     private var favoriteFields: MutableList<WorkHireField> = mutableListOf()
     private var userDescription: String? = null
-
-    fun getUID(): String? {
-        return this.uid
-    }
-
-    fun setUID(uid: String?) {
-        this.uid = uid
-    }
 
     fun setName(name: String?) {
         name?.let {
@@ -72,7 +67,7 @@ object CurrentUser {
 
     fun getRole() = role
     fun setRole(role: String) {
-        if (role == ROLE_WORKER || role == ROLE_EMPLOYER) {
+        if (role == ROLE_WORKER || role == ROLE_EMPLOYER || role == ROLE_BOTH) {
             Log.i("CurrentUserObject", "Setting Role to $role")
             this.role = role
         } else Log.i("CurrentUserObject", "not setting role")
@@ -97,7 +92,6 @@ object CurrentUser {
     fun getDescription() = userDescription
 
     fun aquireOtherParams(mAuth: FirebaseAuth) {
-        this.uid = mAuth.currentUser?.uid
         this.profileUrl = mAuth.currentUser?.photoUrl
     }
 

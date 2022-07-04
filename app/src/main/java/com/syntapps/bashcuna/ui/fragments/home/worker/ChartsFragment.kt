@@ -1,4 +1,4 @@
-package com.syntapps.bashcuna.ui.fragments.home
+package com.syntapps.bashcuna.ui.fragments.home.worker
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,14 +31,6 @@ class ChartsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initUserDetails()
 
-
-    }
-
-    fun initUserDetails() {
-        viewModel.getUser()?.observe(viewLifecycleOwner) {
-
-        }
     }
 }
