@@ -22,23 +22,22 @@ class BashcunaMainRepository {
     }
 
     fun buildCurrentUser() {
-        Log.i("HomeActivityTAG", "current user = ${mAuth.currentUser?.displayName}")
-        mDatabase.collection(DatabaseFields.Collection_User.fieldName)
-            .whereEqualTo(DatabaseFields.field_uid.fieldName, mAuth.currentUser?.uid)
-            .limit(1)
-            .get()
-            .addOnSuccessListener {
-                if (it != null && !it.isEmpty) {
-                    currentUser = it.documents[0].toObject(CurrentUser::class.java)
-                    currentUser?.aquireOtherParams(mAuth)
-                    currentUserLiveData.value = currentUser
+        mAuth.currentUser?.uid?.let {
+            mDatabase.collection(DatabaseFields.Collection_User.fieldName)
+                .document(it)
+                .get()
+                .addOnSuccessListener { docSnapshot ->
+                    if (docSnapshot != null && docSnapshot.exists()) {
+                        currentUser = docSnapshot.toObject(CurrentUser::class.java)
+                        currentUser?.aquireOtherParams(mAuth)
+                        currentUserLiveData.value = currentUser
+                    }
                 }
-            }
-            .addOnFailureListener {
-                Log.e(TAG, "buildCurrentUser: ${it.localizedMessage}")
-            }
+                .addOnFailureListener {
+                    Log.e(TAG, "buildCurrentUser: ${it.localizedMessage}")
+                }
 
-
+        }
     }
 
 

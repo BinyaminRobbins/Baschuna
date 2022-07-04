@@ -62,14 +62,17 @@ class BashcunaAuthRepository {
     }
 
     fun buildUser() {
-        db.collection(DatabaseFields.Collection_User.fieldName)
-            .add(currentUser)
-            .addOnSuccessListener {
-                isUserBuilt.postValue(true)
-            }
-            .addOnFailureListener {
-                isUserBuilt.postValue(false)
-            }
+        currentUser.getUID()?.let {
+            db.collection(DatabaseFields.Collection_User.fieldName)
+                .document(it)
+                .set(currentUser)
+                .addOnSuccessListener {
+                    isUserBuilt.postValue(true)
+                }
+                .addOnFailureListener {
+                    isUserBuilt.postValue(false)
+                }
+        }
     }
 
 }
