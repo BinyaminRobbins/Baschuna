@@ -40,4 +40,7 @@
     <string name="current_rating">דירוג כללי</string>
     <string name="choose_role">איך תרצו לראות את האפליקציה?</string>
     <string name="choose_role_msg">מופיע לנו שיש לכם גם חשבון עובד וגם חשבון מעביד. לאיזה חשבון ברצונכם להתחבר כרגע? (אפשר לעבור ביניהם בקלות)</string>
+    <string name="extended_fab_label">יצירת פרויקט</string>
+    <string name="upcoming_projects">פרויקטים בקרוב</string>
+    <string name="finished_projects">פרויקטים שסיימת</string>
 </resources>
