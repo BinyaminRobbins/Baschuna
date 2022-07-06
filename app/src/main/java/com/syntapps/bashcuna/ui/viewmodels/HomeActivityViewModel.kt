@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.syntapps.bashcuna.data.BashcunaMainRepository
 import com.syntapps.bashcuna.other.CurrentUser
+import com.syntapps.bashcuna.other.JobOffer
 
 class HomeActivityViewModel : ViewModel() {
 
@@ -21,6 +22,11 @@ class HomeActivityViewModel : ViewModel() {
 
     fun buildUser() {
         mainRepository?.buildCurrentUser()
+    }
+
+    private val offeredJobsLiveData = mainRepository?.getOfferedJobsLiveData()
+    fun getOfferedJobs(): MutableLiveData<MutableList<JobOffer?>>? {
+        return offeredJobsLiveData
     }
 
 

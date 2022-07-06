@@ -5,14 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.other.JobOffer
+import com.syntapps.bashcuna.other.adapters.ProjectsAdapter
+import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 
 class JobsFragment : Fragment() {
+
+    private val viewModel: HomeActivityViewModel by activityViewModels()
 
     private lateinit var toggleGroup: MaterialButtonToggleGroup
     private lateinit var extendedFab: ExtendedFloatingActionButton
@@ -71,6 +77,7 @@ class JobsFragment : Fragment() {
     inner class ToggleStatePastProjects : Fragment() {
 
         private lateinit var rv: RecyclerView
+        private lateinit var data: MutableList<JobOffer>
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -83,7 +90,13 @@ class JobsFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+            viewModel.getOfferedJobs()?.observe(viewLifecycleOwner) {
+
+
+            }
+
             rv = view.findViewById(R.id.projectsRV)
+            rv.adapter = ProjectsAdapter(this, data)
         }
     }
 

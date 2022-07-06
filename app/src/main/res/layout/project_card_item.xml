@@ -129,12 +129,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|start"
                     android:fontFamily="@font/varela_round"
-                    android:text="₪ 560"
+                    android:text="₪ 360"
                     android:textSize="16sp" />
             </TableRow>
 
 
         </TableLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/people_rv"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
