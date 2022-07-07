@@ -46,5 +46,17 @@
         <item name="strokeWidth">2dp</item>
     </style>
 
+    <style name="Theme.Baschuna.FilledTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="startIconTint">#FFFFFF</item>
+        <item name="boxBackgroundColor">@color/color_accent</item>
+    </style>
+
+    <style name="Theme.Baschuna.OutlinedTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary_text_on_light</item>
+        <item name="android:textColorHint">@color/primary_text_on_light</item>
+        <item name="startIconTint">@color/primary_text_on_light</item>
+    </style>
+
 
 </resources>
