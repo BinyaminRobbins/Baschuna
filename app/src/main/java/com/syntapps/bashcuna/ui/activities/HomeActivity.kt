@@ -61,6 +61,7 @@ class HomeActivity : AppCompatActivity() {
                     viewModel.futureProjects.clear()
                     viewModel.pastProjects.clear()
                     it.forEach { it_jobOffer ->
+                        Log.i("HomeActivityTAG", "new project found. jobUserOfferingID = ${it_jobOffer?.jobUserOfferingID}")
                         val jobEndDate = it_jobOffer?.jobEndTime?.toDate()
                         try {
                             if (jobEndDate?.compareTo(getDate())!! <= 0) {
@@ -87,7 +88,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.i(TAG, "menu function")
         menuInflater.inflate(R.menu.top_app_bar_menu, menu)
         this.menu = menu
         return true

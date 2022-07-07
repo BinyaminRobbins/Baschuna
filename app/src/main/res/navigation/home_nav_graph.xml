@@ -14,7 +14,11 @@
         android:id="@+id/jobsFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.home.employer.JobsFragment"
         android:label="JobsFragment"
-        tools:layout="@layout/fragment_jobs" />
+        tools:layout="@layout/fragment_jobs" >
+        <action
+            android:id="@+id/action_jobsFragment_to_newProjectFragment"
+            app:destination="@id/newProjectFragment" />
+    </fragment>
     <fragment
         android:id="@+id/workerOrEmployerFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.WorkerOrEmployerFragment"
@@ -27,4 +31,9 @@
             android:id="@+id/action_workerOrEmployerFragment_to_jobsFragment"
             app:destination="@id/jobsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/newProjectFragment"
+        tools:layout="@layout/fragment_new_project"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.NewProjectFragment"
+        android:label="NewProjectFragment" />
 </navigation>

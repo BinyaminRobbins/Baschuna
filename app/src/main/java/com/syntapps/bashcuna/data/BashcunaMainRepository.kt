@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.syntapps.bashcuna.other.CurrentUser
 import com.syntapps.bashcuna.other.JobOffer
@@ -52,13 +53,15 @@ class BashcunaMainRepository {
         if (currentUser?.getRole() == CurrentUser.ROLE_WORKER) return@loadOfferedJobs
         mDatabase
             .collection(DatabaseFields.Collection_Jobs.fieldName)
-            .whereEqualTo(JobsConstants.OFFERING_USER.fieldName, mAuth.currentUser?.uid)
-            .whereEqualTo(JobsConstants.JOB_CLOSED.fieldName, true)
+            .whereEqualTo(JobsConstants.OFFERING_USER.fieldName, mAuth.currentUser?.uid.toString())
+            //.whereEqualTo(JobsConstants.JOB_CLOSED.fieldName, true)
             .get()
             .addOnSuccessListener {
+                Log.i("MainRepoTAG", "loaded offers")
                 if (it != null && !it.isEmpty) {
+                    Log.i("MainRepoTAG", "loaded offers NOT EMPTY")
                     for (jobOffer in it.documents) {
-                        offeredJobs.add(jobOffer.toObject(JobOffer::class.java))
+                        offeredJobs.add(jobOffer.toObject<JobOffer>())
                         offeredJobsLiveData.postValue(offeredJobs)
                     }
                 }

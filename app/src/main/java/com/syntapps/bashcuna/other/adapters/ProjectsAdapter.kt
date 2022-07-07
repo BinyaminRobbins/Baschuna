@@ -31,12 +31,12 @@ class ProjectsAdapter(
         @SuppressLint("SetTextI18n")
         fun setData(offer: JobOffer) {
             timeText.text =
-                offer.jobStartTime.toDate().time.toString() + " - " + offer.jobEndTime.toDate().time.toString()
+                offer.jobStartTime?.toDate()?.time.toString() + " - " + offer.jobEndTime?.toDate()?.time.toString()
             moneyText.text = offer.jobPaymentAmount.toString()
             locationText.text = offer.jobLocation
             fieldText.text =
                 offer.jobFieldCode // TODO: 06/07/2022 here we need to store in local db the fields and codes - then we will get the info by code
-            peopleRV.adapter = PeopleAdapter(offer.users)
+            peopleRV.adapter = offer.users?.let { PeopleAdapter(it) }
         }
     }
 

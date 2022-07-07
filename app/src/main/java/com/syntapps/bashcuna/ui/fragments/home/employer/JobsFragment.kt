@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -35,23 +37,6 @@ class JobsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toggleGroup = view.findViewById(R.id.toggleGroup)
-        toggleGroup.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
-            when (toggleButton.checkedButtonId) {
-                R.id.upcoming_jobs -> {
-                    viewPager.currentItem++
-                }
-                R.id.past_jobs -> {
-                    viewPager.currentItem--
-                }
-            }
-        }
-
-        extendedFab = view.findViewById(R.id.extended_fab)
-        extendedFab.setOnClickListener {
-
-        }
-
         viewPager = view.findViewById(R.id.projects_viewpager)
         toggleStateAdapter =
             ToggleStateAdapter(
@@ -62,9 +47,39 @@ class JobsFragment : Fragment() {
                 )
             )
         viewPager.adapter = toggleStateAdapter
-        viewPager.isUserInputEnabled = true
-    }
 
+
+        toggleGroup = view.findViewById(R.id.toggleGroup)
+        toggleGroup.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
+            when (toggleButton.checkedButtonId) {
+                R.id.upcoming_jobs -> {
+                    viewPager.currentItem = 0
+                }
+                R.id.past_jobs -> {
+                    viewPager.currentItem = 1
+                }
+            }
+        }
+        toggleGroup.check(R.id.upcoming_jobs)
+
+        extendedFab = view.findViewById(R.id.extended_fab)
+        extendedFab.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.newProjectFragment)
+        }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> {
+                        toggleGroup.check(R.id.upcoming_jobs)
+                    }
+                    1 -> {
+                        toggleGroup.check(R.id.past_jobs)
+                    }
+                }
+            }
+        })
+    }
 }
 
 class ToggleStatePastProjects : Fragment() {
@@ -91,6 +106,7 @@ class ToggleStatePastProjects : Fragment() {
         }
 
         rv = view.findViewById(R.id.projectsRV)
+        rv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         rv.adapter = ProjectsAdapter(this, data)
     }
 }
@@ -119,6 +135,7 @@ class ToggleStateFutureProjects : Fragment() {
         }
 
         rv = view.findViewById(R.id.projectsRV)
+        rv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         rv.adapter = ProjectsAdapter(this, data)
     }
 }

@@ -1,18 +1,19 @@
 package com.syntapps.bashcuna.other
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.GeoPoint
 
 data class JobOffer(
-    val jobUserOfferingID: String,
-    val jobFieldCode: String,
-    val jobStartTime: Timestamp,
-    val jobEndTime: Timestamp,
-    val jobPaymentAmount: Int,
-    val jobPaymentMethods: List<Int>,
-    val jobLocation: String,
-    val jobGeoCoordinates: Map<String, String>, //for latitude and longitude of the location - to get distance from user
-    val users: List<User>,
-    val jobUserCap: Int,
-    var jobDescription: String,
+    var jobUserOfferingID: String? = null,
+    var jobFieldCode: String? = null,
+    var jobStartTime: Timestamp? = null,
+    var jobEndTime: Timestamp? = null,
+    var jobPaymentAmount: Int? = null,
+    var jobPaymentMethods: List<Int>? = null,
+    var jobLocation: String? = null,
+    var jobGeoCoordinates: GeoPoint? = null, //for latitude and longitude of the location - to get distance from user
+    var users: List<User>? = null,
+    var jobUserCap: Int? = null,
+    var jobDescription: String? = null,
     var jobIsClosed: Boolean = false
 )
