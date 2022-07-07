@@ -18,11 +18,10 @@ import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 
 class JobsFragment : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
-
     private lateinit var toggleGroup: MaterialButtonToggleGroup
     private lateinit var extendedFab: ExtendedFloatingActionButton
     private lateinit var viewPager: ViewPager2
+    private lateinit var toggleStateAdapter: ToggleStateAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,17 +46,24 @@ class JobsFragment : Fragment() {
                 }
             }
         }
+
         extendedFab = view.findViewById(R.id.extended_fab)
         extendedFab.setOnClickListener {
 
         }
 
         viewPager = view.findViewById(R.id.projects_viewpager)
-        viewPager.adapter =
-            ToggleStateAdapter(this, listOf(ToggleStateFutureProjects(), ToggleStatePastProjects()))
+        toggleStateAdapter =
+            ToggleStateAdapter(
+                this,
+                listOf(
+                    ToggleStateFutureProjects(),
+                    ToggleStatePastProjects()
+                )
+            )
+        viewPager.adapter = toggleStateAdapter
         viewPager.isUserInputEnabled = true
     }
-
 
     inner class ToggleStateAdapter(
         fragment: Fragment,
@@ -75,9 +81,10 @@ class JobsFragment : Fragment() {
     }
 
     inner class ToggleStatePastProjects : Fragment() {
+        private val viewModel: HomeActivityViewModel by activityViewModels()
 
+        private var data: MutableList<JobOffer?> = mutableListOf()
         private lateinit var rv: RecyclerView
-        private lateinit var data: MutableList<JobOffer>
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -90,9 +97,10 @@ class JobsFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
-            viewModel.getOfferedJobs()?.observe(viewLifecycleOwner) {
-
-
+            viewModel.pastProjectsLiveData.observe(viewLifecycleOwner) {
+                data.clear()
+                data.addAll(it)
+                rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
             }
 
             rv = view.findViewById(R.id.projectsRV)
@@ -101,7 +109,9 @@ class JobsFragment : Fragment() {
     }
 
     inner class ToggleStateFutureProjects : Fragment() {
+        private val viewModel: HomeActivityViewModel by activityViewModels()
 
+        private var data: MutableList<JobOffer?> = mutableListOf()
         private lateinit var rv: RecyclerView
 
         override fun onCreateView(
@@ -115,7 +125,14 @@ class JobsFragment : Fragment() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+            viewModel.futureProjectsLiveData.observe(viewLifecycleOwner) {
+                data.clear()
+                data.addAll(it)
+                rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
+            }
+
             rv = view.findViewById(R.id.projectsRV)
+            rv.adapter = ProjectsAdapter(this, data)
         }
     }
 

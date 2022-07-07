@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class ProjectsAdapter(
     private val fragment: Fragment,
-    private val jobOffers: List<JobOffer>
+    private val jobOffers: MutableList<JobOffer?>
 ) : RecyclerView.Adapter<ProjectsAdapter.mViewHolder>() {
 
     inner class mViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -47,7 +47,9 @@ class ProjectsAdapter(
     }
 
     override fun onBindViewHolder(holder: mViewHolder, position: Int) {
-        holder.setData(jobOffers[position])
+        jobOffers[position]?.let {
+            holder.setData(it)
+        }
     }
 
     override fun getItemCount(): Int {

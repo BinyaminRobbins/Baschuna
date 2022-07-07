@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.syntapps.bashcuna.data.BashcunaMainRepository
 import com.syntapps.bashcuna.other.CurrentUser
 import com.syntapps.bashcuna.other.JobOffer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeActivityViewModel : ViewModel() {
 
@@ -29,5 +32,15 @@ class HomeActivityViewModel : ViewModel() {
         return offeredJobsLiveData
     }
 
+    fun loadOfferedJobs() { //the jobs offere
+        CoroutineScope(Dispatchers.IO).launch {
+            mainRepository?.loadOfferedJobs()
+        }
+    }
 
+
+    val futureProjects = mutableListOf<JobOffer?>()
+    val futureProjectsLiveData = MutableLiveData(futureProjects)
+    val pastProjects = mutableListOf<JobOffer?>()
+    val pastProjectsLiveData = MutableLiveData(pastProjects)
 }

@@ -43,7 +43,7 @@ class BashcunaMainRepository {
     }
 
     private var offeredJobs = mutableListOf<JobOffer?>()
-    private var offeredJobsLiveData = MutableLiveData<MutableList<JobOffer?>>(offeredJobs)
+    private var offeredJobsLiveData = MutableLiveData(offeredJobs)
     fun getOfferedJobsLiveData(): MutableLiveData<MutableList<JobOffer?>> {
         return offeredJobsLiveData
     }
@@ -53,11 +53,13 @@ class BashcunaMainRepository {
         mDatabase
             .collection(DatabaseFields.Collection_Jobs.fieldName)
             .whereEqualTo(JobsConstants.OFFERING_USER.fieldName, mAuth.currentUser?.uid)
+            .whereNotEqualTo(JobsConstants.JOB_CLOSED.fieldName, true)
             .get()
             .addOnSuccessListener {
                 if (it != null && !it.isEmpty) {
                     for (jobOffer in it.documents) {
                         offeredJobs.add(jobOffer.toObject(JobOffer::class.java))
+                        offeredJobsLiveData.postValue(offeredJobs)
                     }
                 }
             }

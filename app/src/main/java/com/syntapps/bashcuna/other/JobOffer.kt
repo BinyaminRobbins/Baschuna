@@ -14,4 +14,5 @@ data class JobOffer(
     val users: List<User>,
     val jobUserCap: Int,
     var jobDescription: String,
+    var jobIsClosed: Boolean = false
 )
