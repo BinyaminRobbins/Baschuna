@@ -52,7 +52,7 @@ class WorkerOrEmployerFragment : Fragment() {
                         .setNeutralButton(getString(R.string.worker)) { dialog, which ->
                             navigateAsWorker()
                         }.setOnDismissListener {
-                            navigateAsWorker()
+                            navigateAsEmployer() //Employer is default if user can be employer
                         }.show()
                 }
             }
