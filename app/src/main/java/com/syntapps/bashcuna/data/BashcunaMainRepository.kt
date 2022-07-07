@@ -53,7 +53,7 @@ class BashcunaMainRepository {
         mDatabase
             .collection(DatabaseFields.Collection_Jobs.fieldName)
             .whereEqualTo(JobsConstants.OFFERING_USER.fieldName, mAuth.currentUser?.uid)
-            .whereNotEqualTo(JobsConstants.JOB_CLOSED.fieldName, true)
+            .whereEqualTo(JobsConstants.JOB_CLOSED.fieldName, true)
             .get()
             .addOnSuccessListener {
                 if (it != null && !it.isEmpty) {

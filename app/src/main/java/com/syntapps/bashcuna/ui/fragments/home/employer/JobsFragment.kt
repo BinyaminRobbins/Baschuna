@@ -65,75 +65,77 @@ class JobsFragment : Fragment() {
         viewPager.isUserInputEnabled = true
     }
 
-    inner class ToggleStateAdapter(
-        fragment: Fragment,
-        private val fragmentsArray: List<Fragment>
-    ) : FragmentStateAdapter(fragment) {
+}
 
-        override fun getItemCount(): Int {
-            return fragmentsArray.size
-        }
+class ToggleStatePastProjects : Fragment() {
+    private val viewModel: HomeActivityViewModel by activityViewModels()
 
-        override fun createFragment(position: Int): Fragment {
-            return fragmentsArray[position]
-        }
+    private var data: MutableList<JobOffer?> = mutableListOf()
+    private lateinit var rv: RecyclerView
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_past_projects, container, false)
     }
 
-    inner class ToggleStatePastProjects : Fragment() {
-        private val viewModel: HomeActivityViewModel by activityViewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        private var data: MutableList<JobOffer?> = mutableListOf()
-        private lateinit var rv: RecyclerView
-
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            return inflater.inflate(R.layout.fragment_past_projects, container, false)
+        viewModel.pastProjectsLiveData.observe(viewLifecycleOwner) {
+            data.clear()
+            data.addAll(it)
+            rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
         }
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
+        rv = view.findViewById(R.id.projectsRV)
+        rv.adapter = ProjectsAdapter(this, data)
+    }
+}
 
-            viewModel.pastProjectsLiveData.observe(viewLifecycleOwner) {
-                data.clear()
-                data.addAll(it)
-                rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
-            }
+class ToggleStateFutureProjects : Fragment() {
+    private val viewModel: HomeActivityViewModel by activityViewModels()
 
-            rv = view.findViewById(R.id.projectsRV)
-            rv.adapter = ProjectsAdapter(this, data)
-        }
+    private var data: MutableList<JobOffer?> = mutableListOf()
+    private lateinit var rv: RecyclerView
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_future_projects, container, false)
     }
 
-    inner class ToggleStateFutureProjects : Fragment() {
-        private val viewModel: HomeActivityViewModel by activityViewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        private var data: MutableList<JobOffer?> = mutableListOf()
-        private lateinit var rv: RecyclerView
-
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            return inflater.inflate(R.layout.fragment_future_projects, container, false)
+        viewModel.futureProjectsLiveData.observe(viewLifecycleOwner) {
+            data.clear()
+            data.addAll(it)
+            rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
         }
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
+        rv = view.findViewById(R.id.projectsRV)
+        rv.adapter = ProjectsAdapter(this, data)
+    }
+}
 
-            viewModel.futureProjectsLiveData.observe(viewLifecycleOwner) {
-                data.clear()
-                data.addAll(it)
-                rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
-            }
+class ToggleStateAdapter(
+    fragment: Fragment,
+    private val fragmentsArray: List<Fragment>
+) : FragmentStateAdapter(fragment) {
 
-            rv = view.findViewById(R.id.projectsRV)
-            rv.adapter = ProjectsAdapter(this, data)
-        }
+    override fun getItemCount(): Int {
+        return fragmentsArray.size
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return fragmentsArray[position]
     }
 
 }
+
+
