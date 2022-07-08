@@ -17,4 +17,5 @@
     <color name="dark_text_secondary">#3D3F41</color>
     <color name="light_text">#FFFFFF</color>
     <color name="error_msg">#EB4438</color>
+    <color name="black">#0F0F0F</color>
 </resources>
