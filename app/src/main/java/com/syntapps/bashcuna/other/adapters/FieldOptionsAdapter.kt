@@ -26,6 +26,11 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
     private var authDetailsThree: AuthDetailsThree? = null
     private var newProjectFragment: NewProjectFragment? = null
 
+    private var prevCardView: CardView? = null
+    private var prevTextView: TextView? = null
+    private var prevIcon: ImageView? = null
+    private var prevField: WorkHireField? = null
+
     constructor(
         mContext: Context,
         favoriteFields: List<WorkHireField>,
@@ -78,7 +83,7 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
                 if (field.isSelected) {
                     //unselect the field
                     field.isSelected = false
-                    cardView.setCardBackgroundColor(mContext.getColor(R.color.background_light_secondary))
+                    cardView.setCardBackgroundColor(mContext.getColor(R.color.background_light_primary))
                     text.setTextColor(mContext.getColor(R.color.color_accent))
                     ImageViewCompat.setImageTintList(
                         icon,
@@ -90,7 +95,6 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
                         )
                     )
                 } else {
-                    //select the field
                     field.isSelected = true
                     cardView.setCardBackgroundColor(mContext.getColor(R.color.color_accent))
                     text.setTextColor(mContext.getColor(R.color.background_light_primary))
@@ -103,6 +107,28 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
                             )
                         )
                     )
+                    if (newProjectFragment != null) {
+                        if (prevCardView != null && prevTextView != null && prevField != null && prevIcon != null) {
+                            prevCardView!!.setCardBackgroundColor(mContext.getColor(R.color.background_light_primary))
+                            prevTextView!!.setTextColor(mContext.getColor(R.color.color_accent))
+                            ImageViewCompat.setImageTintList(
+                                prevIcon!!,
+                                ColorStateList.valueOf(
+                                    ContextCompat.getColor(
+                                        mContext,
+                                        R.color.color_accent
+                                    )
+                                )
+                            )
+                            prevField!!.isSelected = false
+                        }
+                        prevCardView = cardView
+                        prevTextView = text
+                        prevIcon = icon
+                        prevField = field
+                    }
+                    //select the field
+
                 }
                 if (authDetailsThree != null) {
                     authDetailsThree!!.onFieldSelected(field)
