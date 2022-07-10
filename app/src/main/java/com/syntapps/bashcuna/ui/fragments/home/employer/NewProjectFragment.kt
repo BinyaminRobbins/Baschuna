@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.other.WorkHireField
 import com.syntapps.bashcuna.other.adapters.FieldsOptionsAdapter
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
@@ -20,6 +24,11 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
     private lateinit var fieldsRecyclerView: RecyclerView
     private lateinit var fieldsOptionsAdapter: FieldsOptionsAdapter
     private lateinit var fieldOptions: List<WorkHireField>
+
+    private lateinit var descriptionText: EditText
+    private lateinit var paymentAmountText: TextInputEditText
+
+    private lateinit var currentOffer: JobOffer
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,9 +47,37 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
         fieldsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         fieldsRecyclerView.adapter = fieldsOptionsAdapter
+
+        descriptionText = view.findViewById(R.id.description_text)
+        paymentAmountText = view.findViewById(R.id.payment_amount_field)
+
+        currentOffer = viewModel.newJobOffer
+
+        descriptionText.doOnTextChanged { text, start, before, count ->
+            if (text.isNullOrBlank() || text.isNullOrEmpty()) {
+                currentOffer.jobDescription = null
+            } else currentOffer.jobDescription = text.toString()
+            updateJobLiveData()
+        }
+
+        paymentAmountText.doOnTextChanged { text, start, before, count ->
+            if (text.isNullOrBlank() || text.isNullOrEmpty()) {
+                currentOffer.jobPaymentAmount = null
+            } else currentOffer.jobPaymentAmount = text.toString().toInt()
+            updateJobLiveData()
+        }
+
+        viewModel.newJobOfferLiveData.observe(viewLifecycleOwner) { offer ->
+
+        }
     }
 
     override fun onFieldSelected(field: WorkHireField) {
-        TODO("Not yet implemented")
+        currentOffer.jobFieldCode = field.fieldName
+        updateJobLiveData()
+    }
+
+    private fun updateJobLiveData() {
+        viewModel.newJobOfferLiveData.value = currentOffer
     }
 }

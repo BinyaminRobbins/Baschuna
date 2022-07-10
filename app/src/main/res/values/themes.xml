@@ -47,9 +47,12 @@
     </style>
 
     <style name="Theme.Baschuna.FilledTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColorHint">#FFFFFF</item>
-        <item name="startIconTint">#FFFFFF</item>
-        <item name="boxBackgroundColor">@color/color_accent</item>
+        <item name="android:textColorHint">@color/color_accent</item>
+        <item name="startIconTint">@color/color_accent</item>
+        <item name="boxBackgroundColor">@color/background_light_primary</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintTextColor">@color/color_accent</item>
     </style>
 
     <style name="Theme.Baschuna.OutlinedTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

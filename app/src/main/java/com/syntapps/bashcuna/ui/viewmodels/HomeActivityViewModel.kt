@@ -58,4 +58,7 @@ class HomeActivityViewModel : ViewModel() {
     fun getFieldOptions(): List<WorkHireField> {
         return fieldOptions
     }
+
+    val newJobOffer = JobOffer()
+    val newJobOfferLiveData = MutableLiveData(newJobOffer)
 }
