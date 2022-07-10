@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,6 +29,9 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
 
     private lateinit var descriptionText: EditText
     private lateinit var paymentAmountText: TextInputEditText
+    private lateinit var numPplText: TextView
+    private lateinit var minus: ImageButton
+    private lateinit var plus: ImageButton
 
     private lateinit var currentOffer: JobOffer
 
@@ -41,6 +46,8 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        currentOffer = viewModel.newJobOffer
+
         fieldsRecyclerView = view.findViewById(R.id.fieldRv)
         fieldOptions = viewModel.getFieldOptions()
         fieldsOptionsAdapter = FieldsOptionsAdapter(requireContext(), fieldOptions, this)
@@ -51,7 +58,21 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
         descriptionText = view.findViewById(R.id.description_text)
         paymentAmountText = view.findViewById(R.id.payment_amount_field)
 
-        currentOffer = viewModel.newJobOffer
+        numPplText = view.findViewById(R.id.num_people_text)
+        minus = view.findViewById(R.id.btn_minus)
+        minus.setOnClickListener {
+            if (currentOffer.jobHireCount > 0) {
+                currentOffer.jobHireCount--
+                updateJobLiveData()
+            }
+        }
+        plus = view.findViewById(R.id.btn_plus)
+        plus.setOnClickListener {
+            if (currentOffer.jobHireCount <= 4) {
+                currentOffer.jobHireCount++
+                updateJobLiveData()
+            }
+        }
 
         descriptionText.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrBlank() || text.isNullOrEmpty()) {
@@ -68,7 +89,7 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
         }
 
         viewModel.newJobOfferLiveData.observe(viewLifecycleOwner) { offer ->
-
+            numPplText.text = offer.jobHireCount.toString()
         }
     }
 

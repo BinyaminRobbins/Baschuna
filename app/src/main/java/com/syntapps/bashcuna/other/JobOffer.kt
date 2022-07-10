@@ -15,5 +15,6 @@ data class JobOffer(
     var users: List<User>? = null,
     var jobUserCap: Int? = null,
     var jobDescription: String? = null,
-    var jobIsClosed: Boolean = false
+    var jobIsClosed: Boolean = false,
+    var jobHireCount: Int = 0,
 )
