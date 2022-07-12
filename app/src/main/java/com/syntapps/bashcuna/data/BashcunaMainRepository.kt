@@ -10,6 +10,7 @@ import com.syntapps.bashcuna.other.CurrentUser
 import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.other.constants.DatabaseFields
 import com.syntapps.bashcuna.other.constants.JobsConstants
+import com.syntapps.bashcuna.other.returnObjects.CreateNewProjectResult
 
 class BashcunaMainRepository {
 
@@ -66,6 +67,27 @@ class BashcunaMainRepository {
                     }
                 }
             }
+    }
+
+    private val createNewProjectResult = MutableLiveData<CreateNewProjectResult>()
+    fun getCreateNewProjectResult(): MutableLiveData<CreateNewProjectResult> {
+        return createNewProjectResult
+    }
+
+    fun createNewProject(jobOffer: JobOffer) {
+        mDatabase
+            .collection(DatabaseFields.Collection_Jobs.fieldName)
+            .add(jobOffer)
+            .addOnSuccessListener {
+                if (it != null) {
+                    createNewProjectResult.value = CreateNewProjectResult(true)
+                } else {
+                    createNewProjectResult.value = CreateNewProjectResult(false)
+                }
+            }.addOnFailureListener {
+                createNewProjectResult.value = CreateNewProjectResult(false, it.localizedMessage)
+            }
+
     }
 
 

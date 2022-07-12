@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.data.BashcunaAuthRepository
-import com.syntapps.bashcuna.other.AuthWithGoogleResult
+import com.syntapps.bashcuna.other.returnObjects.AuthWithGoogleResult
 import com.syntapps.bashcuna.other.CurrentUser
 import com.syntapps.bashcuna.other.WorkHireField
 

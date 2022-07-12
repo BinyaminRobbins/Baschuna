@@ -61,4 +61,9 @@ class HomeActivityViewModel : ViewModel() {
 
     val newJobOffer = JobOffer()
     val newJobOfferLiveData = MutableLiveData(newJobOffer)
+
+    val createNewProjectResult = mainRepository?.getCreateNewProjectResult()
+    fun createNewProject() {
+        mainRepository?.createNewProject(newJobOffer)
+    }
 }

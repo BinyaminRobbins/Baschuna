@@ -29,6 +29,17 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupNavController() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_home)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.newProjectFragment) {
+                topAppBar.also {
+                    it.setNavigationIcon(R.drawable.ic_back)
+                }
+            } else {
+                topAppBar.also {
+                    it.setNavigationIcon(R.drawable.menu_icon)
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +47,17 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         viewModel = ViewModelProvider(this)[HomeActivityViewModel::class.java]
-        setupNavController()
 
         topAppBar = findViewById(R.id.topAppBar)
         setSupportActionBar(topAppBar)
         topAppBar.setNavigationOnClickListener {
-            Log.i(TAG, "Nav Icon Clicked")
-            // TODO: 07/07/2022 nav icon click
+            when (navController.currentDestination?.id) {
+                R.id.newProjectFragment -> {
+                    navController.popBackStack()
+                }
+            }
         }
+        setupNavController()
 
         viewModel.getUser()?.observe(this) {
             val actionView: View? = menu?.findItem(R.id.menu_item_profile)?.actionView
@@ -61,7 +75,10 @@ class HomeActivity : AppCompatActivity() {
                     viewModel.futureProjects.clear()
                     viewModel.pastProjects.clear()
                     it.forEach { it_jobOffer ->
-                        Log.i("HomeActivityTAG", "new project found. jobUserOfferingID = ${it_jobOffer?.jobUserOfferingID}")
+                        Log.i(
+                            "HomeActivityTAG",
+                            "new project found. jobUserOfferingID = ${it_jobOffer?.jobUserOfferingID}"
+                        )
                         val jobEndDate = it_jobOffer?.jobEndTime?.toDate()
                         try {
                             if (jobEndDate?.compareTo(getDate())!! <= 0) {

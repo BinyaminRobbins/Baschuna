@@ -52,4 +52,6 @@
     <string name="more_details">עוד פרטים</string>
     <string name="payment">תשלום</string>
     <string name="payment_per_worker">שכר לעובד</string>
+    <string name="submit">סיום</string>
+    <string name="creating_project">מייצר פרויקט חדש…</string>
 </resources>

@@ -16,6 +16,7 @@
         <item name="android:windowBackground" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:editTextBackground" tools:targetApi="l">@drawable/custom_edittext</item>
         <item name="android:textColor" tools:targetApi="l">@color/dark_text</item>
+        <item name="navigationIconTint">@color/black</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
@@ -61,5 +62,10 @@
         <item name="startIconTint">@color/primary_text_on_light</item>
     </style>
 
-
+    <style name="Theme.Baschuna.ButtonText" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/varela_round</item>
+        <item name="backgroundTint">@color/secondary_text_on_light</item>
+    </style>
 </resources>

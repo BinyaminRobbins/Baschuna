@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
+import android.widget.*
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
@@ -27,6 +27,8 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
     private lateinit var fieldsOptionsAdapter: FieldsOptionsAdapter
     private lateinit var fieldOptions: List<WorkHireField>
 
+    private lateinit var progressBar: ProgressBar
+    private lateinit var finishedButton: Button
     private lateinit var descriptionText: EditText
     private lateinit var paymentAmountText: TextInputEditText
     private lateinit var numPplText: TextView
@@ -45,7 +47,6 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         currentOffer = viewModel.newJobOffer
 
         fieldsRecyclerView = view.findViewById(R.id.fieldRv)
@@ -57,6 +58,16 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
 
         descriptionText = view.findViewById(R.id.description_text)
         paymentAmountText = view.findViewById(R.id.payment_amount_field)
+
+        progressBar = view.findViewById(R.id.pBar)
+        finishedButton = view.findViewById(R.id.finishedButton)
+
+        finishedButton.setOnClickListener {
+            progressBar.isVisible = true
+            Toast.makeText(view.context, getString(R.string.creating_project), Toast.LENGTH_SHORT)
+                .show()
+            viewModel.createNewProject()
+        }
 
         numPplText = view.findViewById(R.id.num_people_text)
         minus = view.findViewById(R.id.btn_minus)
@@ -91,6 +102,18 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
         viewModel.newJobOfferLiveData.observe(viewLifecycleOwner) { offer ->
             numPplText.text = offer.jobHireCount.toString()
         }
+
+        viewModel.createNewProjectResult?.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it.isSuccess) {
+                    progressBar.isVisible = false
+                    Navigation.findNavController(view).popBackStack(R.id.jobsFragment, false)
+                } else {
+                    Toast.makeText(view.context, it.result, Toast.LENGTH_SHORT).show()
+                    progressBar.isVisible = false
+                }
+            }
+        }
     }
 
     override fun onFieldSelected(field: WorkHireField) {
@@ -100,5 +123,10 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
 
     private fun updateJobLiveData() {
         viewModel.newJobOfferLiveData.value = currentOffer
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        progressBar.isVisible = false
     }
 }
