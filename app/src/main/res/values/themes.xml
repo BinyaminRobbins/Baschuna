@@ -68,4 +68,14 @@
         <item name="fontFamily">@font/varela_round</item>
         <item name="backgroundTint">@color/secondary_text_on_light</item>
     </style>
+
+    <style name="Theme.Baschuna.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/color_accent</item>
+        <item name="colorOnPrimary">@color/light_text</item>
+    </style>
+
+    <style name="Theme.Baschuna.TimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/color_accent</item>
+        <item name="colorOnPrimary">@color/light_text</item>
+    </style>
 </resources>

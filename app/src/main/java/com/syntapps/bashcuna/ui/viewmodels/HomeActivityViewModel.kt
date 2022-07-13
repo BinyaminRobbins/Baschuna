@@ -59,7 +59,7 @@ class HomeActivityViewModel : ViewModel() {
         return fieldOptions
     }
 
-    val newJobOffer = JobOffer()
+    var newJobOffer = JobOffer()
     val newJobOfferLiveData = MutableLiveData(newJobOffer)
 
     val createNewProjectResult = mainRepository?.getCreateNewProjectResult()
