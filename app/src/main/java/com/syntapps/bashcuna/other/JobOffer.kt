@@ -9,7 +9,7 @@ data class JobOffer(
     var jobStartTime: Timestamp? = null,
     var jobEndTime: Timestamp? = null,
     var jobPaymentAmount: Int? = null,
-    var jobPaymentMethods: List<Int>? = null,
+    var jobPaymentMethods: MutableList<Int>? = mutableListOf(),
     var jobLocation: String? = null,
     var jobGeoCoordinates: GeoPoint? = null, //for latitude and longitude of the location - to get distance from user
     var users: List<User>? = null,

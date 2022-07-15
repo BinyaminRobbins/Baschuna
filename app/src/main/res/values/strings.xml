@@ -61,4 +61,7 @@
     <string name="description_not_filled">נא לכתוב הסבר על הפרוייקט</string>
     <string name="payment_not_filled">מינימום 50 ש׳׳ח שכר לעובד</string>
     <string name="missing_details">חסר פרטים</string>
+    <string name="cash">מזומן</string>
+    <string name="bit">ביט</string>
+    <string name="paybox">פייבוקס</string>
 </resources>

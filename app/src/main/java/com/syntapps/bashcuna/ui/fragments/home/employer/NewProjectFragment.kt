@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -24,6 +25,7 @@ import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.other.WorkHireField
 import com.syntapps.bashcuna.other.adapters.FieldsOptionsAdapter
+import com.syntapps.bashcuna.other.constants.PaymentMethodCodes
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 import java.util.*
 
@@ -51,6 +53,10 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
     private val dateCalendar = Calendar.getInstance()
     private val startCalendar = Calendar.getInstance()
     private val endCalendar = Calendar.getInstance()
+
+    private lateinit var cashChip: Chip
+    private lateinit var bitChip: Chip
+    private lateinit var payboxChip: Chip
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,8 +88,54 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
         progressBar = view.findViewById(R.id.pBar)
         finishedButton = view.findViewById(R.id.finishedButton)
 
-        finishedButton.setOnClickListener {
-            createNewProject()
+        bitChip = view.findViewById(R.id.chip_bit)
+        payboxChip = view.findViewById(R.id.chip_paybox)
+        cashChip = view.findViewById(R.id.chip_cash)
+
+        bitChip.setOnCheckedChangeListener { buttonView, isChecked ->
+            PaymentMethodCodes.BIT.apply {
+                if (isChecked) {
+                    currentOffer.jobPaymentMethods?.add(this)
+                    currentOffer.jobPaymentMethods?.sort()
+                    updateJobLiveData()
+                } else {
+                    if (currentOffer.jobPaymentMethods?.contains(this) == true) {
+                        currentOffer.jobPaymentMethods?.remove(this)
+                        currentOffer.jobPaymentMethods?.sort()
+                        updateJobLiveData()
+                    }
+                }
+            }
+        }
+        cashChip.setOnCheckedChangeListener { buttonView, isChecked ->
+            PaymentMethodCodes.CASH.apply {
+                if (isChecked) {
+                    currentOffer.jobPaymentMethods?.add(this)
+                    currentOffer.jobPaymentMethods?.sort()
+                    updateJobLiveData()
+                } else {
+                    if (currentOffer.jobPaymentMethods?.contains(this) == true) {
+                        currentOffer.jobPaymentMethods?.remove(this)
+                        currentOffer.jobPaymentMethods?.sort()
+                        updateJobLiveData()
+                    }
+                }
+            }
+        }
+        payboxChip.setOnCheckedChangeListener { buttonView, isChecked ->
+            PaymentMethodCodes.PAYBOX.apply {
+                if (isChecked) {
+                    currentOffer.jobPaymentMethods?.add(this)
+                    currentOffer.jobPaymentMethods?.sort()
+                    updateJobLiveData()
+                } else {
+                    if (currentOffer.jobPaymentMethods?.contains(this) == true) {
+                        currentOffer.jobPaymentMethods?.remove(this)
+                        currentOffer.jobPaymentMethods?.sort()
+                        updateJobLiveData()
+                    }
+                }
+            }
         }
 
         numPplText = view.findViewById(R.id.num_people_text)
@@ -194,7 +246,6 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
                 ).show()
             }
         }
-
         endTimeField.setStartIconOnClickListener {
             if (currentOffer.jobStartTime != null) {
                 val picker =
@@ -238,6 +289,10 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
                 ).show()
             }
         }
+
+        finishedButton.setOnClickListener {
+            createNewProject()
+        }
     }
 
     override fun onFieldSelected(field: WorkHireField) {
@@ -267,6 +322,8 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
             !currentOffer.jobDescription.isNullOrEmpty()
             &&
             currentOffer.jobHireCount > 0
+            &&
+            !currentOffer.jobPaymentMethods.isNullOrEmpty()
         ) {
             viewModel.createNewProject()
             progressBar.isVisible = true

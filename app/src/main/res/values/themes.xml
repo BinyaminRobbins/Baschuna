@@ -78,4 +78,18 @@
         <item name="colorPrimary">@color/color_accent</item>
         <item name="colorOnPrimary">@color/light_text</item>
     </style>
+
+    <style name="Theme.Bashcuna.MaterialChips" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/color_chip_container_custom</item>
+        <item name="elevation">2dp</item>
+        <item name="android:checkable">true</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="checkedIconTint">@color/light_text</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+        <item name="closeIconVisible">true</item>
+        <item name="closeIconTint">@null</item>
+        <item name="closeIconSize">24sp</item>
+        <item name="closeIconEnabled">true</item>
+    </style>
 </resources>
