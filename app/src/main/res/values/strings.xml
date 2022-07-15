@@ -51,11 +51,14 @@
     <string name="endTime_field">עד השעה</string>
     <string name="more_details">עוד פרטים</string>
     <string name="payment">תשלום</string>
-    <string name="payment_per_worker">שכר לעובד</string>
+    <string name="payment_per_worker">שכר לעובד (בשקלים)</string>
     <string name="submit">סיום</string>
     <string name="creating_project">מייצר פרויקט חדש…</string>
     <string name="choose_date">בחירת תאריך</string>
     <string name="date_before_time">נא לבחור תאריך</string>
     <string name="fill_all_fields">חסר פרטים</string>
     <string name="info_not_suitable">המידע לא מתאימה למה שכבר מלאית</string>
+    <string name="description_not_filled">נא לכתוב הסבר על הפרוייקט</string>
+    <string name="payment_not_filled">מינימום 50 ש׳׳ח שכר לעובד</string>
+    <string name="missing_details">חסר פרטים</string>
 </resources>

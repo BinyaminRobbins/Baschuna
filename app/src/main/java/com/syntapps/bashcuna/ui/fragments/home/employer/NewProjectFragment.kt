@@ -83,9 +83,6 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
         finishedButton = view.findViewById(R.id.finishedButton)
 
         finishedButton.setOnClickListener {
-            progressBar.isVisible = true
-            Toast.makeText(view.context, getString(R.string.creating_project), Toast.LENGTH_SHORT)
-                .show()
             createNewProject()
         }
 
@@ -127,7 +124,7 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
             it?.let {
                 if (it.isSuccess) {
                     progressBar.isVisible = false
-                    Navigation.findNavController(view).popBackStack(R.id.jobsFragment, false)
+                    Navigation.findNavController(view).popBackStack(R.id.jobsFragment, true)
                 } else {
                     Toast.makeText(view.context, it.result, Toast.LENGTH_SHORT).show()
                     progressBar.isVisible = false
@@ -229,7 +226,7 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
                     endTimeField.hint = "${picker.hour}:$min"
                     endCalendar[Calendar.HOUR_OF_DAY] = picker.hour
                     endCalendar[Calendar.MINUTE] = picker.minute
-                    currentOffer.jobEndTime = Timestamp(startCalendar.time)
+                    currentOffer.jobEndTime = Timestamp(endCalendar.time)
                     updateJobLiveData()
                 }
                 picker.show(parentFragmentManager, null)
@@ -258,7 +255,42 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
     }
 
     private fun createNewProject() {
-        viewModel.createNewProject()
+        if (
+            currentOffer.jobStartTime != null
+            &&
+            currentOffer.jobEndTime != null
+            &&
+            currentOffer.jobFieldCode != null
+            &&
+            currentOffer.jobPaymentAmount != null
+            &&
+            !currentOffer.jobDescription.isNullOrEmpty()
+            &&
+            currentOffer.jobHireCount > 0
+        ) {
+            viewModel.createNewProject()
+            progressBar.isVisible = true
+            Toast.makeText(view?.context, getString(R.string.creating_project), Toast.LENGTH_SHORT)
+                .show()
+        } else if (currentOffer.jobDescription.isNullOrEmpty()) {
+            Toast.makeText(
+                view?.context,
+                getString(R.string.description_not_filled),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (currentOffer.jobPaymentAmount == null || currentOffer.jobPaymentAmount!! < 50) {
+            Toast.makeText(
+                view?.context,
+                getString(R.string.payment_not_filled),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                view?.context,
+                getString(R.string.missing_details),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun fillCalendarsWithDate(year: Int, month: Int, day: Int) {

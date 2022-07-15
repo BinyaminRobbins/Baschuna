@@ -3,6 +3,7 @@ package com.syntapps.bashcuna.data
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -11,6 +12,9 @@ import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.other.constants.DatabaseFields
 import com.syntapps.bashcuna.other.constants.JobsConstants
 import com.syntapps.bashcuna.other.returnObjects.CreateNewProjectResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class BashcunaMainRepository {
 
@@ -55,15 +59,24 @@ class BashcunaMainRepository {
         mDatabase
             .collection(DatabaseFields.Collection_Jobs.fieldName)
             .whereEqualTo(JobsConstants.OFFERING_USER.fieldName, mAuth.currentUser?.uid.toString())
-            //.whereEqualTo(JobsConstants.JOB_CLOSED.fieldName, true)
-            .get()
-            .addOnSuccessListener {
-                Log.i("MainRepoTAG", "loaded offers")
-                if (it != null && !it.isEmpty) {
-                    Log.i("MainRepoTAG", "loaded offers NOT EMPTY")
-                    for (jobOffer in it.documents) {
-                        offeredJobs.add(jobOffer.toObject<JobOffer>())
-                        offeredJobsLiveData.postValue(offeredJobs)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.w(TAG, "Listen failed.", error)
+                    return@addSnapshotListener
+                }
+                value?.let {
+                    if (offeredJobs.isNullOrEmpty()) {
+                        for (jobOffer in it.documents) {
+                            offeredJobs.add(jobOffer.toObject<JobOffer>())
+                            offeredJobsLiveData.postValue(offeredJobs)
+                        }
+                    } else {
+                        for (jobOffer in it.documentChanges) {
+                            if (jobOffer.type == DocumentChange.Type.ADDED) {
+                                offeredJobs.add(jobOffer.document.toObject())
+                                offeredJobsLiveData.postValue(offeredJobs)
+                            }
+                        }
                     }
                 }
             }
@@ -75,20 +88,24 @@ class BashcunaMainRepository {
     }
 
     fun createNewProject(jobOffer: JobOffer) {
-        mDatabase
-            .collection(DatabaseFields.Collection_Jobs.fieldName)
-            .add(jobOffer)
-            .addOnSuccessListener {
-                if (it != null) {
-                    createNewProjectResult.value = CreateNewProjectResult(true)
-                } else {
-                    createNewProjectResult.value = CreateNewProjectResult(false)
-                }
-            }.addOnFailureListener {
-                createNewProjectResult.value = CreateNewProjectResult(false, it.localizedMessage)
+        jobOffer.jobUserOfferingID = mAuth.currentUser?.uid
+        jobOffer.jobUserOfferingID?.let {
+            CoroutineScope(Dispatchers.IO).launch {
+                mDatabase
+                    .collection(DatabaseFields.Collection_Jobs.fieldName)
+                    .add(jobOffer)
+                    .addOnSuccessListener {
+                        if (it != null) {
+                            createNewProjectResult.postValue(CreateNewProjectResult(true))
+                        } else {
+                            createNewProjectResult.postValue(CreateNewProjectResult(false))
+                        }
+                    }.addOnFailureListener {
+                        createNewProjectResult.value =
+                            CreateNewProjectResult(false, it.localizedMessage)
+                    }
             }
-
+        }
     }
-
 
 }

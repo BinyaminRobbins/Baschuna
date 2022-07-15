@@ -13,7 +13,6 @@ data class JobOffer(
     var jobLocation: String? = null,
     var jobGeoCoordinates: GeoPoint? = null, //for latitude and longitude of the location - to get distance from user
     var users: List<User>? = null,
-    var jobUserCap: Int? = null,
     var jobDescription: String? = null,
     var jobIsClosed: Boolean = false,
     var jobHireCount: Int = 0,
