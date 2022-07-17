@@ -66,4 +66,6 @@ class HomeActivityViewModel : ViewModel() {
     fun createNewProject() {
         mainRepository?.createNewProject(newJobOffer)
     }
+
+    val currentPosition = MutableLiveData(0)//the position of the create new project flow
 }

@@ -64,7 +64,7 @@ class JobsFragment : Fragment() {
 
         extendedFab = view.findViewById(R.id.extended_fab)
         extendedFab.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.newProjectFragment)
+            Navigation.findNavController(view).navigate(R.id.action_jobsFragment_to_newProjectBase)
         }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

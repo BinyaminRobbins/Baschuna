@@ -30,7 +30,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setupNavController() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_home)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.newProjectFragment) {
+            if (destination.id == R.id.newProjectBase) {
                 topAppBar.also {
                     it.setNavigationIcon(R.drawable.ic_back)
                 }
@@ -52,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(topAppBar)
         topAppBar.setNavigationOnClickListener {
             when (navController.currentDestination?.id) {
-                R.id.newProjectFragment -> {
+                R.id.newProjectBase -> {
                     navController.popBackStack()
                 }
             }

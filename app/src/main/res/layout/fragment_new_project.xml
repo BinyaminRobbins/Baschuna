@@ -40,20 +40,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/secular_one"
-                    android:text="@string/job_type"
-                    android:textSize="18sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fieldRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:alpha="0.8"
                     android:fontFamily="@font/varela_round"
@@ -92,91 +78,6 @@
                 </androidx.cardview.widget.CardView>
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:alpha="0.8"
-                    android:fontFamily="@font/varela_round"
-                    android:text="@string/more_details"
-                    android:textSize="14sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/date_field"
-                    style="@style/Theme.Baschuna.FilledTextField"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:elevation="1dp"
-                    android:hint="@string/date"
-                    app:boxBackgroundColor="@color/background_light_primary"
-                    app:startIconDrawable="@drawable/ic_date">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/endTime_field"
-                        style="@style/Theme.Baschuna.FilledTextField"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="?attr/colorPrimary"
-                        android:elevation="1dp"
-                        android:gravity="center"
-                        android:hint="@string/endTime_field"
-                        app:startIconDrawable="@drawable/ic_clock">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Space
-                        android:layout_width="30dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="0" />
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/startTime_field"
-                        style="@style/Theme.Baschuna.FilledTextField"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="?attr/colorPrimary"
-                        android:elevation="1dp"
-                        android:gravity="center"
-                        android:hint="@string/start_time"
-                        app:startIconDrawable="@drawable/ic_clock">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"

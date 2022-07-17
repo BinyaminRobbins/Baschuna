@@ -71,17 +71,6 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
 
         currentOffer = viewModel.newJobOffer
 
-        fieldsRecyclerView = view.findViewById(R.id.fieldRv)
-        fieldOptions = viewModel.getFieldOptions()
-        fieldsOptionsAdapter = FieldsOptionsAdapter(requireContext(), fieldOptions, this)
-        fieldsRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        fieldsRecyclerView.adapter = fieldsOptionsAdapter
-
-        dateField = view.findViewById(R.id.date_field)
-        startTimeField = view.findViewById(R.id.startTime_field)
-        endTimeField = view.findViewById(R.id.endTime_field)
-
         descriptionText = view.findViewById(R.id.description_text)
         paymentAmountText = view.findViewById(R.id.payment_amount_field)
 
@@ -303,6 +292,19 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
     private fun updateJobLiveData() {
         viewModel.newJobOfferLiveData.value = currentOffer
     }
+    private fun fillCalendarsWithDate(year: Int, month: Int, day: Int) {
+        startCalendar.also {
+            it[Calendar.YEAR] = year
+            it[Calendar.MONTH] = month
+            it[Calendar.DAY_OF_MONTH] = day
+        }
+        endCalendar.also {
+            it[Calendar.YEAR] = year
+            it[Calendar.MONTH] = month
+            it[Calendar.DAY_OF_MONTH] = day
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -350,18 +352,6 @@ class NewProjectFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListe
         }
     }
 
-    private fun fillCalendarsWithDate(year: Int, month: Int, day: Int) {
-        startCalendar.also {
-            it[Calendar.YEAR] = year
-            it[Calendar.MONTH] = month
-            it[Calendar.DAY_OF_MONTH] = day
-        }
-        endCalendar.also {
-            it[Calendar.YEAR] = year
-            it[Calendar.MONTH] = month
-            it[Calendar.DAY_OF_MONTH] = day
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()

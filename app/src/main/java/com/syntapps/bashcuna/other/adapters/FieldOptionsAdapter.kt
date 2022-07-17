@@ -18,13 +18,14 @@ import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.WorkHireField
 import com.syntapps.bashcuna.ui.fragments.auth.AuthDetailsThree
 import com.syntapps.bashcuna.ui.fragments.home.employer.NewProjectFragment
+import com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectTypeFragment
 
 class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewHolder>() {
 
     private lateinit var mContext: Context
     private lateinit var favoriteFields: List<WorkHireField>
     private var authDetailsThree: AuthDetailsThree? = null
-    private var newProjectFragment: NewProjectFragment? = null
+    private var newProjectTypeFragment: NewProjectTypeFragment? = null
 
     private var prevCardView: CardView? = null
     private var prevTextView: TextView? = null
@@ -44,11 +45,11 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
     constructor(
         mContext: Context,
         favoriteFields: List<WorkHireField>,
-        mFragment: NewProjectFragment
+        mFragment: NewProjectTypeFragment
     ) : this() {
         this.mContext = mContext
         this.favoriteFields = favoriteFields
-        this.newProjectFragment = mFragment
+        this.newProjectTypeFragment = mFragment
     }
 
 
@@ -65,19 +66,6 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
                 .load(field.fieldIcon)
                 .into(icon)
             text.text = field.fieldName
-
-            if (newProjectFragment != null) {
-                icon.layoutParams = LinearLayout.LayoutParams(70, 70).apply {
-                    this.bottomMargin = 10
-                }
-                text.textSize = 12F
-                cardView.layoutParams = RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                ).apply {
-                    this.setMargins(15, 5, 15, 5)
-                }
-            }
 
             cardView.setOnClickListener {
                 if (field.isSelected) {
@@ -107,7 +95,7 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
                             )
                         )
                     )
-                    if (newProjectFragment != null) {
+                    if (newProjectTypeFragment != null) {
                         if (prevCardView != null && prevTextView != null && prevField != null && prevIcon != null) {
                             prevCardView!!.setCardBackgroundColor(mContext.getColor(R.color.background_light_primary))
                             prevTextView!!.setTextColor(mContext.getColor(R.color.color_accent))
@@ -133,7 +121,7 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
                 if (authDetailsThree != null) {
                     authDetailsThree!!.onFieldSelected(field)
                 } else {
-                    newProjectFragment?.onFieldSelected(field)
+                    newProjectTypeFragment?.onFieldSelected(field)
                 }
             }
         }

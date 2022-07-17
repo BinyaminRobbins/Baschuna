@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_project_nav_graph.xml"
+    app:startDestination="@id/newProjectTypeFragment">
+
+    <fragment
+        android:id="@+id/newProjectTypeFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectTypeFragment"
+        android:label="NewProjectTypeFragment"
+        tools:layout="@layout/fragment_new_project_type">
+        <action
+            android:id="@+id/action_newProjectTypeFragment_to_newProjectDateTimeFragment"
+            app:destination="@id/newProjectDateTimeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newProjectDateTimeFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectDateTimeFragment"
+        android:label="NewProjectDateTimeFragment"
+        tools:layout="@layout/fragment_new_project_date_time">
+        <action
+            android:id="@+id/action_newProjectDateTimeFragment_to_newProjectLocationFragment"
+            app:destination="@id/newProjectLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newProjectLocationFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectLocationFragment"
+        android:label="fragment_new_project_location"
+        tools:layout="@layout/fragment_new_project_location" />
+</navigation>
