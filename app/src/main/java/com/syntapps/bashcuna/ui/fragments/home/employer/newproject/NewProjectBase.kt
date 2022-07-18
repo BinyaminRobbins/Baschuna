@@ -58,6 +58,11 @@ class NewProjectBase : Fragment(), View.OnClickListener {
                         viewModel.currentPosition.postValue(2)
                     }
                 }
+                2 -> {
+                    if (viewModel.newJobOffer.jobGeoCoordinates != null) {
+                        viewModel.currentPosition.postValue(3)
+                    }
+                }
             }
         }
     }

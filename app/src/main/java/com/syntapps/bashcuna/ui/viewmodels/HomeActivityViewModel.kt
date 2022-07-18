@@ -68,4 +68,7 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     val currentPosition = MutableLiveData(0)//the position of the create new project flow
+
+    val userLocation = mutableMapOf<String, Double>("LAT" to 31.8903, "LONG" to 35.0104)
+    val lastLocationLiveData = MutableLiveData<Map<String, Double>>(userLocation)
 }

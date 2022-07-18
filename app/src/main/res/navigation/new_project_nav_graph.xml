@@ -27,5 +27,14 @@
         android:id="@+id/newProjectLocationFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectLocationFragment"
         android:label="fragment_new_project_location"
-        tools:layout="@layout/fragment_new_project_location" />
+        tools:layout="@layout/fragment_new_project_location">
+        <action
+            android:id="@+id/action_newProjectLocationFragment_to_newProjectDescriptionFragment"
+            app:destination="@id/newProjectDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newProjectDescriptionFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectDescriptionFragment"
+        android:label="NewProjectDescriptionFragment"
+        tools:layout="@layout/fragment_new_project_description" />
 </navigation>

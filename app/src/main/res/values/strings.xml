@@ -64,4 +64,6 @@
     <string name="cash">מזומן</string>
     <string name="bit">ביט</string>
     <string name="paybox">פייבוקס</string>
+    <string name="location_long_press">תסמנו את מיקום העבודה בלחיצה ארוכה במפה.</string>
+    <string name="show_only_to_workers">(כדי לשמור על המידע הפרטית שלכם אנחנו נראה את מיקום הפרוייקט רק לעובדים שיתקבלו לעבודה זו)</string>
 </resources>
