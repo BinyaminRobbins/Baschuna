@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,40 +24,27 @@
         android:text="@string/show_only_to_workers"
         android:textSize="12sp" />
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
+        android:elevation="2dp"
+        map:cardBackgroundColor="@color/background_light_primary"
+        map:cardCornerRadius="4dp"
+        map:contentPadding="4dp">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:contentDescription="search icon"
-            android:elevation="1dp"
-            android:src="@drawable/ic_search"
-            app:tint="@color/secondary_text_on_light"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/address_text"
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/secular_one"
-            android:gravity="center"
-            android:textColor="@color/secondary_text_on_light"
-            android:textSize="16sp" />
-    </LinearLayout>
+            android:layout_margin="2dp" />
+    </androidx.cardview.widget.CardView>
+
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         map:cameraTilt="30"

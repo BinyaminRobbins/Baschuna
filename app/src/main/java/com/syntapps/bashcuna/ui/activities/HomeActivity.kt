@@ -1,7 +1,6 @@
 package com.syntapps.bashcuna.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -53,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
         topAppBar.setNavigationOnClickListener {
             when (navController.currentDestination?.id) {
                 R.id.newProjectBase -> {
-                    navController.popBackStack()
+                    navController.popBackStack(R.id.jobsFragment, true)
                 }
             }
         }
@@ -75,10 +74,6 @@ class HomeActivity : AppCompatActivity() {
                     viewModel.futureProjects.clear()
                     viewModel.pastProjects.clear()
                     it.forEach { it_jobOffer ->
-                        Log.i(
-                            "HomeActivityTAG",
-                            "new project found. jobUserOfferingID = ${it_jobOffer?.jobUserOfferingID}"
-                        )
                         val jobEndDate = it_jobOffer?.jobEndTime?.toDate()
                         try {
                             if (jobEndDate?.compareTo(getDate())!! <= 0) {
@@ -87,8 +82,6 @@ class HomeActivity : AppCompatActivity() {
                                 viewModel.futureProjects.add(it_jobOffer)
                             }
                         } catch (e: NullPointerException) {
-                            Log.e("JobsFragmentTAG", "value is null")
-                            Log.e("JobsFragmentTAG", e.message.toString())
                         }
                     }
                 }

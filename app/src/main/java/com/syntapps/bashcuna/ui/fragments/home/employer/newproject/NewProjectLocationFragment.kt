@@ -11,15 +11,18 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,8 +30,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.firestore.GeoPoint
+import com.syntapps.bashcuna.BuildConfig
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 import java.util.*
@@ -40,9 +48,7 @@ class NewProjectLocationFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var mapFragment: SupportMapFragment? = null
     private var mMap: GoogleMap? = null
-    private val location = mutableMapOf<String, Double>()
-
-    private lateinit var addressText: TextView
+    private lateinit var autocompleteFragment: AutocompleteSupportFragment
 
     @SuppressLint("SetTextI18n")
     private val callback = OnMapReadyCallback { googleMap ->
@@ -57,16 +63,14 @@ class NewProjectLocationFragment : Fragment() {
          * user has installed Google Play services and returned to the app.
          */
         val israel = LatLng(31.0461, 34.8516)
-        googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        googleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(israel))
         googleMap.setMinZoomPreference(10F)
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(15F))
 
         googleMap.setOnMapLongClickListener {
-            googleMap.clear()
-            googleMap.addMarker(MarkerOptions().position(it))
             val address = getAddressFromLocation(it)[0]
-            addressText.text = "${address.thoroughfare}, ${address.subThoroughfare}"
+            autocompleteFragment.setText("${address.thoroughfare} ${address.subThoroughfare}")
             viewModel.newJobOffer.jobGeoCoordinates = GeoPoint(it.latitude, it.longitude)
         }
 
@@ -90,8 +94,6 @@ class NewProjectLocationFragment : Fragment() {
         getLocation()
         viewModel.lastLocationLiveData.observe(viewLifecycleOwner) {
             it?.let {
-                this.location["LAT"] = it["LAT"] as Double
-                this.location["LONG"] = it["LONG"] as Double
                 val userLocation = LatLng(it["LAT"] as Double, it["LONG"] as Double)
                 mMap?.moveCamera(CameraUpdateFactory.newLatLng(userLocation))
                 mMap?.moveCamera(CameraUpdateFactory.zoomTo(18F))
@@ -102,7 +104,46 @@ class NewProjectLocationFragment : Fragment() {
             if (it == 3) findNavController().navigate(R.id.newProjectDescriptionFragment)
         }
 
-        addressText = view.findViewById(R.id.address_text)
+        Places.initialize(view.context, BuildConfig.MAPS_API_KEY)
+        autocompleteFragment =
+            childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                    as AutocompleteSupportFragment
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(
+            listOf(
+                Place.Field.NAME,
+                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG
+            )
+        )
+            .setCountry("il")
+            .setTypeFilter(TypeFilter.ADDRESS)
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                place.latLng?.let {
+                    mMap?.moveCamera(CameraUpdateFactory.newLatLng(it))
+                    mMap?.moveCamera(CameraUpdateFactory.zoomTo(17F))
+                    viewModel.newJobOffer.jobGeoCoordinates =
+                        GeoPoint(
+                            it.latitude,
+                            it.longitude
+                        )
+                }
+            }
+
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.i("MAPTAG", "An error occurred: $status")
+            }
+        })
+        autocompleteFragment.view?.findViewById<AppCompatImageButton>(R.id.places_autocomplete_clear_button)
+            ?.setOnClickListener {
+                viewModel.newJobOffer.jobGeoCoordinates = null
+                autocompleteFragment.setText(null)
+            }
     }
 
     private fun isLocationEnabled(): Boolean {
@@ -182,22 +223,10 @@ class NewProjectLocationFragment : Fragment() {
         return geocoder.getFromLocation(point.latitude, point.longitude, maxResults)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setUpMapIfNeeded()
-    }
-
     private fun setUpMapIfNeeded() {
         if (mMap == null) {
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
             mapFragment?.getMapAsync(callback)
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapFragment?.let { childFragmentManager.beginTransaction().remove(it).commit() }
-    }
-
-
 }
