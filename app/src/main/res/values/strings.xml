@@ -54,6 +54,7 @@
     <string name="payment_per_worker">שכר לעובד (בשקלים)</string>
     <string name="submit">סיום</string>
     <string name="creating_project">מייצר פרויקט חדש…</string>
+    <string name="created_project">פרויקט מיוצר בהצלחה והוסף לפרויקטים שלך</string>
     <string name="choose_date">בחירת תאריך</string>
     <string name="date_before_time">נא לבחור תאריך</string>
     <string name="fill_all_fields">חסר פרטים</string>

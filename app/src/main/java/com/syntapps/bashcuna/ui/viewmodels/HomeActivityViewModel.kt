@@ -72,8 +72,7 @@ class HomeActivityViewModel : ViewModel() {
         1 to R.id.newProjectDateTimeFragment,
         2 to R.id.newProjectLocationFragment,
         3 to R.id.newProjectDescriptionFragment,
-        4 to R.id.newProjectWorkerPaymentsFragment,
-        5 to R.id.newProjectSummary
+        4 to R.id.newProjectWorkerPaymentsFragment
     )
 
     val userLocation = mutableMapOf("LAT" to 31.8903, "LONG" to 35.0104)

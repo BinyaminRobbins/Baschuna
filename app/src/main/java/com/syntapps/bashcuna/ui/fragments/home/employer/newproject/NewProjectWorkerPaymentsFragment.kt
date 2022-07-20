@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import com.syntapps.bashcuna.R
@@ -105,6 +104,24 @@ class NewProjectWorkerPaymentsFragment : Fragment() {
                         viewModel.newJobOffer.jobPaymentMethods?.sort()
                     }
                 }
+            }
+        }
+
+        if (viewModel.newJobOffer.jobPaymentAmount != null) {
+            paymentAmountText.setText(viewModel.newJobOffer.jobPaymentAmount!!)
+        }
+        if (viewModel.newJobOffer.jobHireCount > 0) {
+            numPplText.text = viewModel.newJobOffer.jobHireCount.toString()
+        }
+        if (!viewModel.newJobOffer.jobPaymentMethods.isNullOrEmpty()) {
+            if (viewModel.newJobOffer.jobPaymentMethods!!.contains(PaymentMethodCodes.BIT)) {
+                bitChip.isChecked = true
+            }
+            if (viewModel.newJobOffer.jobPaymentMethods!!.contains(PaymentMethodCodes.PAYBOX)) {
+                payboxChip.isChecked = true
+            }
+            if (viewModel.newJobOffer.jobPaymentMethods!!.contains(PaymentMethodCodes.CASH)) {
+                cashChip.isChecked = true
             }
         }
 

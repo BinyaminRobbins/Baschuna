@@ -19,7 +19,6 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -137,6 +136,21 @@ class NewProjectLocationFragment : Fragment() {
                 viewModel.newJobOffer.jobGeoCoordinates = null
                 autocompleteFragment.setText(null)
             }
+
+        if (viewModel.newJobOffer.jobGeoCoordinates != null) {
+            val coordinates = viewModel.newJobOffer.jobGeoCoordinates
+            val geocoder = Geocoder(view.context, Locale.getDefault())
+            coordinates?.let {
+                val address = geocoder.getFromLocation(
+                    coordinates.latitude,
+                    coordinates.longitude, 1
+                )[0]
+                autocompleteFragment.setText("${address.thoroughfare} ${address.subThoroughfare}")
+                viewModel.newJobOffer.jobGeoCoordinates = GeoPoint(it.latitude, it.longitude)
+                mMap?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(it.latitude, it.longitude)))
+                mMap?.moveCamera(CameraUpdateFactory.zoomTo(18F))
+            }
+        }
     }
 
     private fun isLocationEnabled(): Boolean {

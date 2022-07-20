@@ -8,7 +8,6 @@ import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 
@@ -32,6 +31,10 @@ class NewProjectDescriptionFragment : Fragment() {
         description = view.findViewById(R.id.description_text)
         description.addTextChangedListener {
             viewModel.newJobOffer.jobDescription = it.toString().trim()
+        }
+
+        if (viewModel.newJobOffer.jobDescription != null) {
+            description.setText(viewModel.newJobOffer.jobDescription.toString())
         }
     }
 }
