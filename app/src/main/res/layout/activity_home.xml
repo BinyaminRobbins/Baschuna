@@ -14,7 +14,9 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@color/background_light_primary"
+        android:elevation="2dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

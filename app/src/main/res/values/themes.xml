@@ -16,6 +16,7 @@
         <item name="android:windowBackground" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:editTextBackground" tools:targetApi="l">@drawable/custom_edittext</item>
         <item name="android:textColor" tools:targetApi="l">@color/dark_text</item>
+        <item name="navigationIconTint">@color/black</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
@@ -41,15 +42,18 @@
     <style name="MyToggleButtonsTheme" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="backgroundTint">@color/custom_toggle_buttons</item>
         <item name="cornerRadius">10dp</item>
-        <item name="elevation">0dp</item>
         <item name="strokeColor">@color/color_accent</item>
         <item name="strokeWidth">2dp</item>
     </style>
 
     <style name="Theme.Baschuna.FilledTextField" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textColorHint">#FFFFFF</item>
-        <item name="startIconTint">#FFFFFF</item>
-        <item name="boxBackgroundColor">@color/color_accent</item>
+        <item name="android:textColorHint">@color/color_accent</item>
+        <item name="startIconTint">@color/color_accent</item>
+        <item name="boxBackgroundColor">@color/background_light_primary</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintTextColor">@color/color_accent</item>
     </style>
 
     <style name="Theme.Baschuna.OutlinedTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -58,5 +62,35 @@
         <item name="startIconTint">@color/primary_text_on_light</item>
     </style>
 
+    <style name="Theme.Baschuna.ButtonText" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/varela_round</item>
+        <item name="backgroundTint">@color/secondary_text_on_light</item>
+    </style>
 
+    <style name="Theme.Baschuna.DatePicker" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/color_accent</item>
+        <item name="colorOnPrimary">@color/light_text</item>
+    </style>
+
+    <style name="Theme.Baschuna.TimePicker" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/color_accent</item>
+        <item name="colorOnPrimary">@color/light_text</item>
+    </style>
+
+    <style name="Theme.Bashcuna.MaterialChips" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/color_chip_container_custom</item>
+        <item name="elevation">2dp</item>
+        <item name="android:checkable">true</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="android:textColor">@color/light_text</item>
+        <item name="checkedIconTint">@color/light_text</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+        <item name="closeIconVisible">true</item>
+        <item name="closeIconTint">@null</item>
+        <item name="closeIconSize">24sp</item>
+        <item name="closeIconEnabled">true</item>
+    </style>
 </resources>

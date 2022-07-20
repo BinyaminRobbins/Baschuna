@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.CurrentUser
+import com.syntapps.bashcuna.ui.activities.HomeActivity
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 
 class WorkerOrEmployerFragment : Fragment() {

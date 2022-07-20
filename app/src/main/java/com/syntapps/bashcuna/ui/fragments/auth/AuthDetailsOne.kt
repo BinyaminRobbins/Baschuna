@@ -42,18 +42,18 @@ class AuthDetailsOne : Fragment() {
         }
 
         agePicker = view.findViewById(R.id.age_picker)
-        agePicker.setOnValueChangedListener { picker, oldVal, newVal ->
+        agePicker.setOnValueChangedListener { _, _, newVal ->
             viewModel.getCurrentUser()?.age = newVal
         }
 
         manRadioButton = view.findViewById(R.id.man_button)
         womanRadioButton = view.findViewById(R.id.woman_button)
-        manRadioButton.setOnCheckedChangeListener { buttonView, isChecked ->
+        manRadioButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) viewModel.getCurrentUser()?.let {
                 it.gender = it.GENDER_MAN
             }
         }
-        womanRadioButton.setOnCheckedChangeListener { buttonView, isChecked ->
+        womanRadioButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) viewModel.getCurrentUser()?.let {
                 it.gender = it.GENDER_WOMAN
             }

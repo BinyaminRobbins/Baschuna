@@ -1,7 +1,6 @@
 package com.syntapps.bashcuna.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +12,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.Timestamp
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.CurrentUser
+import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
@@ -29,6 +29,17 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupNavController() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_home)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.newProjectBase) {
+                topAppBar.also {
+                    it.setNavigationIcon(R.drawable.ic_back)
+                }
+            } else {
+                topAppBar.also {
+                    it.setNavigationIcon(R.drawable.menu_icon)
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +47,17 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         viewModel = ViewModelProvider(this)[HomeActivityViewModel::class.java]
-        setupNavController()
 
         topAppBar = findViewById(R.id.topAppBar)
         setSupportActionBar(topAppBar)
         topAppBar.setNavigationOnClickListener {
-            Log.i(TAG, "Nav Icon Clicked")
-            // TODO: 07/07/2022 nav icon click
+            when (navController.currentDestination?.id) {
+                R.id.newProjectBase -> {
+                    navController.popBackStack(R.id.jobsFragment, true)
+                }
+            }
         }
+        setupNavController()
 
         viewModel.getUser()?.observe(this) {
             val actionView: View? = menu?.findItem(R.id.menu_item_profile)?.actionView
@@ -69,10 +83,11 @@ class HomeActivity : AppCompatActivity() {
                                 viewModel.futureProjects.add(it_jobOffer)
                             }
                         } catch (e: NullPointerException) {
-                            Log.e("JobsFragmentTAG", "value is null")
-                            Log.e("JobsFragmentTAG", e.message.toString())
                         }
                     }
+                }
+                viewModel.currentPosition.observe(this) { pos ->
+                    if (pos == -1) viewModel.newJobOffer = JobOffer()
                 }
             } else if (it?.getRole() == CurrentUser.ROLE_WORKER) {
 
@@ -87,7 +102,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.i(TAG, "menu function")
         menuInflater.inflate(R.menu.top_app_bar_menu, menu)
         this.menu = menu
         return true

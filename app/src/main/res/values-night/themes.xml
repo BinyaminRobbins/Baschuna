@@ -16,6 +16,7 @@
         <item name="android:editTextBackground" tools:targetApi="l">@drawable/custom_edittext_night</item>
         <item name="cardBackgroundColor" tools:targetApi="l">?attr/colorPrimary</item>
         <item name="android:textColor" tools:targetApi="l">@color/light_text</item>
+        <item name="navigationIconTint">@color/black</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">

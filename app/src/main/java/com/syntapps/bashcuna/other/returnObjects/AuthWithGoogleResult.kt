@@ -1,4 +1,4 @@
-package com.syntapps.bashcuna.other
+package com.syntapps.bashcuna.other.returnObjects
 
 data class AuthWithGoogleResult(
     val isSuccess: Boolean,

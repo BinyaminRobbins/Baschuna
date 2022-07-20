@@ -1,6 +1,7 @@
 package com.syntapps.bashcuna.other.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +16,46 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ProjectsAdapter(
     private val fragment: Fragment,
     private val jobOffers: MutableList<JobOffer?>
 ) : RecyclerView.Adapter<ProjectsAdapter.mViewHolder>() {
+
+    private fun getCalendar(date: Date?): Calendar? {
+        date?.let {
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            return calendar
+        }
+        return null
+    }
+
+    private fun getCalendarMinute(c: Calendar?): String {
+        c?.let {
+            val minute = c.get(Calendar.MINUTE)
+            Log.i("MINUTE", minute.toString())
+            if (minute < 10) { //i.e single digits
+                val newMinute = "0$minute"
+                Log.i("MINUTE", "new minute: " + newMinute.toInt().toString())
+                return newMinute
+            } else return minute.toString()
+        }
+        return "-1"
+    }
+
+    private fun getCalendarHour(c: Calendar?): String {
+        c?.let {
+            val hour = c.get(Calendar.HOUR_OF_DAY)
+            if (hour < 10) { //i.e single digits
+                val newHour = "0$hour"
+                Log.i("MINUTE", "new minute: " + newHour.toInt().toString())
+                return newHour
+            } else return hour.toString()
+        }
+        return "-1"
+    }
 
     inner class mViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var peopleRV: RecyclerView = itemView.findViewById(R.id.people_rv)
@@ -30,13 +66,18 @@ class ProjectsAdapter(
 
         @SuppressLint("SetTextI18n")
         fun setData(offer: JobOffer) {
+            val startCalendar = getCalendar(offer.jobStartTime?.toDate())
+            val endCalendar = getCalendar(offer.jobEndTime?.toDate())
+
             timeText.text =
-                offer.jobStartTime.toDate().time.toString() + " - " + offer.jobEndTime.toDate().time.toString()
-            moneyText.text = offer.jobPaymentAmount.toString()
+                "${getCalendarHour(startCalendar)}:${getCalendarMinute(startCalendar)}" +
+                        "  -  " +
+                        "${getCalendarHour(endCalendar)}:${getCalendarMinute(endCalendar)}"
+            moneyText.text = "₪${offer.jobPaymentAmount.toString()}"
             locationText.text = offer.jobLocation
             fieldText.text =
                 offer.jobFieldCode // TODO: 06/07/2022 here we need to store in local db the fields and codes - then we will get the info by code
-            peopleRV.adapter = PeopleAdapter(offer.users)
+            peopleRV.adapter = offer.users?.let { PeopleAdapter(it) }
         }
     }
 
