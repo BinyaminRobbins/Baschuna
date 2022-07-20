@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -17,7 +15,6 @@ import com.bumptech.glide.Glide
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.WorkHireField
 import com.syntapps.bashcuna.ui.fragments.auth.AuthDetailsThree
-import com.syntapps.bashcuna.ui.fragments.home.employer.NewProjectFragment
 import com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectTypeFragment
 
 class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewHolder>() {
@@ -61,20 +58,62 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
         private val cardView = itemView.findViewById<CardView>(R.id.cardView)
         private val icon = itemView.findViewById<ImageView>(R.id.icon_view)
         private val text = itemView.findViewById<TextView>(R.id.text_view)
+
         fun setData(field: WorkHireField) {
             Glide.with(mContext)
                 .load(field.fieldIcon)
                 .into(icon)
             text.text = field.fieldName
 
+            if (field.isSelected) {
+                //initialize selected field/s
+                selectField(field)
+            } else unselectField(field)
+
             cardView.setOnClickListener {
                 if (field.isSelected) {
-                    //unselect the field
-                    field.isSelected = false
-                    cardView.setCardBackgroundColor(mContext.getColor(R.color.background_light_primary))
-                    text.setTextColor(mContext.getColor(R.color.color_accent))
+                    unselectField(field)
+                } else {
+                    selectField(field)
+                }
+            }
+        }
+
+        private fun unselectField(field: WorkHireField) {
+            //unselect the field
+            field.isSelected = false
+            cardView.setCardBackgroundColor(mContext.getColor(R.color.background_light_primary))
+            text.setTextColor(mContext.getColor(R.color.color_accent))
+            ImageViewCompat.setImageTintList(
+                icon,
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        mContext,
+                        R.color.color_accent
+                    )
+                )
+            )
+        }
+
+        private fun selectField(field: WorkHireField) {
+            field.isSelected = true
+            cardView.setCardBackgroundColor(mContext.getColor(R.color.color_accent))
+            text.setTextColor(mContext.getColor(R.color.background_light_primary))
+            ImageViewCompat.setImageTintList(
+                icon,
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        mContext,
+                        R.color.background_light_primary
+                    )
+                )
+            )
+            if (newProjectTypeFragment != null) {
+                if (prevCardView != null && prevTextView != null && prevField != null && prevIcon != null) {
+                    prevCardView!!.setCardBackgroundColor(mContext.getColor(R.color.background_light_primary))
+                    prevTextView!!.setTextColor(mContext.getColor(R.color.color_accent))
                     ImageViewCompat.setImageTintList(
-                        icon,
+                        prevIcon!!,
                         ColorStateList.valueOf(
                             ContextCompat.getColor(
                                 mContext,
@@ -82,48 +121,16 @@ class FieldsOptionsAdapter() : RecyclerView.Adapter<FieldsOptionsAdapter.MyViewH
                             )
                         )
                     )
-                } else {
-                    field.isSelected = true
-                    cardView.setCardBackgroundColor(mContext.getColor(R.color.color_accent))
-                    text.setTextColor(mContext.getColor(R.color.background_light_primary))
-                    ImageViewCompat.setImageTintList(
-                        icon,
-                        ColorStateList.valueOf(
-                            ContextCompat.getColor(
-                                mContext,
-                                R.color.background_light_primary
-                            )
-                        )
-                    )
-                    if (newProjectTypeFragment != null) {
-                        if (prevCardView != null && prevTextView != null && prevField != null && prevIcon != null) {
-                            prevCardView!!.setCardBackgroundColor(mContext.getColor(R.color.background_light_primary))
-                            prevTextView!!.setTextColor(mContext.getColor(R.color.color_accent))
-                            ImageViewCompat.setImageTintList(
-                                prevIcon!!,
-                                ColorStateList.valueOf(
-                                    ContextCompat.getColor(
-                                        mContext,
-                                        R.color.color_accent
-                                    )
-                                )
-                            )
-                            prevField!!.isSelected = false
-                        }
-                        prevCardView = cardView
-                        prevTextView = text
-                        prevIcon = icon
-                        prevField = field
-                    }
-                    //select the field
-
+                    prevField!!.isSelected = false
                 }
-                if (authDetailsThree != null) {
-                    authDetailsThree!!.onFieldSelected(field)
-                } else {
-                    newProjectTypeFragment?.onFieldSelected(field)
-                }
+                prevCardView = cardView
+                prevTextView = text
+                prevIcon = icon
+                prevField = field
             }
+            //select the field
+            if (authDetailsThree != null) authDetailsThree!!.onFieldSelected(field)
+            else newProjectTypeFragment?.onFieldSelected(field)
         }
 
     }

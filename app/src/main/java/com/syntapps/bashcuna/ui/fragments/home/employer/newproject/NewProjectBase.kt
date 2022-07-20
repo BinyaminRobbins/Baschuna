@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ProgressBar
-import androidx.core.view.isVisible
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.other.returnObjects.CreateNewProjectResult
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 
-class NewProjectBase : Fragment(), View.OnClickListener {
-
-    interface NextButtonClicked {
-        fun next(): Boolean
-    }
+class NewProjectBase : Fragment() {
 
     private val viewModel: HomeActivityViewModel by activityViewModels()
+
+    private lateinit var pb: ProgressBar
     private lateinit var nextButton: ImageButton
 
     override fun onCreateView(
@@ -33,38 +34,70 @@ class NewProjectBase : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         nextButton = view.findViewById(R.id.next_button)
-        nextButton.setOnClickListener(this)
+        pb = view.findViewById(R.id.pb)
 
-        val pb: ProgressBar = view.findViewById(R.id.pb)
+        val controller: NavController? =
+            activity?.let { Navigation.findNavController(it, R.id.nav_host_fragment_new_project) }
 
-        viewModel.currentPosition.observe(viewLifecycleOwner) {
-            if (it == 4) {
-                // TODO: 17/07/2022 make sure its the last pos
-                pb.isVisible = true
+        controller?.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination) {
+                controller.findDestination(R.id.newProjectTypeFragment) -> {
+                    viewModel.currentPosition.postValue(0)
+                }
+                controller.findDestination(R.id.newProjectDateTimeFragment) -> {
+                    viewModel.currentPosition.postValue(1)
+                }
+                controller.findDestination(R.id.newProjectLocationFragment) -> {
+                    viewModel.currentPosition.postValue(2)
+                }
+                controller.findDestination(R.id.newProjectDescriptionFragment) -> {
+                    viewModel.currentPosition.postValue(3)
+                }
+                controller.findDestination(R.id.newProjectWorkerPaymentsFragment) -> {
+                    viewModel.currentPosition.postValue(4)
+                }
+            }
+        }
+        nextButton.setOnClickListener {
+            val pos = viewModel.currentPosition.value
+            val fragmentsAndPositions: Map<Int, Int> = viewModel.fragmentsAndPositions
+            pos?.let { currentPosition ->
+                fragmentsAndPositions[currentPosition + 1]?.let { destination: Int ->
+                    val result = checkDetailsFilled(currentPosition)
+                    if (result.isSuccess) {
+                        controller?.navigate(
+                            destination
+                        )
+                    } else {
+                        if (result.result != null) {
+                            Toast.makeText(
+                                view.context,
+                                result.result.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        } else {
+                            Toast.makeText(view.context, "something went wrong", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                }
             }
         }
     }
 
-    override fun onClick(v: View?) {
-        if (v?.id == nextButton.id) {
-            when (viewModel.currentPosition.value) {
-                0 -> {
-                    if (viewModel.newJobOffer.jobFieldCode != null) {
-                        viewModel.currentPosition.postValue(1)
-                    }
-                }
-                1 -> {
-                    if (viewModel.newJobOffer.jobStartTime != null && viewModel.newJobOffer.jobEndTime != null) {
-                        viewModel.currentPosition.postValue(2)
-                    }
-                }
-                2 -> {
-                    if (viewModel.newJobOffer.jobGeoCoordinates != null) {
-                        viewModel.currentPosition.postValue(3)
-                    }
-                }
-            }
-        }
-    }
+    private fun checkDetailsFilled(pos: Int): CreateNewProjectResult {
+        val result = CreateNewProjectResult(false)
+        result.isSuccess = when (pos) {
+            0 -> viewModel.newJobOffer.jobFieldCode != null
+            1 -> viewModel.newJobOffer.jobStartTime != null && viewModel.newJobOffer.jobEndTime != null
+            2 -> viewModel.newJobOffer.jobGeoCoordinates != null
+            3 -> viewModel.newJobOffer.jobDescription != null
+            4 -> viewModel.newJobOffer.jobPaymentAmount != null && viewModel.newJobOffer.jobHireCount > 0 && !viewModel.newJobOffer.jobPaymentMethods.isNullOrEmpty()
 
+            else -> false
+        }
+        if (!result.isSuccess) result.result = getString(R.string.fill_all_fields)
+        return result
+    }
 }

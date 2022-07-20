@@ -24,6 +24,7 @@ class JobsFragment : Fragment() {
     private lateinit var extendedFab: ExtendedFloatingActionButton
     private lateinit var viewPager: ViewPager2
     private lateinit var toggleStateAdapter: ToggleStateAdapter
+    private val viewModel: HomeActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,6 +80,7 @@ class JobsFragment : Fragment() {
                 }
             }
         })
+        viewModel.currentPosition.postValue(-1)
     }
 }
 

@@ -1,5 +1,7 @@
 package com.syntapps.bashcuna.ui.fragments.home.employer.newproject
 
+import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -41,14 +42,33 @@ class NewProjectDateTimeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_new_project_date_time, container, false)
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         currentOffer = viewModel.newJobOffer
 
         dateField = view.findViewById(R.id.date_field)
         startTimeField = view.findViewById(R.id.startTime_field)
         endTimeField = view.findViewById(R.id.endTime_field)
+
+        val initialStartTime: Timestamp? = viewModel.newJobOffer.jobStartTime
+        if (initialStartTime != null) {
+            val initCal = Calendar.getInstance()
+            initCal.timeInMillis = initialStartTime.toDate().time
+            val sFormat = SimpleDateFormat("dd/MMM/yyyy")
+            dateField.hint = sFormat.format(initCal.time)
+            startTimeField.hint =
+                "${initCal.get(Calendar.HOUR_OF_DAY)}:${initCal.get(Calendar.MINUTE)}"
+        }
+        val initialEndTime: Timestamp? = viewModel.newJobOffer.jobEndTime
+        if (initialEndTime != null) {
+            val initCal = Calendar.getInstance()
+            initCal.timeInMillis = initialEndTime.toDate().time
+            val sFormat = SimpleDateFormat("dd/MMM/yyyy")
+            dateField.hint = sFormat.format(initCal.time)
+            endTimeField.hint =
+                "${initCal.get(Calendar.HOUR_OF_DAY)}:${initCal.get(Calendar.MINUTE)}"
+        }
 
         dateField.setStartIconOnClickListener {
             val calendar = Calendar.getInstance()
@@ -76,7 +96,6 @@ class NewProjectDateTimeFragment : Fragment() {
                     dateCalendar[Calendar.DAY_OF_MONTH]
                 )
                 currentOffer.jobStartTime = Timestamp(dateCalendar.time)
-                updateJobLiveData()
             }
         }
         startTimeField.setStartIconOnClickListener {
@@ -94,14 +113,12 @@ class NewProjectDateTimeFragment : Fragment() {
                     if (currentOffer.jobEndTime != null) {
                         currentOffer.jobEndTime = null
                         endTimeField.hint = "--:--"
-                        updateJobLiveData()
                     }
                     val min: String = if (picker.minute == 0) "00" else picker.minute.toString()
                     startTimeField.hint = "${picker.hour}:$min"
                     startCalendar[Calendar.HOUR_OF_DAY] = picker.hour
                     startCalendar[Calendar.MINUTE] = picker.minute
                     currentOffer.jobStartTime = Timestamp(startCalendar.time)
-                    updateJobLiveData()
                 }
                 picker.show(parentFragmentManager, null)
             } else { //if date has not yet been chosen
@@ -144,7 +161,6 @@ class NewProjectDateTimeFragment : Fragment() {
                     endCalendar[Calendar.HOUR_OF_DAY] = picker.hour
                     endCalendar[Calendar.MINUTE] = picker.minute
                     currentOffer.jobEndTime = Timestamp(endCalendar.time)
-                    updateJobLiveData()
                 }
                 picker.show(parentFragmentManager, null)
             } else { //if date has not yet been chosen
@@ -155,16 +171,6 @@ class NewProjectDateTimeFragment : Fragment() {
                 ).show()
             }
         }
-
-        viewModel.currentPosition.observe(viewLifecycleOwner) {
-            if (it == 2) {
-                findNavController().navigate(R.id.newProjectLocationFragment)
-            }
-        }
-    }
-
-    private fun updateJobLiveData() {
-        viewModel.newJobOfferLiveData.value = currentOffer
     }
 
     private fun fillCalendarsWithDate(year: Int, month: Int, day: Int) {

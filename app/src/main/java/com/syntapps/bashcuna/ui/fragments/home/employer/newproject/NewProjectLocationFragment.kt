@@ -11,11 +11,9 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.app.ActivityCompat
@@ -100,10 +98,6 @@ class NewProjectLocationFragment : Fragment() {
             }
         }
 
-        viewModel.currentPosition.observe(viewLifecycleOwner) {
-            if (it == 3) findNavController().navigate(R.id.newProjectDescriptionFragment)
-        }
-
         Places.initialize(view.context, BuildConfig.MAPS_API_KEY)
         autocompleteFragment =
             childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
@@ -135,8 +129,7 @@ class NewProjectLocationFragment : Fragment() {
             }
 
             override fun onError(status: Status) {
-                // TODO: Handle the error.
-                Log.i("MAPTAG", "An error occurred: $status")
+                Toast.makeText(view.context, status.statusMessage, Toast.LENGTH_SHORT).show()
             }
         })
         autocompleteFragment.view?.findViewById<AppCompatImageButton>(R.id.places_autocomplete_clear_button)

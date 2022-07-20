@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_newProjectDateTimeFragment_to_newProjectLocationFragment"
             app:destination="@id/newProjectLocationFragment" />
+        <action
+            android:id="@+id/action_newProjectDateTimeFragment_to_newProjectTypeFragment"
+            app:destination="@id/newProjectTypeFragment" />
     </fragment>
     <fragment
         android:id="@+id/newProjectLocationFragment"
@@ -31,10 +34,41 @@
         <action
             android:id="@+id/action_newProjectLocationFragment_to_newProjectDescriptionFragment"
             app:destination="@id/newProjectDescriptionFragment" />
+        <action
+            android:id="@+id/action_newProjectLocationFragment_to_newProjectDateTimeFragment"
+            app:destination="@id/newProjectDateTimeFragment" />
     </fragment>
     <fragment
         android:id="@+id/newProjectDescriptionFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectDescriptionFragment"
         android:label="NewProjectDescriptionFragment"
-        tools:layout="@layout/fragment_new_project_description" />
+        tools:layout="@layout/fragment_new_project_description">
+        <action
+            android:id="@+id/action_newProjectDescriptionFragment_to_newProjectWorkerPaymentsFragment"
+            app:destination="@id/newProjectWorkerPaymentsFragment" />
+        <action
+            android:id="@+id/action_newProjectDescriptionFragment_to_newProjectLocationFragment"
+            app:destination="@id/newProjectLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newProjectWorkerPaymentsFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectWorkerPaymentsFragment"
+        android:label="NewProjectWorkerPaymentsFragment"
+        tools:layout="@layout/fragment_new_project_worker_payments" >
+        <action
+            android:id="@+id/action_newProjectWorkerPaymentsFragment_to_newProjectSummary"
+            app:destination="@id/newProjectSummary" />
+        <action
+            android:id="@+id/action_newProjectWorkerPaymentsFragment_to_newProjectDescriptionFragment"
+            app:destination="@id/newProjectDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newProjectSummary"
+        tools:layout="@layout/fragment_new_project_summary"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectSummary"
+        android:label="NewProjectSummary" >
+        <action
+            android:id="@+id/action_newProjectSummary_to_newProjectWorkerPaymentsFragment"
+            app:destination="@id/newProjectWorkerPaymentsFragment" />
+    </fragment>
 </navigation>

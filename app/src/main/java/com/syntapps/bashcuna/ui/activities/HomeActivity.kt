@@ -12,6 +12,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.Timestamp
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.CurrentUser
+import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
@@ -84,6 +85,9 @@ class HomeActivity : AppCompatActivity() {
                         } catch (e: NullPointerException) {
                         }
                     }
+                }
+                viewModel.currentPosition.observe(this) { pos ->
+                    if (pos == -1) viewModel.newJobOffer = JobOffer()
                 }
             } else if (it?.getRole() == CurrentUser.ROLE_WORKER) {
 

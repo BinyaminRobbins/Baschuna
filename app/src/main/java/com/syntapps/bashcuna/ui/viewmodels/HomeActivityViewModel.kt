@@ -60,7 +60,6 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     var newJobOffer = JobOffer()
-    val newJobOfferLiveData = MutableLiveData(newJobOffer)
 
     val createNewProjectResult = mainRepository?.getCreateNewProjectResult()
     fun createNewProject() {
@@ -68,7 +67,15 @@ class HomeActivityViewModel : ViewModel() {
     }
 
     val currentPosition = MutableLiveData(0)//the position of the create new project flow
+    val fragmentsAndPositions = mapOf(
+        0 to R.id.newProjectTypeFragment,
+        1 to R.id.newProjectDateTimeFragment,
+        2 to R.id.newProjectLocationFragment,
+        3 to R.id.newProjectDescriptionFragment,
+        4 to R.id.newProjectWorkerPaymentsFragment,
+        5 to R.id.newProjectSummary
+    )
 
-    val userLocation = mutableMapOf<String, Double>("LAT" to 31.8903, "LONG" to 35.0104)
+    val userLocation = mutableMapOf("LAT" to 31.8903, "LONG" to 35.0104)
     val lastLocationLiveData = MutableLiveData<Map<String, Double>>(userLocation)
 }
