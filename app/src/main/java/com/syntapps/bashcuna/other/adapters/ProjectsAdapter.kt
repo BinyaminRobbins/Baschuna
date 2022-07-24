@@ -1,11 +1,13 @@
 package com.syntapps.bashcuna.other.adapters
 
 import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -63,16 +65,44 @@ class ProjectsAdapter(
         private var moneyText: TextView = itemView.findViewById(R.id.money_text)
         private var locationText: TextView = itemView.findViewById(R.id.location_text)
         private var fieldText: TextView = itemView.findViewById(R.id.field_text)
+        private var dateText: TextView = itemView.findViewById(R.id.date_text)
+        private var todayText: TextView = itemView.findViewById(R.id.today_text)
 
         @SuppressLint("SetTextI18n")
         fun setData(offer: JobOffer) {
             val startCalendar = getCalendar(offer.jobStartTime?.toDate())
             val endCalendar = getCalendar(offer.jobEndTime?.toDate())
 
-            timeText.text =
-                "${getCalendarHour(startCalendar)}:${getCalendarMinute(startCalendar)}" +
-                        "  -  " +
-                        "${getCalendarHour(endCalendar)}:${getCalendarMinute(endCalendar)}"
+            val currentDate = Calendar.getInstance()
+
+            startCalendar?.let {
+                if (currentDate[Calendar.YEAR] == startCalendar[Calendar.YEAR]
+                    && currentDate[Calendar.MONTH] == startCalendar[Calendar.MONTH]
+                ) {
+                    if (currentDate[Calendar.DAY_OF_MONTH] == startCalendar[Calendar.DAY_OF_MONTH]) {
+                        todayText.text = "Today, "
+                        todayText.isVisible = true
+                    } else if (currentDate[Calendar.DAY_OF_MONTH] == (startCalendar[Calendar.DAY_OF_MONTH] + 1)) {
+                        todayText.text = "Yesterday, "
+                        todayText.isVisible = true
+                    } else if (currentDate[Calendar.DAY_OF_MONTH] == (startCalendar[Calendar.DAY_OF_MONTH] - 1)) {
+                        todayText.text = "Tomorrow, "
+                        todayText.isVisible = true
+                    } else {
+                        todayText.clearComposingText()
+                        todayText.isVisible = false
+                    }
+                }
+
+                val sFormat = SimpleDateFormat("E, MMM d", Locale.getDefault())
+                dateText.text = sFormat.format(it.time)
+
+                timeText.text =
+                    "${getCalendarHour(it)}:${getCalendarMinute(it)}" +
+                            "  -  " +
+                            "${getCalendarHour(endCalendar)}:${getCalendarMinute(endCalendar)}"
+            }
+
             moneyText.text = "₪${offer.jobPaymentAmount.toString()}"
             locationText.text = offer.jobLocation
             fieldText.text =
