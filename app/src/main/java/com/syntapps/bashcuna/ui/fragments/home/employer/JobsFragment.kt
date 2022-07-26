@@ -109,7 +109,8 @@ class ToggleStatePastProjects : Fragment() {
 
         rv = view.findViewById(R.id.projectsRV)
         rv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        rv.adapter = ProjectsAdapter(this, data)
+        rv.adapter =
+            ProjectsAdapter(requireContext(), jobFields = viewModel.getFieldOptions(), this, data)
     }
 }
 
@@ -138,7 +139,8 @@ class ToggleStateFutureProjects : Fragment() {
 
         rv = view.findViewById(R.id.projectsRV)
         rv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        rv.adapter = ProjectsAdapter(this, data)
+        rv.adapter =
+            ProjectsAdapter(requireContext(), jobFields = viewModel.getFieldOptions(), this, data)
     }
 }
 

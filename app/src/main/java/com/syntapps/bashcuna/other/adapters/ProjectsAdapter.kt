@@ -1,11 +1,14 @@
 package com.syntapps.bashcuna.other.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.icu.text.SimpleDateFormat
+import android.location.Geocoder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -14,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.other.User
+import com.syntapps.bashcuna.other.WorkHireField
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +25,8 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class ProjectsAdapter(
+    private val mContext: Context,
+    private val jobFields: List<WorkHireField>,
     private val fragment: Fragment,
     private val jobOffers: MutableList<JobOffer?>
 ) : RecyclerView.Adapter<ProjectsAdapter.mViewHolder>() {
@@ -64,6 +70,7 @@ class ProjectsAdapter(
         private var timeText: TextView = itemView.findViewById(R.id.time_text)
         private var moneyText: TextView = itemView.findViewById(R.id.money_text)
         private var locationText: TextView = itemView.findViewById(R.id.location_text)
+        private var fieldIcon: ImageView = itemView.findViewById(R.id.field_icon)
         private var fieldText: TextView = itemView.findViewById(R.id.field_text)
         private var dateText: TextView = itemView.findViewById(R.id.date_text)
         private var todayText: TextView = itemView.findViewById(R.id.today_text)
@@ -104,9 +111,24 @@ class ProjectsAdapter(
             }
 
             moneyText.text = "₪${offer.jobPaymentAmount.toString()}"
-            locationText.text = offer.jobLocation
+            offer.jobGeoCoordinates?.let {
+                val address = Geocoder(mContext).getFromLocation(it.latitude, it.longitude, 1)[0]
+                locationText.text = "${address.thoroughfare} ${address.subThoroughfare}"
+            }
+
             fieldText.text =
                 offer.jobFieldCode // TODO: 06/07/2022 here we need to store in local db the fields and codes - then we will get the info by code
+
+            for (field in jobFields){
+                if(field.fieldName == offer.jobFieldCode){
+                    Glide
+                        .with(mContext)
+                        .load(field.fieldIcon)
+                        .into(fieldIcon)
+                    break
+                }
+            }
+
             peopleRV.adapter = offer.users?.let { PeopleAdapter(it) }
         }
     }
