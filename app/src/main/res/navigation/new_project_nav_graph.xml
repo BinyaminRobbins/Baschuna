@@ -56,19 +56,7 @@
         android:label="NewProjectWorkerPaymentsFragment"
         tools:layout="@layout/fragment_new_project_worker_payments" >
         <action
-            android:id="@+id/action_newProjectWorkerPaymentsFragment_to_newProjectSummary"
-            app:destination="@id/newProjectSummary" />
-        <action
             android:id="@+id/action_newProjectWorkerPaymentsFragment_to_newProjectDescriptionFragment"
             app:destination="@id/newProjectDescriptionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/newProjectSummary"
-        tools:layout="@layout/fragment_new_project_summary"
-        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectSummary"
-        android:label="NewProjectSummary" >
-        <action
-            android:id="@+id/action_newProjectSummary_to_newProjectWorkerPaymentsFragment"
-            app:destination="@id/newProjectWorkerPaymentsFragment" />
     </fragment>
 </navigation>

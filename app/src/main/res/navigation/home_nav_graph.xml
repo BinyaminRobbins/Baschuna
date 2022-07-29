@@ -6,34 +6,25 @@
     app:startDestination="@id/workerOrEmployerFragment">
 
     <fragment
-        android:id="@+id/chartsFragment"
-        android:name="com.syntapps.bashcuna.ui.fragments.home.worker.ChartsFragment"
-        android:label="fragment_charts"
-        tools:layout="@layout/fragment_charts" />
-    <fragment
-        android:id="@+id/jobsFragment"
-        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.JobsFragment"
-        android:label="JobsFragment"
-        tools:layout="@layout/fragment_jobs">
-        <action
-            android:id="@+id/action_jobsFragment_to_newProjectBase"
-            app:destination="@id/newProjectBase" />
-    </fragment>
-    <fragment
         android:id="@+id/workerOrEmployerFragment"
         android:name="com.syntapps.bashcuna.ui.fragments.WorkerOrEmployerFragment"
         android:label="WorkerOrEmployerFragment"
         tools:layout="@layout/fragment_employer_or_worker">
         <action
-            android:id="@+id/action_workerOrEmployerFragment_to_chartsFragment"
-            app:destination="@id/chartsFragment" />
+            android:id="@+id/action_workerOrEmployerFragment_to_employerFragments"
+            app:destination="@id/employerFragments" />
         <action
-            android:id="@+id/action_workerOrEmployerFragment_to_jobsFragment"
-            app:destination="@id/jobsFragment" />
+            android:id="@+id/action_workerOrEmployerFragment_to_workerFragments"
+            app:destination="@id/workerFragments" />
     </fragment>
     <fragment
-        android:id="@+id/newProjectBase"
-        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectBase"
-        android:label="NewProjectBase"
-        tools:layout="@layout/fragment_new_project_base" />
+        android:id="@+id/employerFragments"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.EmployerFragments"
+        android:label="EmployerFragments"
+        tools:layout="@layout/fragments_employer" />
+    <fragment
+        android:id="@+id/workerFragments"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.worker.WorkerFragments"
+        android:label="WorkerFragments"
+        tools:layout="@layout/fragments_worker" />
 </navigation>

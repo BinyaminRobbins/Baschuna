@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/employer_nav_graph"
+    app:startDestination="@id/employerChartsFragment">
+
+    <fragment
+        android:id="@+id/employerJobsFragment"
+        tools:layout="@layout/fragment_employer_jobs"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.EmployerJobsFragment"
+        android:label="EmployerJobsFragment" >
+        <action
+            android:id="@+id/action_employerJobsFragment_to_newProjectBase2"
+            app:destination="@id/newProjectBase" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_employer_charts"
+        android:id="@+id/employerChartsFragment"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.EmployerChartsFragment"
+        android:label="EmployerChartsFragment" />
+    <fragment
+        tools:layout="@layout/fragment_new_project_base"
+        android:id="@+id/newProjectBase"
+        android:name="com.syntapps.bashcuna.ui.fragments.home.employer.newproject.NewProjectBase"
+        android:label="NewProjectBase" />
+</navigation>

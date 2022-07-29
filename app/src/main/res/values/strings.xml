@@ -68,4 +68,8 @@
     <string name="location_long_press">תסמנו את מיקום העבודה בלחיצה ארוכה במפה.</string>
     <string name="show_only_to_workers">(כדי לשמור על המידע הפרטית שלכם אנחנו נראה את מיקום הפרוייקט רק לעובדים שיתקבלו לעבודה זו)</string>
     <string name="search_address_hint">כתובת, מספר בית, וכו׳</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_schedule">לוז</string>
+    <string name="payment_preferences">אמצעיי תשלום</string>
 </resources>

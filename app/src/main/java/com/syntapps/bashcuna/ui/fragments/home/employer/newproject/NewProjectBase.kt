@@ -10,9 +10,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.returnObjects.CreateNewProjectResult
@@ -39,10 +37,9 @@ class NewProjectBase : Fragment() {
         nextButton = view.findViewById(R.id.next_button)
         pb = view.findViewById(R.id.pb)
 
-        val controller: NavController? =
-            activity?.let { Navigation.findNavController(it, R.id.nav_host_fragment_new_project) }
+        val controller = Navigation.findNavController(view)
 
-        controller?.addOnDestinationChangedListener { _, destination, _ ->
+        controller.addOnDestinationChangedListener { _, destination, _ ->
             when (destination) {
                 controller.findDestination(R.id.newProjectTypeFragment) -> {
                     viewModel.currentPosition.postValue(0)
@@ -73,7 +70,7 @@ class NewProjectBase : Fragment() {
                 fragmentsAndPositions[currentPosition + 1]?.let { destination: Int ->
                     val result = checkDetailsFilled(currentPosition)
                     if (result.isSuccess) {
-                        controller?.navigate(
+                        controller.navigate(
                             destination
                         )
                     } else {
@@ -102,7 +99,7 @@ class NewProjectBase : Fragment() {
                 pb.isVisible = false
                 Snackbar.make(view, getString(R.string.created_project), Snackbar.LENGTH_INDEFINITE)
                     .setAction(getString(R.string.continue_button)) {
-                        findNavController().popBackStack(R.id.jobsFragment, true)
+                        controller.popBackStack(R.id.employerJobsFragment, true)
                     }
                     .show()
             } else {
@@ -110,7 +107,7 @@ class NewProjectBase : Fragment() {
                     pb.isVisible = false
                     Snackbar.make(view, it.result!!, Snackbar.LENGTH_SHORT)
                         .show()
-                    findNavController().popBackStack(R.id.jobsFragment, true)
+                    controller.popBackStack(R.id.employerJobsFragment, true)
                 }
             }
         }

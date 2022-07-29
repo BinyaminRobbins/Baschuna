@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -18,7 +19,7 @@ import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.other.adapters.ProjectsAdapter
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 
-class JobsFragment : Fragment() {
+class EmployerJobsFragment : Fragment() {
 
     private lateinit var toggleGroup: MaterialButtonToggleGroup
     private lateinit var extendedFab: ExtendedFloatingActionButton
@@ -31,12 +32,14 @@ class JobsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_jobs, container, false)
+        return inflater.inflate(R.layout.fragment_employer_jobs, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val navController = Navigation.findNavController(view)
 
         viewPager = view.findViewById(R.id.projects_viewpager)
         toggleStateAdapter =
@@ -65,7 +68,7 @@ class JobsFragment : Fragment() {
 
         extendedFab = view.findViewById(R.id.extended_fab)
         extendedFab.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.newProjectBase)
+            navController.navigate(R.id.newProjectBase)
         }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

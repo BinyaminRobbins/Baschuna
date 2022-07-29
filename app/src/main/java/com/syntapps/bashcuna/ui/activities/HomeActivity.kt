@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Timestamp
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.CurrentUser
@@ -20,26 +21,15 @@ import java.util.*
 
 class HomeActivity : AppCompatActivity() {
 
-    private val TAG = "HomeActivityTAG"
-
     private lateinit var navController: NavController
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var topAppBar: MaterialToolbar
     private var menu: Menu? = null
 
+    private lateinit var bottomNav: BottomNavigationView
+
     private fun setupNavController() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_home)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.newProjectBase) {
-                topAppBar.also {
-                    it.setNavigationIcon(R.drawable.ic_back)
-                }
-            } else {
-                topAppBar.also {
-                    it.setNavigationIcon(R.drawable.menu_icon)
-                }
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,13 +40,7 @@ class HomeActivity : AppCompatActivity() {
 
         topAppBar = findViewById(R.id.topAppBar)
         setSupportActionBar(topAppBar)
-        topAppBar.setNavigationOnClickListener {
-            when (navController.currentDestination?.id) {
-                R.id.newProjectBase -> {
-                    navController.popBackStack(R.id.jobsFragment, true)
-                }
-            }
-        }
+
         setupNavController()
 
         viewModel.getUser()?.observe(this) {

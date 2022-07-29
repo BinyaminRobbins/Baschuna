@@ -40,10 +40,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
         android:layout_below="@id/coordinator"
-        android:layout_centerInParent="true"
-        android:padding="16dp">
+        android:layout_centerInParent="true">
 
         <fragment
             android:id="@+id/nav_host_fragment_home"
@@ -53,18 +51,5 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/home_nav_graph" />
     </FrameLayout>
-
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        app:itemIconTint="@drawable/bottom_nav_custom"
-        app:itemTextColor="@color/color_accent"
-        app:menu="@menu/bottom_navigation_menu" />
-
 
 </RelativeLayout>

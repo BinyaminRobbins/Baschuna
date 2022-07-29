@@ -3,25 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_charts"
+        android:id="@+id/worker_navigation_charts"
         android:enabled="true"
         android:icon="@drawable/navigation_icon_charts_outline"
         android:title="@string/menu_charts"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/navigation_chats"
+        android:id="@+id/worker_navigation_work"
+        android:enabled="true"
+        android:icon="@drawable/ic_tools"
+        android:title="@string/menu_work"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/worker_navigation_schedule"
+        android:enabled="true"
+        android:icon="@drawable/ic_schedule"
+        android:title="@string/menu_schedule"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/worker_navigation_chats"
         android:enabled="true"
         android:icon="@drawable/navigation_icon_chats_outline"
         android:title="@string/menu_chats"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/navigation_work"
-        android:enabled="true"
-        android:icon="@drawable/navigation_icon_work_outline"
-        android:title="@string/menu_work"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/worker_navigation_notifications"
         android:enabled="true"
         android:icon="@drawable/navigation_icon_notifications_outline"
         android:title="@string/menu_notification"

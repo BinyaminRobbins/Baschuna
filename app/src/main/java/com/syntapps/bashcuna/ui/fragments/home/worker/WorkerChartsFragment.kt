@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 
-class ChartsFragment : Fragment() {
+class WorkerChartsFragment : Fragment() {
 
     private val viewModel: HomeActivityViewModel by activityViewModels()
 

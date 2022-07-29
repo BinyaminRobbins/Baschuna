@@ -63,11 +63,11 @@ class WorkerOrEmployerFragment : Fragment() {
 
     private fun navigateAsEmployer() {
         navController.popBackStack()
-        navController.navigate(R.id.jobsFragment)
+        navController.navigate(R.id.employerFragments)
     }
 
     private fun navigateAsWorker() {
         navController.popBackStack()
-        navController.navigate(R.id.chartsFragment)
+        navController.navigate(R.id.workerFragments)
     }
 }
