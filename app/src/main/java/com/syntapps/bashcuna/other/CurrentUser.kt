@@ -38,8 +38,6 @@ object CurrentUser {
     @JvmField
     var firstName: String? = null
 
-    @Exclude
-    @JvmField
     var profileUrl: Uri? = null
     private var role: String? = null
     private var favoriteFields: MutableList<WorkHireField> = mutableListOf()

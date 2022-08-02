@@ -44,7 +44,7 @@ class NewProjectWorkerPaymentsFragment : Fragment() {
         paymentAmountText.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrBlank() || text.isNullOrEmpty()) {
                 viewModel.newJobOffer.jobPaymentAmount = null
-            } else viewModel.newJobOffer.jobPaymentAmount = text.toString().toInt()
+            } else viewModel.newJobOffer.jobPaymentAmount = text.toString().toLong()
         }
 
         numPplText = view.findViewById(R.id.num_people_text)
@@ -108,7 +108,7 @@ class NewProjectWorkerPaymentsFragment : Fragment() {
         }
 
         if (viewModel.newJobOffer.jobPaymentAmount != null) {
-            paymentAmountText.setText(viewModel.newJobOffer.jobPaymentAmount!!)
+            paymentAmountText.setText(viewModel.newJobOffer.jobPaymentAmount!!.toString())
         }
         if (viewModel.newJobOffer.jobHireCount > 0) {
             numPplText.text = viewModel.newJobOffer.jobHireCount.toString()

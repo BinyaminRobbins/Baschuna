@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
     tools:context=".ui.fragments.home.worker.WorkerAvailableJobsFragment">
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spin_kit"
         style="@style/SpinKitView.Large.ThreeBounce"
         android:layout_width="wrap_content"
-        android:visibility="visible"
-        android:layout_centerInParent="true"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:visibility="visible"
         app:SpinKit_Color="@color/color_accent" />
 
     <androidx.viewpager2.widget.ViewPager2
@@ -36,8 +35,9 @@
         android:alpha="0.6"
         android:background="@color/background_light_primary"
         android:gravity="center"
-        android:text="1/25"
-        android:textColor="@color/dark_text" />
+        android:text="0/0"
+        android:textColor="@color/dark_text"
+        tools:ignore="HardcodedText" />
 
 
 </RelativeLayout>

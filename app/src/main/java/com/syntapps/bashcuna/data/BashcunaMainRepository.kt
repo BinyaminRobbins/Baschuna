@@ -53,7 +53,6 @@ class BashcunaMainRepository {
     fun getOfferedJobsLiveData(): MutableLiveData<MutableList<JobOffer?>> {
         return offeredJobsLiveData
     }
-
     fun loadOfferedJobs() {
         if (currentUser?.getRole() == CurrentUser.ROLE_WORKER) return@loadOfferedJobs
         mDatabase
@@ -96,6 +95,7 @@ class BashcunaMainRepository {
                     .add(jobOffer)
                     .addOnSuccessListener {
                         if (it != null) {
+                            it.update(JobsConstants.JOB_ID.fieldName, it.id)
                             createNewProjectResult.postValue(CreateNewProjectResult(true))
                         } else {
                             createNewProjectResult.postValue(CreateNewProjectResult(false))
@@ -107,5 +107,4 @@ class BashcunaMainRepository {
             }
         }
     }
-
 }

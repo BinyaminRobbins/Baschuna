@@ -14,7 +14,9 @@ import com.google.firebase.Timestamp
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.CurrentUser
 import com.syntapps.bashcuna.other.JobOffer
+import com.syntapps.bashcuna.other.UserLocationServices
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.LocationViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
@@ -23,6 +25,7 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var viewModel: HomeActivityViewModel
+    private lateinit var locationViewModel: LocationViewModel
     private lateinit var topAppBar: MaterialToolbar
     private var menu: Menu? = null
 
@@ -37,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         viewModel = ViewModelProvider(this)[HomeActivityViewModel::class.java]
+        locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
 
         topAppBar = findViewById(R.id.topAppBar)
         setSupportActionBar(topAppBar)
@@ -83,6 +87,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         viewModel.buildUser()
+
+        aquireLocation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,5 +99,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getDate(): Date {
         return Timestamp.now().toDate()
+    }
+
+    private fun aquireLocation() {
+        val userLocationServices = UserLocationServices(this, this)
+        locationViewModel.getUserLocation(userLocationServices)
     }
 }

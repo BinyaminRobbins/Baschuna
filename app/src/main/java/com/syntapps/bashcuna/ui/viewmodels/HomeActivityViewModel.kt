@@ -34,7 +34,7 @@ class HomeActivityViewModel : ViewModel() {
         return offeredJobsLiveData
     }
 
-    fun loadOfferedJobs() { //the jobs offere
+    fun loadOfferedJobs() { //the jobs offered by an Employer i.e jobs that an employer created
         CoroutineScope(Dispatchers.IO).launch {
             mainRepository?.loadOfferedJobs()
         }
@@ -74,7 +74,4 @@ class HomeActivityViewModel : ViewModel() {
         3 to R.id.newProjectDescriptionFragment,
         4 to R.id.newProjectWorkerPaymentsFragment
     )
-
-    val userLocation = mutableMapOf("LAT" to 31.8903, "LONG" to 35.0104)
-    val lastLocationLiveData = MutableLiveData<Map<String, Double>>(userLocation)
 }
