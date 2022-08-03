@@ -62,7 +62,7 @@ class BashcunaAuthRepository {
 
     fun buildUser() {
         mAuth.currentUser?.uid?.let {
-            db.collection(DatabaseFields.Collection_User.fieldName)
+            db.collection(DatabaseFields.Collection_Users.fieldName)
                 .document(it)
                 .set(currentUser)
                 .addOnSuccessListener {

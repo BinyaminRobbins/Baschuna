@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.IgnoreExtraProperties
+import com.syntapps.bashcuna.data.EmployerData
 import com.syntapps.bashcuna.other.constants.JobsConstants
 
 @IgnoreExtraProperties
@@ -25,7 +26,10 @@ data class JobOffer(
     var jobHireCount: Long = 0,
     @Exclude
     @JvmField
-    var jobID: String? = null
+    var jobID: String? = null,
+    @Exclude
+    @JvmField
+    var employerData: EmployerData? = null,
 ) {
     companion object {
         fun DocumentSnapshot.toJobOffer(): JobOffer? {
@@ -67,6 +71,7 @@ data class JobOffer(
                 return null
             }
         }
+
         private const val TAG = "JobOffer"
     }
 }

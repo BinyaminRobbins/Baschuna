@@ -12,17 +12,23 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.maps.model.LatLng
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.data.EmployerData
 import com.syntapps.bashcuna.other.JobOffer
 import com.syntapps.bashcuna.ui.viewmodels.AvailableJobsViewModel
 import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 import com.syntapps.bashcuna.ui.viewmodels.LocationViewModel
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class WorkerAvailableJobsFragment : Fragment() {
@@ -75,10 +81,36 @@ class WorkerAvailableJobsFragment : Fragment() {
             @SuppressLint("SetTextI18n")
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                counterText.text = "$position/${jobOffersData.size}"
+                val item = jobOffersData[position]
+                if (item.employerData == null) {
+                    // TODO: 03/08/2022 could possibly to using the database to much if called and then returns null
+                    item.jobUserOfferingID?.let { getEmployerData(position, it) }
+                }
+                counterText.text = "${position.plus(1)}/${jobOffersData.size}"
             }
         })
 
+    }
+
+    private fun getEmployerData(
+        position: Int,
+        employerId: String
+    ) {
+        viewModel.employerInfo.observe(
+            viewLifecycleOwner,
+            object : Observer<EmployerData?> {
+                override fun onChanged(t: EmployerData?) {
+                    Log.i("WorkerAvailableJobsFragment", "employer found :${t?.employerName}")
+                    jobOffersData[position].employerData = t
+                    CoroutineScope(Dispatchers.Main).launch {
+                        viewpager2.adapter?.notifyItemChanged(position)
+                    }
+                    viewModel.employerInfo.removeObserver(this)
+                }
+            }
+        )
+
+        viewModel.getEmployerData(employerId)
 
     }
 
@@ -104,7 +136,7 @@ class WorkerAvailableJobsFragment : Fragment() {
                 itemView.findViewById(R.id.date_text)
 
             @SuppressLint("SetTextI18n", "SimpleDateFormat")
-            fun setData(offer: JobOffer) {
+            fun setData(pos: Int, offer: JobOffer) {
                 val userOfferingID = offer.jobUserOfferingID
 
                 moreAboutTextView.text = offer.jobDescription
@@ -135,14 +167,21 @@ class WorkerAvailableJobsFragment : Fragment() {
                         )
                     }
                 }
+
                 val distanceInKM = distanceBetween[0].toDouble() / 1000
                 distanceFromUser.text =
                     "${String.format("%.2f", distanceInKM)} ${getString(R.string.kilometerAbr)}"
 
                 descriptionText.text = offer.jobDescription
-                val sFormat = SimpleDateFormat("dd/MMM/yyyy")
+                val sFormat = SimpleDateFormat("MMM dd, yyyy")
                 dateText.text = sFormat.format(startCalendar.time)
 
+                offer.employerData?.let {
+                    nameText.text = it.employerName
+                    Glide.with(itemView.context)
+                        .load(it.employerProfilePhoto)
+                        .into(profileImage)
+                }
 
             }
         }
@@ -155,7 +194,7 @@ class WorkerAvailableJobsFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: JobsViewHolder, position: Int) {
-            holder.setData(jobOffersData[position])
+            holder.setData(position, jobOffersData[position])
         }
 
         override fun getItemCount(): Int {

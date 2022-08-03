@@ -3,6 +3,7 @@ package com.syntapps.bashcuna.data
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -31,14 +32,20 @@ class BashcunaMainRepository {
 
     fun buildCurrentUser() {
         mAuth.currentUser?.uid?.let {
-            mDatabase.collection(DatabaseFields.Collection_User.fieldName)
+            mDatabase.collection(DatabaseFields.Collection_Users.fieldName)
                 .document(it)
                 .get()
                 .addOnSuccessListener { docSnapshot ->
                     if (docSnapshot != null && docSnapshot.exists()) {
-                        currentUser = docSnapshot.toObject(CurrentUser::class.java)
-                        currentUser?.aquireOtherParams(mAuth)
-                        currentUserLiveData.value = currentUser
+                        try {
+                            currentUser = docSnapshot.toObject(CurrentUser::class.java)
+                            currentUser?.aquireOtherParams(mAuth)
+                            currentUserLiveData.value = currentUser
+                        } catch (e: Exception){
+                            Log.e(TAG, "error converting snapshot to current user obj")
+                            FirebaseCrashlytics.getInstance().log("error converting snapshot to current user obj")
+                            FirebaseCrashlytics.getInstance().recordException(e)
+                        }
                     }
                 }
                 .addOnFailureListener {
@@ -53,6 +60,7 @@ class BashcunaMainRepository {
     fun getOfferedJobsLiveData(): MutableLiveData<MutableList<JobOffer?>> {
         return offeredJobsLiveData
     }
+
     fun loadOfferedJobs() {
         if (currentUser?.getRole() == CurrentUser.ROLE_WORKER) return@loadOfferedJobs
         mDatabase
