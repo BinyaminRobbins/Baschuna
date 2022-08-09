@@ -10,13 +10,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.data.CurrentUser
 import com.syntapps.bashcuna.other.WorkHireField
 import com.syntapps.bashcuna.other.adapters.FieldsOptionsAdapter
 import com.syntapps.bashcuna.ui.viewmodels.AuthViewModel
 
 class AuthDetailsThree : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListener {
 
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var explanationText: TextView
     private lateinit var fieldsRecyclerView: RecyclerView
@@ -24,7 +25,7 @@ class AuthDetailsThree : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListene
     private lateinit var favoriteFields: List<WorkHireField>
 
     private fun updateFavoriteFields() {
-        viewModel.getCurrentUser()?.setFavoriteFields(favoriteFields)
+        authViewModel.updateUserFavoriteFields(favoriteFields)
     }
 
     override fun onCreateView(
@@ -39,19 +40,21 @@ class AuthDetailsThree : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListene
         super.onViewCreated(view, savedInstanceState)
 
         explanationText = view.findViewById(R.id.explanation_text)
-        viewModel.getCurrentUser()?.let {
-            when (it.getRole()) {
-                it.ROLE_WORKER -> {
-                    explanationText.text = getString(R.string.choose_work)
-                }
-                it.ROLE_EMPLOYER -> {
-                    explanationText.text = getString(R.string.choose_hire_for)
+        authViewModel.currentUser.observe(viewLifecycleOwner) {
+            it?.let {
+                when (it.role) {
+                    CurrentUser.ROLE_WORKER -> {
+                        explanationText.text = getString(R.string.choose_work)
+                    }
+                    CurrentUser.ROLE_EMPLOYER -> {
+                        explanationText.text = getString(R.string.choose_hire_for)
+                    }
                 }
             }
         }
 
         fieldsRecyclerView = view.findViewById(R.id.fields_options)
-        favoriteFields = viewModel.getFieldOptions()
+        favoriteFields = authViewModel.getFieldOptions()
         fieldsOptionsAdapter = FieldsOptionsAdapter(requireContext(), favoriteFields, this)
         fieldsRecyclerView.layoutManager =
             GridLayoutManager(

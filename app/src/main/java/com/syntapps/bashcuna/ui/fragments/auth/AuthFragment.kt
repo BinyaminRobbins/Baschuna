@@ -3,7 +3,6 @@ package com.syntapps.bashcuna.ui.fragments.auth
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,17 +14,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.Task
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.ui.viewmodels.AuthViewModel
 
 
 class AuthFragment : Fragment(), View.OnClickListener {
 
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var googleButton: CardView
     private lateinit var facebookButton: CardView
@@ -38,19 +35,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
-                val task: Task<GoogleSignInAccount> =
-                    GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                task.addOnSuccessListener {
-                    if (task.result.idToken != null) {
-                        viewModel.doAuthWithGoogle(task.result.idToken.toString())
-                    }
-                }.addOnFailureListener {
-                    Toast.makeText(
-                        context,
-                        "something went wrong - try restarting the app",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                authViewModel.googleAuth(result.data)
             }
         }
 
@@ -77,6 +62,18 @@ class AuthFragment : Fragment(), View.OnClickListener {
 
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         googleSignInClient.revokeAccess()
+
+        authViewModel.authWithGoogleResult.observe(viewLifecycleOwner) {
+            if (it.isSuccess) {
+                if (it.authUser?.isNewUser == true) {
+                    moveToFirstAuth()
+                } else {
+                    moveToHome()
+                }
+            } else {
+                Toast.makeText(view.context, it.errorMsg, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onClick(v: View?) {
@@ -97,6 +94,14 @@ class AuthFragment : Fragment(), View.OnClickListener {
                 it.navigate(R.id.homeActivity)
                 activity?.finish()
                 it.popBackStack()
+            }
+    }
+
+    private fun moveToFirstAuth() {
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_auth)
+            .also {
+                it.popBackStack()
+                it.navigate(R.id.authNewUserDetailsFragment)
             }
     }
 

@@ -237,15 +237,57 @@
             </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/sumbit_button"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
-            android:backgroundTint="@color/color_accent"
-            android:text="@string/sign_up"
-            android:textColor="@color/light_text" />
+            app:cardBackgroundColor="@color/color_accent"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:id="@+id/check_ic"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/check"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription" />
+
+                <ProgressBar
+                    android:id="@+id/applied_pb"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/applied_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/light_text"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

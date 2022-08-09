@@ -10,21 +10,20 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.Timestamp
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.other.CurrentUser
-import com.syntapps.bashcuna.other.JobOffer
+import com.syntapps.bashcuna.data.JobOffer
 import com.syntapps.bashcuna.other.UserLocationServices
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.CurrentUserViewModel
 import com.syntapps.bashcuna.ui.viewmodels.LocationViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 import de.hdodenhof.circleimageview.CircleImageView
-import java.util.*
 
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    private lateinit var viewModel: HomeActivityViewModel
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var currentUserViewModel: CurrentUserViewModel
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var topAppBar: MaterialToolbar
     private var menu: Menu? = null
@@ -39,54 +38,30 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        viewModel = ViewModelProvider(this)[HomeActivityViewModel::class.java]
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
+        currentUserViewModel = ViewModelProvider(this)[CurrentUserViewModel::class.java]
 
         topAppBar = findViewById(R.id.topAppBar)
         setSupportActionBar(topAppBar)
 
         setupNavController()
 
-        viewModel.getUser()?.observe(this) {
+        currentUserViewModel.currentUser.observe(this) {
             val actionView: View? = menu?.findItem(R.id.menu_item_profile)?.actionView
             val profileImage = actionView?.findViewById<CircleImageView>(R.id.profileImageView)
             profileImage?.let { it1 ->
                 Glide
                     .with(this)
-                    .load(it?.profileUrl)
+                    .load(it?.profileImg)
                     .into(it1)
             }
 
-            if (it?.getRole() == CurrentUser.ROLE_EMPLOYER || it?.getRole() == CurrentUser.ROLE_BOTH) {
-                viewModel.loadOfferedJobs()
-                viewModel.getOfferedJobs()?.observe(this) {
-                    viewModel.futureProjects.clear()
-                    viewModel.pastProjects.clear()
-                    it.forEach { it_jobOffer ->
-                        val jobEndDate = it_jobOffer?.jobEndTime?.toDate()
-                        try {
-                            if (jobEndDate?.compareTo(getDate())!! <= 0) {
-                                viewModel.pastProjects.add(it_jobOffer)
-                            } else if (jobEndDate > getDate()) {
-                                viewModel.futureProjects.add(it_jobOffer)
-                            }
-                        } catch (e: NullPointerException) {
-                        }
-                    }
-                }
-                viewModel.currentPosition.observe(this) { pos ->
-                    if (pos == -1) viewModel.newJobOffer = JobOffer()
-                }
-            } else if (it?.getRole() == CurrentUser.ROLE_WORKER) {
-
-            }
-
-
-            // TODO: 21/06/2022 Here is where we will load all the activity level ...
-            //  ... info - related to the user (top profile img, etc.)
         }
 
-        viewModel.buildUser()
+        mainViewModel.currentPosition.observe(this) { pos ->
+            if (pos == -1) mainViewModel.newJobOffer = JobOffer()
+        }
 
         aquireLocation()
     }
@@ -95,10 +70,6 @@ class HomeActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.top_app_bar_menu, menu)
         this.menu = menu
         return true
-    }
-
-    private fun getDate(): Date {
-        return Timestamp.now().toDate()
     }
 
     private fun aquireLocation() {

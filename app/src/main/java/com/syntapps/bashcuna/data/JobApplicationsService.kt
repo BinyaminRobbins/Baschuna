@@ -1,14 +1,17 @@
-package com.syntapps.bashcuna.other
+package com.syntapps.bashcuna.data
 
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.syntapps.bashcuna.data.EmployerData
 import com.syntapps.bashcuna.data.EmployerData.Companion.toEmployerData
-import com.syntapps.bashcuna.other.JobOffer.Companion.toJobOffer
+import com.syntapps.bashcuna.data.JobOffer.Companion.toJobOffer
 import com.syntapps.bashcuna.other.constants.DatabaseFields
 import com.syntapps.bashcuna.other.constants.JobsConstants
+import com.syntapps.bashcuna.other.returnObjects.CreateNewProjectResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 object JobApplicationsService {

@@ -19,12 +19,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.other.AuthNewUserDetailsUtil
 import com.syntapps.bashcuna.other.adapters.AuthDetailsAdapter
 import com.syntapps.bashcuna.ui.viewmodels.AuthViewModel
 
 class AuthNewUserDetails : Fragment() {
 
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
     private lateinit var welcomeMsg: TextView
     private lateinit var profilePic: ImageView
     private lateinit var navController: NavController
@@ -50,14 +51,18 @@ class AuthNewUserDetails : Fragment() {
         welcomeMsg = view.findViewById(R.id.welcomeMsg)
         profilePic = view.findViewById(R.id.profilePic)
 
-        viewModel.getCurrentUser()?.let {
-            welcomeMsg.text = "שלום, ${it.firstName}!"
-            Glide.with(profilePic)
-                .load(it.profileUrl)
-                .into(profilePic)
+        authViewModel.authUser.observe(viewLifecycleOwner) {
+            it?.let {
+                welcomeMsg.text = "שלום, ${it.name?.split("//s".toRegex())?.get(0)}!"
+                Glide.with(profilePic)
+                    .load(it.photoUrl)
+                    .into(profilePic)
+            }
+
         }
 
-        viewModel.getIsUserBuilt()?.observe(viewLifecycleOwner) {
+        authViewModel.createUserResult.observe(viewLifecycleOwner) {
+            // TODO: 05/08/2022 fix this up to new scheme
             it?.let {
                 if (it) {
                     navController.popBackStack()
@@ -90,22 +95,22 @@ class AuthNewUserDetails : Fragment() {
         fab.setOnClickListener {
             when (detailsViewPager.currentItem) {
                 0 -> { //AuthDetailsOne
-                    viewModel.getCurrentUser()?.let {
-                        if (it.age != null && it.gender != null) {
+                    authViewModel.currentUser.value?.let {
+                        if (AuthNewUserDetailsUtil.validatePos0(it)) {
                             detailsViewPager.currentItem++
                         }
                     }
                 }
                 1 -> {
-                    viewModel.getCurrentUser()?.let {
-                        if (it.getRole() != null) {
+                    authViewModel.currentUser.value?.let {
+                        if (AuthNewUserDetailsUtil.validatePos1(it)) {
                             detailsViewPager.currentItem++
                         }
                     }
                 }
                 2 -> {
-                    viewModel.getCurrentUser()?.let {
-                        if (it.getFavoriteFields().isNotEmpty()) {
+                    authViewModel.currentUser.value?.let {
+                        if (AuthNewUserDetailsUtil.validatePos2(it)) {
                             detailsViewPager.currentItem++
                         } else {
                             context?.let { itContext ->
@@ -119,11 +124,10 @@ class AuthNewUserDetails : Fragment() {
                     }
                 }
                 3 -> {
-                    viewModel.getCurrentUser()?.let {
-                        if (!viewModel.userDescriptionText.isNullOrBlank() || !viewModel.userDescriptionText.isNullOrEmpty()) {
-                            it.setDescriptionText(viewModel.userDescriptionText!!)
+                    authViewModel.currentUser.value?.let {
+                        if (AuthNewUserDetailsUtil.validatePos3(it)) {
                             //build completed user
-                            viewModel.buildUser()
+                            authViewModel.createUserInBackendDatabase()
                             progressBar.visibility = View.VISIBLE
                             fab.isClickable = false
                         } else context?.let { itContext ->

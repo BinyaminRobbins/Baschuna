@@ -1,7 +1,6 @@
 package com.syntapps.bashcuna.ui.fragments.home.employer.newproject
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.WorkHireField
 import com.syntapps.bashcuna.other.adapters.FieldsOptionsAdapter
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 
 class NewProjectTypeFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedListener {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var fieldsRecyclerView: RecyclerView
     private lateinit var fieldsOptionsAdapter: FieldsOptionsAdapter
@@ -35,10 +34,10 @@ class NewProjectTypeFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedL
         super.onViewCreated(view, savedInstanceState)
 
         fieldsRecyclerView = view.findViewById(R.id.fieldRv)
-        fieldOptions = viewModel.getFieldOptions()
-        if (viewModel.newJobOffer.jobFieldCode != null) {
+        fieldOptions = mainViewModel.getFieldOptions()
+        if (mainViewModel.newJobOffer.jobFieldCode != null) {
             for (option in fieldOptions) {
-                if (option.fieldName == viewModel.newJobOffer.jobFieldCode) {
+                if (option.fieldName == mainViewModel.newJobOffer.jobFieldCode) {
                     option.isSelected = true
                     break
                 }
@@ -52,6 +51,6 @@ class NewProjectTypeFragment : Fragment(), FieldsOptionsAdapter.OnFieldSelectedL
     }
 
     override fun onFieldSelected(field: WorkHireField) {
-        viewModel.newJobOffer.jobFieldCode = field.fieldName
+        mainViewModel.newJobOffer.jobFieldCode = field.fieldName
     }
 }

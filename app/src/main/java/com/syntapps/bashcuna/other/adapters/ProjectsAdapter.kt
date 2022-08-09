@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.other.JobOffer
+import com.syntapps.bashcuna.data.JobOffer
 import com.syntapps.bashcuna.other.User
 import com.syntapps.bashcuna.other.WorkHireField
 import de.hdodenhof.circleimageview.CircleImageView

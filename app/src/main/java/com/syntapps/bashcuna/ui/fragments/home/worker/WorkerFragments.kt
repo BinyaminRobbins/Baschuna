@@ -9,11 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 
 class WorkerFragments : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var bottomNavView: BottomNavigationView
 
     override fun onCreateView(

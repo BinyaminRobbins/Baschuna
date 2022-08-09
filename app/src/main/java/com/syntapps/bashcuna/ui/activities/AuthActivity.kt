@@ -3,7 +3,6 @@ package com.syntapps.bashcuna.ui.activities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -29,21 +28,43 @@ class AuthActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_auth)
         //check initially if the user is logged in to trigger the observer
-        viewModel.getIsUserConnected().observe(this) {
-            if (it != null) {
-                if (it.isSuccess) {
-                    if(it.isNewUser){
-                        navigateToAuthFirstTimeDetails()
-                    }else{
-                        navigateToHome()
-                    }
+        viewModel.isUserConnectedInitially.observe(this) {
+            it?.let {
+                if (it) {
+                    viewModel.reloadFirebaseUser()
                 } else {
                     navigateToAuth()
                 }
             }
         }
-        viewModel.checkIfUserConnectedInitially()
 
+        viewModel.reloadFirebaseUserStatus.observe(this) {
+            it?.let {
+                if (it) {
+                    navigateToHome()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Error with credential - logging out now",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.logoutUser()
+                }
+            }
+        }
+        viewModel.logoutUserStatus.observe(this) {
+            it?.let {
+                if (it) {
+                    navigateToAuth()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Error logging you out - please restart the app",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun navigateToHome() {
@@ -55,11 +76,6 @@ class AuthActivity : AppCompatActivity() {
     private fun navigateToAuth() {
         navController.navigate(R.id.authFragment)
         navController.popBackStack()
-    }
-
-    private fun navigateToAuthFirstTimeDetails() {
-        navController.popBackStack()
-        navController.navigate(R.id.authNewUserDetailsFragment)
     }
 
 }

@@ -1,4 +1,4 @@
-package com.syntapps.bashcuna.other
+package com.syntapps.bashcuna.data
 
 import android.util.Log
 import com.google.firebase.Timestamp
@@ -7,7 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.IgnoreExtraProperties
-import com.syntapps.bashcuna.data.EmployerData
+import com.syntapps.bashcuna.other.User
 import com.syntapps.bashcuna.other.constants.JobsConstants
 
 @IgnoreExtraProperties
@@ -70,6 +70,10 @@ data class JobOffer(
                 FirebaseCrashlytics.getInstance().recordException(e)
                 return null
             }
+        }
+
+        fun DocumentSnapshot.checkExists(): Boolean {
+            return exists() && !data.isNullOrEmpty()
         }
 
         private const val TAG = "JobOffer"

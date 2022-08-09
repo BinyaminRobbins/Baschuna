@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.syntapps.bashcuna.R
+import com.syntapps.bashcuna.data.CurrentUser
 import com.syntapps.bashcuna.ui.viewmodels.AuthViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 
 class AuthDetailsTwo : Fragment() {
 
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
 
     private lateinit var workerOption: CircleImageView
     private lateinit var employerOption: CircleImageView
@@ -46,9 +47,7 @@ class AuthDetailsTwo : Fragment() {
         employerOption.elevation = 0F
         workerOption.alpha = 1F
         employerOption.alpha = 0.6F
-        viewModel.getCurrentUser()?.let {
-            it.setRole(it.ROLE_WORKER)
-        }
+        authViewModel.updateRole(CurrentUser.ROLE_WORKER)
     }
 
     private fun selectEmployer() {
@@ -56,8 +55,6 @@ class AuthDetailsTwo : Fragment() {
         employerOption.elevation = 2F
         workerOption.alpha = 0.6F
         employerOption.alpha = 1F
-        viewModel.getCurrentUser()?.let {
-            it.setRole(it.ROLE_EMPLOYER)
-        }
+        authViewModel.updateRole(CurrentUser.ROLE_EMPLOYER)
     }
 }

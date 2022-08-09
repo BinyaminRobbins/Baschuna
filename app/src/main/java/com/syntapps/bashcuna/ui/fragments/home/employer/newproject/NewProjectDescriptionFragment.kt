@@ -9,11 +9,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 
 class NewProjectDescriptionFragment : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private lateinit var description: EditText
 

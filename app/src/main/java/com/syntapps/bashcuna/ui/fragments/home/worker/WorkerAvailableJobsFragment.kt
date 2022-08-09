@@ -8,7 +8,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,10 +24,11 @@ import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.gms.maps.model.LatLng
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.data.EmployerData
-import com.syntapps.bashcuna.other.JobOffer
+import com.syntapps.bashcuna.data.FieldOptionsUtil
+import com.syntapps.bashcuna.data.JobOffer
 import com.syntapps.bashcuna.ui.viewmodels.AvailableJobsViewModel
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
 import com.syntapps.bashcuna.ui.viewmodels.LocationViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +37,7 @@ import java.util.*
 
 class WorkerAvailableJobsFragment : Fragment() {
     private lateinit var viewModel: AvailableJobsViewModel
-    private val homeActivityViewModel: HomeActivityViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
 
     private lateinit var viewpager2: ViewPager2
@@ -92,6 +96,11 @@ class WorkerAvailableJobsFragment : Fragment() {
 
     }
 
+    private fun applyToJob(jobOffer: JobOffer) {
+        // TODO: 04/08/2022 apply for a job
+
+    }
+
     private fun getEmployerData(
         position: Int,
         employerId: String
@@ -100,7 +109,6 @@ class WorkerAvailableJobsFragment : Fragment() {
             viewLifecycleOwner,
             object : Observer<EmployerData?> {
                 override fun onChanged(t: EmployerData?) {
-                    Log.i("WorkerAvailableJobsFragment", "employer found :${t?.employerName}")
                     jobOffersData[position].employerData = t
                     CoroutineScope(Dispatchers.Main).launch {
                         viewpager2.adapter?.notifyItemChanged(position)
@@ -135,8 +143,13 @@ class WorkerAvailableJobsFragment : Fragment() {
             private val dateText: TextView =
                 itemView.findViewById(R.id.date_text)
 
+            private val submitButton: CardView = itemView.findViewById(R.id.submit_button)
+            private val appliedText: TextView = itemView.findViewById(R.id.applied_text)
+            private val appliedPb: ProgressBar = itemView.findViewById(R.id.applied_pb)
+            private val appliedIV: ImageView = itemView.findViewById(R.id.check_ic)
+
             @SuppressLint("SetTextI18n", "SimpleDateFormat")
-            fun setData(pos: Int, offer: JobOffer) {
+            fun setData(offer: JobOffer) {
                 val userOfferingID = offer.jobUserOfferingID
 
                 moreAboutTextView.text = offer.jobDescription
@@ -149,7 +162,7 @@ class WorkerAvailableJobsFragment : Fragment() {
                     endCalendar[Calendar.HOUR_OF_DAY] - startCalendar[Calendar.HOUR_OF_DAY]
                 timeLengthText.text = "$result ${getString(R.string.hours)}"
 
-                for (item in homeActivityViewModel.getFieldOptions()) {
+                for (item in FieldOptionsUtil.getFieldOptions()) {
                     if (item.fieldName == offer.jobFieldCode) {
                         fieldNameText.text = item.fieldName
                     }
@@ -183,6 +196,15 @@ class WorkerAvailableJobsFragment : Fragment() {
                         .into(profileImage)
                 }
 
+                submitButton.setOnLongClickListener {
+                    appliedText.visibility = View.GONE
+                    appliedPb.visibility = View.VISIBLE
+                    applyToJob(offer)
+                    true
+                }
+
+                paymentAmountText.text = "₪${offer.jobPaymentAmount}"
+
             }
         }
 
@@ -194,7 +216,7 @@ class WorkerAvailableJobsFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: JobsViewHolder, position: Int) {
-            holder.setData(position, jobOffersData[position])
+            holder.setData(jobOffersData[position])
         }
 
         override fun getItemCount(): Int {

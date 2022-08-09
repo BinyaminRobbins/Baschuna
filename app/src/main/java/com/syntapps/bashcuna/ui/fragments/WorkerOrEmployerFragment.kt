@@ -2,7 +2,6 @@ package com.syntapps.bashcuna.ui.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.other.CurrentUser
-import com.syntapps.bashcuna.ui.activities.HomeActivity
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.data.CurrentUser
+import com.syntapps.bashcuna.ui.viewmodels.CurrentUserViewModel
 
 class WorkerOrEmployerFragment : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -33,8 +31,8 @@ class WorkerOrEmployerFragment : Fragment() {
 
         navController = Navigation.findNavController(view)
 
-        viewModel.getUser()?.observe(viewLifecycleOwner) {
-            when (it?.getRole()) {
+        currentUserViewModel.currentUser.observe(viewLifecycleOwner) {
+            when (it?.role) {
                 CurrentUser.ROLE_EMPLOYER -> {
                     navigateAsEmployer()
                 }

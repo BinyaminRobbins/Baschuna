@@ -25,14 +25,14 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.firebase.firestore.GeoPoint
 import com.syntapps.bashcuna.BuildConfig
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 import com.syntapps.bashcuna.ui.viewmodels.LocationViewModel
 import java.util.*
 
 
 class NewProjectLocationFragment : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
     private var mapFragment: SupportMapFragment? = null
     private var mMap: GoogleMap? = null

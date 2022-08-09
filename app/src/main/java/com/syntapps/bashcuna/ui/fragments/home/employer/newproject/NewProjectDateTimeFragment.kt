@@ -17,13 +17,13 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.google.firebase.Timestamp
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.other.JobOffer
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.data.JobOffer
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 import java.util.*
 
 class NewProjectDateTimeFragment : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var currentOffer: JobOffer
 
     private lateinit var dateField: TextInputLayout

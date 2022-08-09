@@ -7,17 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.firebase.Timestamp
 import com.syntapps.bashcuna.R
-import com.syntapps.bashcuna.other.JobOffer
+import com.syntapps.bashcuna.data.FieldOptionsUtil
+import com.syntapps.bashcuna.data.JobOffer
 import com.syntapps.bashcuna.other.adapters.ProjectsAdapter
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.CurrentUserViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 
 class EmployerJobsFragment : Fragment() {
 
@@ -25,7 +27,8 @@ class EmployerJobsFragment : Fragment() {
     private lateinit var extendedFab: ExtendedFloatingActionButton
     private lateinit var viewPager: ViewPager2
     private lateinit var toggleStateAdapter: ToggleStateAdapter
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,12 +86,14 @@ class EmployerJobsFragment : Fragment() {
                 }
             }
         })
-        viewModel.currentPosition.postValue(-1)
+        mainViewModel.currentPosition.postValue(-1)
+
+        currentUserViewModel.loadOfferedJobs()
     }
 }
 
 class ToggleStatePastProjects : Fragment() {
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
 
     private var data: MutableList<JobOffer?> = mutableListOf()
     private lateinit var rv: RecyclerView
@@ -104,21 +109,28 @@ class ToggleStatePastProjects : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.pastProjectsLiveData.observe(viewLifecycleOwner) {
-            data.clear()
-            data.addAll(it)
-            rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
+        currentUserViewModel.offeredJobs.observe(viewLifecycleOwner) { list ->
+            list?.let {
+                data.clear()
+                val now = Timestamp.now().toDate()
+                list.filter {
+                    (it.jobStartTime?.toDate())!!.after(now)
+                }
+                data.addAll(list)
+                rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
+            }
         }
 
         rv = view.findViewById(R.id.projectsRV)
         rv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         rv.adapter =
-            ProjectsAdapter(requireContext(), jobFields = viewModel.getFieldOptions(), this, data)
+            ProjectsAdapter(requireContext(), FieldOptionsUtil.getFieldOptions(), this, data)
     }
 }
 
 class ToggleStateFutureProjects : Fragment() {
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+
+    private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
 
     private var data: MutableList<JobOffer?> = mutableListOf()
     private lateinit var rv: RecyclerView
@@ -134,16 +146,22 @@ class ToggleStateFutureProjects : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.futureProjectsLiveData.observe(viewLifecycleOwner) {
-            data.clear()
-            data.addAll(it)
-            rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
+        currentUserViewModel.offeredJobs.observe(viewLifecycleOwner) { list ->
+            list?.let {
+                data.clear()
+                val now = Timestamp.now().toDate()
+                list.filter {
+                    (it.jobStartTime?.toDate())!!.before(now)
+                }
+                data.addAll(list)
+                rv.adapter?.notifyItemRangeInserted(0, data.size - 1)
+            }
         }
 
         rv = view.findViewById(R.id.projectsRV)
         rv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         rv.adapter =
-            ProjectsAdapter(requireContext(), jobFields = viewModel.getFieldOptions(), this, data)
+            ProjectsAdapter(requireContext(), FieldOptionsUtil.getFieldOptions(), this, data)
     }
 }
 

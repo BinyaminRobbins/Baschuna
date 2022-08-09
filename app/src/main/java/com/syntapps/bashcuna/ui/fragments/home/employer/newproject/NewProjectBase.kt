@@ -14,11 +14,13 @@ import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.returnObjects.CreateNewProjectResult
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.CurrentUserViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 
 class NewProjectBase : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val currentUserViewModel: CurrentUserViewModel by activityViewModels()
 
     private lateinit var pb: ProgressBar
     private lateinit var nextButton: ImageButton
@@ -42,25 +44,25 @@ class NewProjectBase : Fragment() {
         controller.addOnDestinationChangedListener { _, destination, _ ->
             when (destination) {
                 controller.findDestination(R.id.newProjectTypeFragment) -> {
-                    viewModel.currentPosition.postValue(0)
+                    mainViewModel.currentPosition.postValue(0)
                 }
                 controller.findDestination(R.id.newProjectDateTimeFragment) -> {
-                    viewModel.currentPosition.postValue(1)
+                    mainViewModel.currentPosition.postValue(1)
                 }
                 controller.findDestination(R.id.newProjectLocationFragment) -> {
-                    viewModel.currentPosition.postValue(2)
+                    mainViewModel.currentPosition.postValue(2)
                 }
                 controller.findDestination(R.id.newProjectDescriptionFragment) -> {
-                    viewModel.currentPosition.postValue(3)
+                    mainViewModel.currentPosition.postValue(3)
                 }
                 controller.findDestination(R.id.newProjectWorkerPaymentsFragment) -> {
-                    viewModel.currentPosition.postValue(4)
+                    mainViewModel.currentPosition.postValue(4)
                 }
             }
         }
         nextButton.setOnClickListener { _ ->
-            val pos = viewModel.currentPosition.value
-            val fragmentsAndPositions: Map<Int, Int> = viewModel.fragmentsAndPositions
+            val pos = mainViewModel.currentPosition.value
+            val fragmentsAndPositions: Map<Int, Int> = mainViewModel.fragmentsAndPositions
             pos?.let { currentPosition ->
                 if (fragmentsAndPositions.maxByOrNull { it.key }?.key == (currentPosition)) { // we are on the last step
                     nextButton.isClickable = false
@@ -94,7 +96,7 @@ class NewProjectBase : Fragment() {
             }
         }
 
-        viewModel.createNewProjectResult?.observe(viewLifecycleOwner) {
+        mainViewModel.createJobResult.observe(viewLifecycleOwner) {
             if (it.isSuccess) {
                 pb.isVisible = false
                 Snackbar.make(view, getString(R.string.created_project), Snackbar.LENGTH_INDEFINITE)
@@ -110,17 +112,18 @@ class NewProjectBase : Fragment() {
                     controller.popBackStack(R.id.employerJobsFragment, true)
                 }
             }
+
         }
     }
 
     private fun checkDetailsFilled(pos: Int): CreateNewProjectResult {
         val result = CreateNewProjectResult(false)
         result.isSuccess = when (pos) {
-            0 -> viewModel.newJobOffer.jobFieldCode != null
-            1 -> viewModel.newJobOffer.jobStartTime != null && viewModel.newJobOffer.jobEndTime != null
-            2 -> viewModel.newJobOffer.jobGeoCoordinates != null
-            3 -> viewModel.newJobOffer.jobDescription != null
-            4 -> viewModel.newJobOffer.jobPaymentAmount != null && viewModel.newJobOffer.jobHireCount > 0 && !viewModel.newJobOffer.jobPaymentMethods.isNullOrEmpty()
+            0 -> mainViewModel.newJobOffer.jobFieldCode != null
+            1 -> mainViewModel.newJobOffer.jobStartTime != null && mainViewModel.newJobOffer.jobEndTime != null
+            2 -> mainViewModel.newJobOffer.jobGeoCoordinates != null
+            3 -> mainViewModel.newJobOffer.jobDescription != null
+            4 -> mainViewModel.newJobOffer.jobPaymentAmount != null && mainViewModel.newJobOffer.jobHireCount > 0 && !mainViewModel.newJobOffer.jobPaymentMethods.isNullOrEmpty()
             5 -> true
             else -> false
         }
@@ -130,6 +133,6 @@ class NewProjectBase : Fragment() {
 
     private fun createNewProject() {
         pb.isVisible = true
-        viewModel.createNewProject()
+        mainViewModel.createNewJob()
     }
 }

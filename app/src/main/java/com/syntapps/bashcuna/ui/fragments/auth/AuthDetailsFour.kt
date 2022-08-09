@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,7 +13,7 @@ import com.syntapps.bashcuna.ui.viewmodels.AuthViewModel
 
 class AuthDetailsFour : Fragment() {
 
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val authViewModel: AuthViewModel by activityViewModels()
     private lateinit var description: EditText
 
     override fun onCreateView(
@@ -31,7 +29,8 @@ class AuthDetailsFour : Fragment() {
 
         description = view.findViewById(R.id.description_text)
         description.addTextChangedListener {
-            viewModel.userDescriptionText = it.toString()
+            authViewModel.updateDescriptionText(it.toString().trim())
 
-        } }
+        }
+    }
 }

@@ -13,11 +13,11 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
 import com.syntapps.bashcuna.R
 import com.syntapps.bashcuna.other.constants.PaymentMethodCodes
-import com.syntapps.bashcuna.ui.viewmodels.HomeActivityViewModel
+import com.syntapps.bashcuna.ui.viewmodels.MainViewModel
 
 class NewProjectWorkerPaymentsFragment : Fragment() {
 
-    private val viewModel: HomeActivityViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private lateinit var paymentAmountText: TextInputEditText
     private lateinit var numPplText: TextView
