@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.syntapps.bashcuna.data.EmployerData
-import com.syntapps.bashcuna.data.JobApplicationsService
+import com.syntapps.bashcuna.data.JobApplicationsUtil
 import com.syntapps.bashcuna.data.JobOffer
 import kotlinx.coroutines.launch
 
@@ -18,18 +18,18 @@ class AvailableJobsViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val jobs = JobApplicationsService.getAvailableJobs()
+            val jobs = JobApplicationsUtil.getAvailableJobs()
             _availableJobs.value = jobs
         }
     }
 
     fun getEmployerData(employerId: String) {
         viewModelScope.launch {
-            _employerInfo.value = JobApplicationsService.getEmployerData(employerId)
+            _employerInfo.value = JobApplicationsUtil.getEmployerData(employerId)
         }
     }
 
     fun applyToJob(jobOffer: JobOffer){
-        JobApplicationsService
+        JobApplicationsUtil
     }
 }

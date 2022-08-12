@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-object JobApplicationsService {
+object JobApplicationsUtil {
     private const val TAG = "FirebaseJobApplicationService"
     suspend fun getAvailableJobs(): List<JobOffer?>? {
         val db = Firebase.firestore
