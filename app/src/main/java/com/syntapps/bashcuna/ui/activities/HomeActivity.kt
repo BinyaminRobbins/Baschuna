@@ -1,6 +1,7 @@
 package com.syntapps.bashcuna.ui.activities
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -48,14 +49,18 @@ class HomeActivity : AppCompatActivity() {
         setupNavController()
 
         currentUserViewModel.currentUser.observe(this) {
-            val actionView: View? = menu?.findItem(R.id.menu_item_profile)?.actionView
-            val profileImage = actionView?.findViewById<CircleImageView>(R.id.profileImageView)
-            profileImage?.let { it1 ->
-                Glide
-                    .with(this)
-                    .load(it?.profileImg)
-                    .into(it1)
+            it?.let {
+                val actionView: View? = menu?.findItem(R.id.menu_item_profile)?.actionView
+                val profileImage = actionView?.findViewById<CircleImageView>(R.id.profileImageView)
+                profileImage?.let { it1 ->
+                    Glide
+                        .with(this)
+                        .load(it.profileImg)
+                        .into(it1)
+                }
+                return@observe
             }
+            Log.i("HomeActivityTAG","current usr is null")
 
         }
 
