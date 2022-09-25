@@ -28,6 +28,7 @@
     <string name="age">גיל</string>
     <string name="employer">מעביד</string>
     <string name="worker">עובד</string>
+    <string name="iamaworker">אני עובד</string>
     <string name="what_is_your_role">האם אתה עובד או מעביד?</string>
     <string name="choose_work">באיזה תחום אתם מחפשים לעבוד?</string>
     <string name="choose_hire_for">באיזה תחום אתם מחפשים עזרה?</string>
@@ -71,7 +72,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu_schedule">לוז</string>
-    <string name="payment_preferences">אמצעיי תשלום</string>
+    <string name="payment_preferences">אמצעי תשלום</string>
     <string name="hours">שעות</string>
     <string name="kilometerAbr">ק׳׳מ</string>
 </resources>
