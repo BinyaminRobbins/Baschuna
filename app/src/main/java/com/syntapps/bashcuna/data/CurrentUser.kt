@@ -33,7 +33,7 @@ data class CurrentUser(
                 val email = getString("email")!!
                 val age = getLong("age")?.toInt()
                 val gender = getLong("gender")?.toInt()
-                val profileImg = getString("profileImg")
+                val profileImg = getString(DatabaseFields.profile_url.fieldName)
                 val role = getString("role")
                 val favoriteFields = get("favouriteFields") as MutableList<WorkHireField>?
                 val userDescription = getString("description")
