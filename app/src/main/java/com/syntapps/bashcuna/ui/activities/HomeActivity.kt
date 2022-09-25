@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -27,6 +28,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var currentUserViewModel: CurrentUserViewModel
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var topAppBar: MaterialToolbar
+    private lateinit var drawerLayout: DrawerLayout
     private var menu: Menu? = null
 
     private lateinit var bottomNav: BottomNavigationView
@@ -45,6 +47,13 @@ class HomeActivity : AppCompatActivity() {
 
         topAppBar = findViewById(R.id.topAppBar)
         setSupportActionBar(topAppBar)
+        drawerLayout = findViewById(R.id.drawer)
+        topAppBar.setNavigationOnClickListener {
+            when (drawerLayout.isOpen) {
+                true -> drawerLayout.close()
+                false -> drawerLayout.open()
+            }
+        }
 
         setupNavController()
 
@@ -60,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
                 }
                 return@observe
             }
-            Log.i("HomeActivityTAG","current usr is null")
+            Log.i("HomeActivityTAG", "current usr is null")
 
         }
 
