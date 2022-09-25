@@ -9,6 +9,7 @@ import com.syntapps.bashcuna.data.CurrentUserUtil
 import com.syntapps.bashcuna.data.JobOffer
 import com.syntapps.bashcuna.data.JobsCollectionUtil
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CurrentUserViewModel : ViewModel() {
     private val _currentUser = MutableLiveData<CurrentUser?>()

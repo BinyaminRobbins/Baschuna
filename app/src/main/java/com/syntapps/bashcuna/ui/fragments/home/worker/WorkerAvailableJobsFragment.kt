@@ -122,6 +122,7 @@ class WorkerAvailableJobsFragment : Fragment() {
 
     }
 
+    //adapter that fills and defines the data for the swipeable screen with jobs for the worker to apply to
     inner class AvailableJobsAdapter :
         RecyclerView.Adapter<AvailableJobsAdapter.JobsViewHolder>() {
 

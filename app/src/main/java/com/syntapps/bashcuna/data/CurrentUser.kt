@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentSnapshot
 import com.syntapps.bashcuna.other.WorkHireField
+import com.syntapps.bashcuna.other.constants.DatabaseFields
 
 data class CurrentUser(
     val userId: String,
@@ -28,11 +29,11 @@ data class CurrentUser(
 
         fun DocumentSnapshot.toCurrentUser(): CurrentUser? {
             return try {
-                val name = getString("name")!!
+                val name = getString(DatabaseFields.display_name.fieldName)!!
                 val email = getString("email")!!
                 val age = getLong("age")?.toInt()
                 val gender = getLong("gender")?.toInt()
-                val profileImg = getString("profileImg")
+                val profileImg = getString(DatabaseFields.profile_url.fieldName)
                 val role = getString("role")
                 val favoriteFields = get("favouriteFields") as MutableList<WorkHireField>?
                 val userDescription = getString("description")
